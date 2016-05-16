@@ -48,11 +48,13 @@ likely it will find a bug eventually...
 
 
 What do I need for this program to work?
-    You will need the following Python Modules for this to work:
-        * Numpy
-        * Scipy
-        * Shapely
-        * matplotlib
+
+   You will need the following Python Modules for this to work:
+    
+   * Numpy
+   * Scipy
+   * Shapely
+   * matplotlib
 
 
 Configuration File Explained
@@ -65,34 +67,41 @@ bugs you find email me @
 duan_uys@icloud.com
 
 delimiter = ','
+
 This option reads your data file and removes the delimiter which by default is ','.
 
 What does this mean?
+
 If you have a sample set like this:
+
     2,3
     3,4
     4,5
     6,6
+    
 Program will load it in a numpy array removing the ',': at this point it only takes one delimiter.
 So this WON'T work
 
 delimiter =',()'
+
 alter your data file if need be
 
 data_file = slope_profile.elev
+
 This option is simple.. just type in the file name of your raw data.. without any quotes.
 
-
 circle_radius = 0,0,3 (x,y, radius) - meters
+
 This option reads in the circle coordinates, default units are meters
 
 soil_cohesion = 22 (in kPa)
+
 Reads in soil cohesion in kPa
 
 effective_friction_angle_soil = 40 (degrees)
 Reads in the effective friction angle of the soil.. this is the angle that will be used in:
 
-    * N tan(effective_friction_angle_soil) - ul
+    N tan(effective_friction_angle_soil) - ul
 
 bulk_density = 1760 (Kg/m^3)
 Reads in bulk density of the soil - the program doesn't support multi layered strata yet. It assumes the area of
