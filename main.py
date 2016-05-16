@@ -161,7 +161,6 @@ class Calculate(object):
                     boundary_list.append(index+1)
 
 
-        print boundary_list
         # Check to see if boundary_list is greater or less than 2: if so something went wrong
         if len(boundary_list) != 2:
             print "Error: Too many/not enough elements in boundary_list - please report this to " \
