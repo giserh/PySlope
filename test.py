@@ -10,13 +10,14 @@ import matplotlib.pyplot as plt
 class FromConfig(object):
     def __init__(self, config_file):
         self.file_path = config_file
+        self.padding = None
         self.delimiter = None
         self.data_file = None
         self.circle_radius = None
+        self.baseline = None
         self.soil_cohesion  = None
         self.effective_angle = None
         self.bulk_density = None
-        self.num_of_elements = None
 
     def get_vars(self):
         """
@@ -75,18 +76,13 @@ class FromConfig(object):
             elif key_word == 'bulk_density':
                 self.bulk_density = value
                 init_variables.append(self.bulk_density)
-            elif key_word == 'num_of_elements':
-                self.num_of_elements = value
-                init_variables.append(self.num_of_elements)
 
         for variable in init_variables:
             if variable is None:
                 raise NotImplementedError('Not all variables were set - check config file syntax')
 
-        return self.delimiter, self.data_file, \
-               self.circle_radius, self.soil_cohesion, \
-               self.effective_angle, self.bulk_density, \
-               self.num_of_elements
+        return self.padding, self.delimiter, self.data_file, \
+               self.circle_radius, self.baseline, self.soil_cohesion, self.effective_angle, self.bulk_density
 
 
 
@@ -221,17 +217,13 @@ def circle_narrow(circle_coordinates, xy_frame, left_bound, right_bound,  buff=2
 
 
 #### set variables from the configuratoin file
-delimter, data_file, \
-circle_radius, soil_cohesion, \
-effective_angle, bulk_density, num_of_elements = FromConfig('config.txt').get_vars()
-
-num_of_elements = float(num_of_elements)
+padding, delimter, data_file, \
+circle_radius, baseline, soil_cohesion, \
+effective_angle, bulk_density = FromConfig('config.txt').get_vars()
 bulk_density = float(bulk_density)
 effective_angle = float(effective_angle)
-angle = float(effective_angle)
 soil_cohesion = float(soil_cohesion)
 cr = circle_radius.split(',')
-
 ####
 #
 #
@@ -256,6 +248,7 @@ ymax = max(elevetaion_values)
 #
 #### create x and y 'frames' consisting of num_of_elements following the
 #### data points from the data elevation file
+num_of_elements = 100
 x_frame = np.linspace(xmin, xmax, num_of_elements)
 y_frame = Calculate.arraylinspace(elevetaion_values, num_of_elements)
 ####
@@ -310,12 +303,12 @@ arc = LineString(circ_workspace)
 #
 #### Create a iterator using a lists index
 
-plt.scatter(x_frame, y_frame, color="red")
-plt.scatter(xy_workspace[:,0], xy_workspace[:,1], color="yellow")
-plt.scatter(circ_coor[:,0], circ_coor[:,1])
-plt.scatter(circ_workspace[:,0], circ_workspace[:,1], color="green")
-plt.scatter(cr[0], cr[1])
-
+#plt.scatter(x_frame, y_frame, color="red")
+#plt.scatter(xy_workspace[:,0], xy_workspace[:,1], color="yellow")
+#plt.scatter(circ_coor[:,0], circ_coor[:,1])
+#plt.scatter(circ_workspace[:,0], circ_workspace[:,1], color="green")
+#plt.scatter(cr[0], cr[1])
+#plt.show()
 # these points - in list shows the intersection points between profile and circular radius
 
 numerator_list = []
@@ -376,20 +369,15 @@ for index in range(len(xy_workspace)-1):
             numerator = (mg*np.cos(degree))*np.tan(effective_angle) + (cohesion*length)
             denominator  = mg * np.sin(degree)
 
+            print numerator, denominator, effective_angle
             numerator_list.append(numerator)
             denominator_list.append(denominator)
     except:
         errors +=1
 
 
+
+print "total number of errors caught: " + str(errors)
 numerator_list, denominator_list = np.array(numerator_list), np.array(denominator_list)
-errors =  "Total numer of errors caught: " + str(errors)
-factor_of_safety = numerator_list.sum()/ denominator_list.sum()
-print errors
-print factor_of_safety
-results = errors + '\nCohesion: %d\nEffective Friction Angle: %d\nBulk Density: %d\n\nFactor of Safety: %d' % (
-    soil_cohesion, angle, bulk_density, factor_of_safety)
-f = open('results.log', 'w')
-f.write(results)
-f.close()
-plt.show()
+print numerator_list.sum()/ denominator_list.sum()
+#plt.show()
