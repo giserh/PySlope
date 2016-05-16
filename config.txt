@@ -1,0 +1,28 @@
+## This is a comment don't do anything
+#
+#######################################
+# Reading From Elevation File Options##
+#######################################
+# delimiter = ,
+delimiter = ,
+
+# padding = 3
+padding = 3
+
+# data_file = slope_profile.elev
+data_file = slope_profile.elev
+
+# circle_radius = 0,0,3 (x,y, radius) - meters
+circle_radius = 6,14,7
+#
+# baseline = 2 (<- Y axis:)
+baseline = 2
+#
+# soil_cohesion = 22 (in kPa)
+soil_cohesion = 100
+#
+# effective_friction_angle_soil = 40 (degrees)
+effective_friction_angle_soil = 70
+#
+# bulk_density = 1760 (Kg/m^3)
+bulk_density = 100
