@@ -10,7 +10,7 @@ delimiter = ,
 data_file = slope_profile.elev
 
 # circle_radius = 0,0,3 (x,y, radius) - meters
-circle_radius = 8,11,12
+circle_radius = 0,0,1
 
 # soil_cohesion = 22 (in kPa)
 soil_cohesion = 1000

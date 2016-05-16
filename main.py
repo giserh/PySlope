@@ -202,9 +202,9 @@ shapely_circle = Point(c_x, c_y).buffer(c_r).boundary
 #
 ## create shapely line with elevation profile
 shapely_elevation_profile = LineString(data)
-try:
-    intersection_coordinates = list(shapely_circle.intersection(shapely_elevation_profile).bounds)
-except:
+intersection_coordinates = list(shapely_circle.intersection(shapely_elevation_profile).bounds)
+
+if len(intersection_coordinates) == 0:
     print "Error: Circle doesn't intersect the profile - please readjust circle coordinates in config file"
     sys.exit()
 #
