@@ -93,58 +93,7 @@ class FromConfig(object):
 class Calculate(object):
 
     @staticmethod
-    # Create an array of values that span the circumference of a circle from the center point
-    def circle_array(x, y, r, elements=360):
-        """
-        The function takes parameters from a x y position of a circle and generates a full 360 degree coorindate system
-        numpy array that outlines the entire circle for radius, r and center x, y
-        :param x: X value for center of circle
-        :param y: Y value for center of circle
-        :param r: Radius value of the circle
-        :param elements: this generates the number of elements in the returned list
-        :return:
-            The function returns a numpy array of side by side (xy) coordinates that outline the circumference
-            of the circle
-        """
-        degrees = np.linspace(0., 360., elements)
-        xvalues = np.full_like(degrees, x)
-        yvalues = np.full_like(degrees, y)
-        rvalues = np.full_like(degrees, r)
-        new_x = xvalues + rvalues*np.cos(np.deg2rad(degrees))
-        new_y = yvalues + rvalues*np.sin(np.deg2rad(degrees))
-
-        results = np.stack((new_x, new_y), axis=-1)
-
-        return results
-
-    @staticmethod
-    def intersections(circ_x, circ_y, circ_radius, p1x, p1y, p2x, p2y):
-        """
-        Tests to see if two lines intersect with one another and spits out a list
-        :param circ_x: x coordinate for a circles center
-        :param circ_y: y coordinate for a circles center
-        :param circ_radius: a circles radius
-        :param p1x: x coordinate for line starting point
-        :param p1y: y coordinate for line starting point
-        :param p2x: x coordinate for line ending point
-        :param p2y: y coordinate for line ending point
-        :return:
-            return a list object for xy values of intersection point.. if found
-        """
-        p = Point(circ_x, circ_y)                      # center of circle
-        c = p.buffer(circ_radius).boundary             # radius of circle
-        l = LineString([(p1x, p1y), (p2x, p2y)])       # line point
-        i = c.intersection(l)
-        i = np.array(i)
-        if i.size != 0:
-            return i
-
-    @staticmethod
-    def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
-        return abs(a-b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
-
-    @staticmethod
-    def arraylinspace(array_1d, num_elements):
+    def arraylinspace1d(array_1d, num_elements):
         array = array_1d
         num_elements -= 1
         n = num_elements / float(array.size-1)
@@ -155,6 +104,25 @@ class Calculate(object):
         return b
 
     @staticmethod
+    def arraylinspace2d(array_2d, num_elements):
+        array_x = array_2d[:,0]
+        array_y = array_2d[:,1]
+        num_elements -= 1
+
+        n = num_elements / float(array_x.size-1)
+
+        x = np.arange(0, n*len(array_x), n)
+        xx = np.arange((len(array_x) - 1) * n + 1)
+        fin_array_x = np.interp(xx, x, array_x)
+
+        y = np.arange(0, n*len(array_y), n)
+        yy = np.arange((len(array_y) - 1) * n + 1)
+        fin_array_y = np.interp(yy, y, array_y)
+        ## stack them
+        fin_array = np.stack((fin_array_x, fin_array_y), axis=-1)
+        return fin_array
+
+    @staticmethod
     def rad2degree(rad):
         return rad * 180. / np.pi
 
@@ -162,62 +130,47 @@ class Calculate(object):
     def degree2rad(degree):
         return degree * np.pi /180.
 
+    @staticmethod
+    def slice_array(array2d, intersection_coord_1, intersection_coord_2):
+        """
+        :param array2d: Takes only numpy 2d array
+        :param intersection_coord_1: a tuple, list of intersection coordinate
+        :param intersection_coord_2: a tuple, list of intersection coordinate
+        :return: returns a sliced numpy array within the boundaries of the given intersection coordinates
+        """
+        int1, int2 = intersection_coord_1, intersection_coord_2
+        ## Iterate through array of 2d and find the coordinates the are the closest to the intersection points:
+        boundary_list, first_time = [], True
+        for index in range(len(array2d)-1):
+            current, next        = array2d[index], array2d[index+1]
+            current_x, current_y = current[0], current[1]
+            next_x, next_y       = next[0], next[1]
+            int1x, int1y, int2x, int2y = int1[0], int1[1], int2[0], int2[1]
 
 
-def get_intersection_coords(xy_frame, cr):
-    if len(xy_frame) != len(circ_coor):
-        raise StandardError("xy_frame and circ_coordinates are not the same length")
+            # Check to see if current and next elements are in between the coordinates of the intersections
+            # store the results in a list
+            if current_x < int1x < next_x or current_x < int2x < next_x:
+                if current_y < int1y < next_y or current_y < int2y < next_y:
+                    if first_time:
+                        #boundary_list.append(current.tolist())
+                        boundary_list.append(index)
+                    else:
+                        #boundary_list.append(next.tolist())
+                        boundary_list.append(index+1)
 
-    x_xy = xy_frame[:,0]
-    y_xy = xy_frame[:,1]
-    c_x = float(cr[0])
-    c_y = float(cr[1])
-    c_r = float(cr[2])
+        # Check to see if boundary_list is greater or less than 2: if so something went wrong
+        if len(boundary_list) != 2:
+            print "Error: Too many elements in boundary_list - please report this to duan_uys@icloud.com"
 
-    # iterate over circle_coordinates
-    intersection_indexes = []
-    for index in range(len(x_xy)-1):
-        x_1, x_2 = x_xy[index], x_xy[index + 1]
-        y_1, y_2 = y_xy[index], y_xy[index + 1]
-        result =  Calculate.intersections(c_x, c_y, c_r, x_1, y_1,  x_2, y_2)
-        if result is not None:
-            result.tolist()
-            x_value = result[0]
-            for i in range(len(x_xy)-1):
-                current, next = x_xy[i], x_xy[i + 1]
-                if current < x_value < next:
-                    index_value = x_xy.tolist().index(current)
-                    intersection_indexes.append(index_value)
-    return intersection_indexes
+        left_boundary, right_boundary = boundary_list[0], boundary_list[1]
 
-def circle_narrow(circle_coordinates, xy_frame, left_bound, right_bound,  buff=2):
-    """
+        # Slice the data to contain the coordinates of the values from array2d
+        slice_array2d = array2d[left_boundary : right_boundary]
 
-    Takes the circle coordinates and the existing xy_frame with the intersection bounds.
-    It then tries to isolate the the circle coordinates to it just encompasses the coordinate sets
-    between the two intersection points of the elevation profile
-    """
-    x_list, y_list = [], []
-    for set in circle_coordinates:
-        x, y = 0, 1
-        if  xy_frame[left_bound][x] <= set[x] <= (xy_frame[right_bound][x]+buff):
-            x_list.append(float(set[x]))
-            y_list.append(float(set[y]))
-    half_circle = np.stack((x_list, y_list), axis=-1)
-
-    x_list = []
-    y_list = []
-    for set in half_circle:
-        x, y = 0, 1
-
-        if  xy_frame[left_bound][y] <= set[y] <= (xy_frame[right_bound][y]):
-            x_list.append(float(set[x]))
-            y_list.append(float(set[y]))
-
-    x_list, y_list = np.array(x_list), np.array(y_list)
-    circ_workspace = np.stack((x_list, y_list), axis=-1)
-    return circ_workspace
-
+        # reconstruct slice_array2d to contain = num_of_elements
+        slice_array2d = Calculate.arraylinspace2d(slice_array2d, num_of_elements)
+        return slice_array2d
 
 
 #### set variables from the configuratoin file
@@ -226,11 +179,12 @@ circle_radius, soil_cohesion, \
 effective_angle, bulk_density, num_of_elements = FromConfig('config.txt').get_vars()
 
 num_of_elements = float(num_of_elements)
-bulk_density = float(bulk_density)
+bulk_density    = float(bulk_density)
 effective_angle = float(effective_angle)
-angle = float(effective_angle)
-soil_cohesion = float(soil_cohesion)
-cr = circle_radius.split(',')
+angle           = float(effective_angle)
+soil_cohesion   = float(soil_cohesion)
+cr              = circle_radius.split(',')
+c_x, c_y, c_r   = float(cr[0]), float(cr[1]), float(cr[2])
 
 ####
 #
@@ -240,107 +194,60 @@ data = np.loadtxt(data_file, delimiter=delimter)
 ####
 #
 #
-#### create numpy array of x values from data
-spatial_values = data[:,0]          # x values
-xmin = min(spatial_values)
-xmax = max(spatial_values)
-####
+## create shapely circle with circle data
+shapely_circle = Point(c_x, c_y).buffer(c_r).boundary
 #
-#
-#### create numpy array of y values from data
-elevetaion_values = data[:,1]       # y values
-ymin = min(elevetaion_values)
-ymax = max(elevetaion_values)
-####
-#
-#
-#### create x and y 'frames' consisting of num_of_elements following the
-#### data points from the data elevation file
-x_frame = np.linspace(xmin, xmax, num_of_elements)
-y_frame = Calculate.arraylinspace(elevetaion_values, num_of_elements)
-####
-#
-#
-#### create a 2d numpy array from stacking the x_frame and y_frame
-#### generate the coordinates of a perfect circle with supplied
-#### arguments making it the same size as the xy_frame
-xy_frame = np.stack((x_frame, y_frame), axis=-1)
-circ_coor = Calculate.circle_array(cr[0], cr[1], cr[2], elements=num_of_elements)
-####
-#
-#
-#### Find the intersection index numbers where the elevation profile
-#### intersects with the circle coordinates.
-####
-intersection_indexes = get_intersection_coords(xy_frame, cr)
+## create shapely line with elevation profile
+shapely_elevation_profile = LineString(data)
 try:
-    left_bound, right_bound = intersection_indexes[0], intersection_indexes[1]
+    intersection_coordinates = list(shapely_circle.intersection(shapely_elevation_profile).bounds)
 except:
-    print "Warning: Circle doesn't intersect profile - try again with different parameters"
+    print "Error: Circle doesn't intersect the profile - please readjust circle coordinates in config file"
     sys.exit()
-####
 #
-#
-#### create a workspace from slicing the generated xy_frame to encompass
-#### only the data points that are within the circle intersections
-xy_workspace = np.array((xy_frame.tolist()[left_bound : right_bound]))
-####
-#
-#
-#### Take the existing workspace and create same profile with num_of_elements
-#### added making the data points more for better calculations
-xy_workspace_x, xy_workspace_y = xy_workspace[:,0], xy_workspace[:,1]
-xy_workspace_x, xy_workspace_y = Calculate.arraylinspace(xy_workspace_x, num_of_elements), \
-                                 Calculate.arraylinspace(xy_workspace_y, num_of_elements)
+## Using intersection coordinates isolate the section of profile that is within the circle.
+### Check to see if intersection_coordinates length is longer than 4 elements.. if so that means for some reason
+# there are more than two intersection points in the profile - shouldn't really happen at all...
+if len(intersection_coordinates) != 4:
+    print "Error: Found more than two intersection coordinates"
+    sys.exit()
 
-xy_workspace   = np.stack((xy_workspace_x, xy_workspace_y), axis=-1)
+int1, int2 = (intersection_coordinates[0], intersection_coordinates[1]), (intersection_coordinates[2],
+                                                                          intersection_coordinates[3])
+#
+# Check to see if intersection_1 and intersection_2 are the same. If they are that means the circle only intersects
+# the profile once.. not allowed
+if int1 == int2:
+    print "Error: Circle only intersects the profile in one place - please readjust circle coordinates in config file"
 
-circ_workspace = circle_narrow(circ_coor, xy_frame, left_bound, right_bound)
-####
+circle_coordinates = np.array(list(shapely_circle.coords))
+elevation_profile = np.array(list(shapely_elevation_profile.coords))
 #
 #
-#### Create a shapely line using the coordinates from circ_workspace
-arc = LineString(circ_workspace)
-####
+# Create sliced array with boundaries from ep_profile
+ep_profile = Calculate.arraylinspace2d(elevation_profile, num_of_elements)
+sliced_ep_profile = Calculate.slice_array(ep_profile, int1, int2)
 #
 #
-#### Iterate through each point in xy_workspace (left to right)
-#### calculating the xy coordinates of the intersection on the arc
-#### using shapely.intersection to create a polygon.
-#### After a polygon has been formed finding the area will lead
-#### to calculating the 'slice' weight and from there the Factor
-#### of Saftey can be calcuated which will be stored in a list
-#
-#
-#### Create a iterator using a lists index
-
-plt.scatter(x_frame, y_frame, color="red")
-plt.scatter(xy_workspace[:,0], xy_workspace[:,1], color="yellow")
-plt.scatter(circ_coor[:,0], circ_coor[:,1])
-plt.scatter(circ_workspace[:,0], circ_workspace[:,1], color="green")
-plt.scatter(cr[0], cr[1])
-
-# these points - in list shows the intersection points between profile and circular radius
-
 numerator_list = []
 denominator_list = []
 errors = 0
-for index in range(len(xy_workspace)-1):
+for index in range(len(sliced_ep_profile)-1):
     try:
         buff = 10**100
-        current, next = xy_workspace[index], xy_workspace[index+1]
+        current, next = sliced_ep_profile[index], sliced_ep_profile[index+1]
 
         # create ambiguous line to be used for intersection calculation
         tempL_line = LineString([current, (current[0], current[1]-buff)])
 
         # find the intersection coord with the fake line and the arc
-        intsec_arc1 =  arc.intersection(tempL_line)
+        intsec_arc1 =  shapely_circle.intersection(tempL_line)
 
         # create ambiguous line to be used for intersection calculation
         tempR_line = LineString([next, (next[0], next[1]-buff)])
 
         # find the intersection coord with the fake right line and the arc
-        intsec_arc2 = arc.intersection((tempR_line))
+        intsec_arc2 = shapely_circle.intersection((tempR_line))
 
         # create actual polygon using the dimensions if and only if boundaries are set
         if not intsec_arc1.is_empty and not intsec_arc2.is_empty:
@@ -396,4 +303,8 @@ results = errors + '\nCohesion: %d\nEffective Friction Angle: %d\nBulk Density: 
 f = open('results.log', 'w')
 f.write(results)
 f.close()
-plt.show()
+
+
+plt.scatter(circle_coordinates[:,0], circle_coordinates[:,1], color='red')
+plt.scatter(data[:,0], data[:,1])
+#plt.show()
