@@ -140,29 +140,32 @@ class Calculate(object):
         int1, int2 = intersection_coord_1, intersection_coord_2
         ## Iterate through array of 2d and find the coordinates the are the closest to the intersection points:
         boundary_list, first_time = [], True
+        n = 0
         for index in range(len(array2d)-1):
             current, next        = array2d[index], array2d[index+1]
             current_x, current_y = current[0], current[1]
             next_x, next_y       = next[0], next[1]
             int1x, int1y, int2x, int2y = int1[0], int1[1], int2[0], int2[1]
 
-
             # Check to see if current and next elements are in between the coordinates of the intersections
             # store the results in a list
-            if current_x < int1x < next_x or current_x < int2x < next_x:
-                if current_y < int1y < next_y or current_y < int2y < next_y:
-                    if not first_time:
-                        #boundary_list.append(current.tolist())
-                        boundary_list.append(index)
-                        first_time = False
-                    else:
-                        #boundary_list.append(next.tolist())
-                        boundary_list.append(index+1)
 
+
+            if current_x < int1x < next_x or current_x < int2x < next_x:
+                if not first_time:
+                    #boundary_list.append(current.tolist())
+                    boundary_list.append(index)
+                    first_time = False
+                else:
+                    #boundary_list.append(next.tolist())
+                    boundary_list.append(index+1)
+
+
+        print boundary_list
         # Check to see if boundary_list is greater or less than 2: if so something went wrong
         if len(boundary_list) != 2:
-            print "Error: Too many elements in boundary_list - please report this to duan_uys@icloud.com"
-
+            print "Error: Too many/not enough elements in boundary_list - please report this to " \
+                  "duan_uys@icloud.com\nNumber of Elements: %d" % len(boundary_list)
         left_boundary, right_boundary = boundary_list[0], boundary_list[1]
 
         # Slice the data to contain the coordinates of the values from array2d
@@ -170,8 +173,8 @@ class Calculate(object):
 
         # reconstruct slice_array2d to contain = num_of_elements
         slice_array2d = Calculate.arraylinspace2d(slice_array2d, num_of_elements)
-        return slice_array2d
 
+        return slice_array2d
 
 #### set variables from the configuratoin file
 delimter, data_file, \
@@ -222,6 +225,9 @@ if int1 == int2:
 
 circle_coordinates = np.array(list(shapely_circle.coords))
 elevation_profile = np.array(list(shapely_elevation_profile.coords))
+plt.scatter(circle_coordinates[:,0], circle_coordinates[:,1], color='red')
+plt.scatter(elevation_profile[:,0], elevation_profile[:,1])
+#plt.show()
 #
 #
 # Create sliced array with boundaries from ep_profile
@@ -310,6 +316,6 @@ f.close()
 
 
 plt.scatter(circle_coordinates[:,0], circle_coordinates[:,1], color='red')
+plt.scatter(ep_profile[:,0], ep_profile[:,1])
 plt.scatter(sliced_ep_profile[:,0], sliced_ep_profile[:,1], color='green')
-plt.scatter(data[:,0], data[:,1])
 plt.show()
