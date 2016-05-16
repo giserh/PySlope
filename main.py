@@ -273,7 +273,11 @@ circ_coor = Calculate.circle_array(cr[0], cr[1], cr[2], elements=num_of_elements
 #### intersects with the circle coordinates.
 ####
 intersection_indexes = get_intersection_coords(xy_frame, cr)
-left_bound, right_bound = intersection_indexes[0], intersection_indexes[1]
+try:
+    left_bound, right_bound = intersection_indexes[0], intersection_indexes[1]
+except:
+    print "Warning: Circle doesn't intersect profile - try again with different parameters"
+    sys.exit()
 ####
 #
 #
