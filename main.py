@@ -44,11 +44,7 @@ class FromConfig(object):
             key_word = entry[0].lower()
             value    = entry[2]
 
-            if key_word == 'padding':
-                self.padding = value
-                init_variables.append(self.padding)
-
-            elif key_word == 'delimiter':
+            if key_word == 'delimiter':
                 self.delimiter = value
                 init_variables.append(self.delimiter)
 
@@ -59,10 +55,6 @@ class FromConfig(object):
             elif key_word == 'circle_radius':
                 self.circle_radius = value
                 init_variables.append(self.circle_radius.split(','))
-
-            elif key_word == 'baseline':
-                self.baseline = value
-                init_variables.append(self.baseline)
 
             elif key_word == 'soil_cohesion':
                 self.soil_cohesion = value
