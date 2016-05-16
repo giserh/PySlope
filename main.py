@@ -165,6 +165,7 @@ class Calculate(object):
         if len(boundary_list) != 2:
             print "Error: Too many/not enough elements in boundary_list - please report this to " \
                   "duan_uys@icloud.com\nNumber of Elements: %d" % len(boundary_list)
+            sys.exit()
         left_boundary, right_boundary = boundary_list[0], boundary_list[1]
 
         # Slice the data to contain the coordinates of the values from array2d
@@ -211,7 +212,8 @@ except:
 ### Check to see if intersection_coordinates length is longer than 4 elements.. if so that means for some reason
 # there are more than two intersection points in the profile - shouldn't really happen at all...
 if len(intersection_coordinates) != 4:
-    print "Error: Found more than two intersection coordinates"
+    print "Error: Found more/less than two intersection coordinates\nNumber of intersections: %s" % \
+          str(len(intersection_coordinates))
     sys.exit()
 
 int1, int2 = (intersection_coordinates[0], intersection_coordinates[1]), (intersection_coordinates[2],
@@ -221,12 +223,13 @@ int1, int2 = (intersection_coordinates[0], intersection_coordinates[1]), (inters
 # the profile once.. not allowed
 if int1 == int2:
     print "Error: Circle only intersects the profile in one place - please readjust circle coordinates in config file"
+    sys.exit()
 
 circle_coordinates = np.array(list(shapely_circle.coords))
 elevation_profile = np.array(list(shapely_elevation_profile.coords))
 plt.scatter(circle_coordinates[:,0], circle_coordinates[:,1], color='red')
 plt.scatter(elevation_profile[:,0], elevation_profile[:,1])
-#plt.show()
+plt.show()
 #
 #
 # Create sliced array with boundaries from ep_profile
@@ -305,13 +308,17 @@ for index in range(len(sliced_ep_profile)-1):
 numerator_list, denominator_list = np.array(numerator_list), np.array(denominator_list)
 errors =  "Total number of errors encountered: " + str(errors)
 factor_of_safety = numerator_list.sum()/ denominator_list.sum()
-print errors
-print factor_of_safety
-results = errors + '\nCohesion: %d\nEffective Friction Angle: %d\nBulk Density: %d\n\nFactor of Safety: %d' % (
-    soil_cohesion, angle, bulk_density, factor_of_safety)
+
+results = errors + '\nCohesion: %d\nEffective Friction Angle: %d\nBulk Density: %d\nNumber of slices ' \
+                   'calculated: %d\n\nFactor of Safety:' % (
+    soil_cohesion, angle, bulk_density, slice) + str(factor_of_safety)
+
 f = open('results.log', 'w')
 f.write(results)
 f.close()
+
+print results
+
 
 
 plt.scatter(circle_coordinates[:,0], circle_coordinates[:,1], color='red')

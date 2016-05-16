@@ -10,19 +10,19 @@ delimiter = ,
 data_file = slope_profile.elev
 
 # circle_radius = 0,0,3 (x,y, radius) - meters
-circle_radius = 8,10,6
+circle_radius = 8,11,12
 
 # soil_cohesion = 22 (in kPa)
-soil_cohesion = 100
+soil_cohesion = 1000
 
 # effective_friction_angle_soil = 40 (degrees)
-effective_friction_angle_soil = 70
+effective_friction_angle_soil = 45
 
 # bulk_density = 1760 (Kg/m^3)
-bulk_density = 100
+bulk_density = 1760
 
 # num_of_elements = 100
-num_of_elements = 1000
+num_of_elements = 100
 
 # plot_diagram = True
 plot_diagram = True
