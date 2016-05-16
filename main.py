@@ -89,7 +89,6 @@ class FromConfig(object):
                self.num_of_elements
 
 
-
 class Calculate(object):
 
     @staticmethod
@@ -152,9 +151,10 @@ class Calculate(object):
             # store the results in a list
             if current_x < int1x < next_x or current_x < int2x < next_x:
                 if current_y < int1y < next_y or current_y < int2y < next_y:
-                    if first_time:
+                    if not first_time:
                         #boundary_list.append(current.tolist())
                         boundary_list.append(index)
+                        first_time = False
                     else:
                         #boundary_list.append(next.tolist())
                         boundary_list.append(index+1)
@@ -232,6 +232,7 @@ sliced_ep_profile = Calculate.slice_array(ep_profile, int1, int2)
 numerator_list = []
 denominator_list = []
 errors = 0
+slice = 1
 for index in range(len(sliced_ep_profile)-1):
     try:
         buff = 10**100
@@ -289,12 +290,15 @@ for index in range(len(sliced_ep_profile)-1):
 
             numerator_list.append(numerator)
             denominator_list.append(denominator)
+            if slice % 100 == 0:
+                print 'Calculating Slice: ' + str(slice)
+            slice +=1
     except:
         errors +=1
 
 
 numerator_list, denominator_list = np.array(numerator_list), np.array(denominator_list)
-errors =  "Total numer of errors caught: " + str(errors)
+errors =  "Total number of errors encountered: " + str(errors)
 factor_of_safety = numerator_list.sum()/ denominator_list.sum()
 print errors
 print factor_of_safety
@@ -306,5 +310,6 @@ f.close()
 
 
 plt.scatter(circle_coordinates[:,0], circle_coordinates[:,1], color='red')
+plt.scatter(sliced_ep_profile[:,0], sliced_ep_profile[:,1], color='green')
 plt.scatter(data[:,0], data[:,1])
-#plt.show()
+plt.show()
