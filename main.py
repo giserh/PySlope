@@ -9,14 +9,16 @@ import matplotlib.pyplot as plt
 
 class FromConfig(object):
     def __init__(self, config_file):
-        self.file_path = config_file
-        self.delimiter = None
-        self.data_file = None
-        self.circle_radius = None
-        self.soil_cohesion  = None
+        self.file_path       = config_file
+        self.delimiter       = None
+        self.data_file       = None
+        self.circle_radius   = None
+        self.soil_cohesion   = None
         self.effective_angle = None
-        self.bulk_density = None
+        self.bulk_density    = None
         self.num_of_elements = None
+        self.show_figure     = None
+        self.save_figure     = None
 
     def get_vars(self):
         """
@@ -67,9 +69,18 @@ class FromConfig(object):
             elif key_word == 'bulk_density':
                 self.bulk_density = value
                 init_variables.append(self.bulk_density)
+
             elif key_word == 'num_of_elements':
                 self.num_of_elements = value
                 init_variables.append(self.num_of_elements)
+
+            elif key_word == 'show_figure':
+                self.show_figure = value
+                init_variables.append(self.show_figure)
+
+            elif key_word == 'save_figure':
+                self.save_figure = value
+                init_variables.append(self.save_figure)
 
         for variable in init_variables:
             if variable is None:
@@ -78,7 +89,7 @@ class FromConfig(object):
         return self.delimiter, self.data_file, \
                self.circle_radius, self.soil_cohesion, \
                self.effective_angle, self.bulk_density, \
-               self.num_of_elements
+               self.num_of_elements, self.show_figure, self.save_figure
 
 
 class Calculate(object):
@@ -171,8 +182,10 @@ class Calculate(object):
 #### set variables from the configuratoin file
 delimter, data_file, \
 circle_radius, soil_cohesion, \
-effective_angle, bulk_density, num_of_elements = FromConfig('config.txt').get_vars()
+effective_angle, bulk_density,\
+num_of_elements, show_figure, save_figure = FromConfig('config.txt').get_vars()
 
+show_figure, save_figure = show_figure.lower(), save_figure.lower()
 num_of_elements = float(num_of_elements)
 bulk_density    = float(bulk_density)
 effective_angle = float(effective_angle)
@@ -316,4 +329,11 @@ print results
 plt.scatter(circle_coordinates[:,0], circle_coordinates[:,1], color='red')
 plt.scatter(ep_profile[:,0], ep_profile[:,1])
 plt.scatter(sliced_ep_profile[:,0], sliced_ep_profile[:,1], color='green')
-plt.show()
+
+
+if save_figure == 'yes':
+    plt.savefig('slope_profile.tif')
+
+if show_figure == 'yes':
+    plt.show()
+
