@@ -74,7 +74,7 @@ Each config option has a comment above it showing you exactly how it should be d
 just change the values where you see fit. Be warned though unexpected results may happen.. but thats good any
 bugs you find email me @ duan_uys@icloud.com
 
-    delimiter = ','
+    delimiter = ,
     This option reads your data file and removes the delimiter which by default is ','.
 
 What does this mean?
