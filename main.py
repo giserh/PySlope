@@ -41,7 +41,8 @@ class FromConfig(object):
         for word in variables:
             entry = word.split()
             if len(entry) < 3:
-                print 'Config file - wrong syntax'
+                print 'Error: Config file - wrong syntax\n' \
+                      '%s not set correctly' % word
                 sys.exit()
             key_word = entry[0].lower()
             value    = entry[2]
@@ -89,7 +90,8 @@ class FromConfig(object):
         return self.delimiter, self.data_file, \
                self.circle_radius, self.soil_cohesion, \
                self.effective_angle, self.bulk_density, \
-               self.num_of_elements, self.show_figure, self.save_figure
+               self.num_of_elements, self.show_figure, \
+               self.save_figure
 
 
 class Calculate(object):
@@ -143,7 +145,6 @@ class Calculate(object):
         int1, int2 = intersection_coord_1, intersection_coord_2
         ## Iterate through array of 2d and find the coordinates the are the closest to the intersection points:
         boundary_list, first_time = [], True
-        n = 0
         for index in range(len(array2d)-1):
             current, next        = array2d[index], array2d[index+1]
             current_x, current_y = current[0], current[1]
@@ -220,8 +221,8 @@ if len(intersection_coordinates) == 0:
     sys.exit()
 #
 ## Using intersection coordinates isolate the section of profile that is within the circle.
-### Check to see if intersection_coordinates length is longer than 4 elements.. if so that means for some reason
-# there are more than two intersection points in the profile - shouldn't really happen at all...
+### Check to see if intersection_coordinates length is 4 elements.. if it isn't so that means for some reason
+# there are moreless than two intersection points in the profile - shouldn't really happen at all...
 if len(intersection_coordinates) != 4:
     print "Error: Found more/less than two intersection coordinates\nNumber of intersections: %s" % \
           str(len(intersection_coordinates))
@@ -248,6 +249,8 @@ ep_profile = Calculate.arraylinspace2d(elevation_profile, num_of_elements)
 sliced_ep_profile = Calculate.slice_array(ep_profile, int1, int2)
 #
 #
+#
+### Perform actual calculation of forces slice-by-slice
 numerator_list = []
 denominator_list = []
 errors = 0
