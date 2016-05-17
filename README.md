@@ -1,10 +1,13 @@
 Slope Stability, alpha 1.0
 
 Who is the program intended for and what is it about?
-    The program written is a slope stability analysis program. Given a set of 2-D x,y values that should indicate the
-     profile of a slope the program works out the Factor of Saftey of the slope depending on where the circle 
-     intersects with the elevational profile. So far it only uses the method of slices to obtain the results by 
-     following this [equation](http://www.HostMath.com/Show.aspx?Code=%5Cfrac%7B%5Csum%7Bc_il_i%20%2B%20(w_icosa_i%20-%20u_il_i)tan%5Cphi%5E%5Cprime%7D%7D%7B%5Csum%7Bwsina%7D%7D):
+
+The program written is a slope stability analysis program. Given a set of 2-D x,y values that should indicate the
+profile of a slope the program works out the Factor of Saftey of the slope depending on where the circle 
+intersects with the elevational profile. So far it only uses the ordinary method of slices to obtain the results by 
+following this [equation](http://www.HostMath.com/Show.aspx?Code=%5Cfrac%7B%5Csum%7Bc_il_i%20%2B%20(w_icosa_i%20-%20u_il_i)tan%5Cphi%5E%5Cprime%7D%7D%7B%5Csum%7Bwsina%7D%7D)
+
+This program is intended to anyone who is interested in doing slope stability analysis.
      
      
 What does it do?
@@ -51,7 +54,7 @@ is 'trapped' in the circle and perform calculation on those
 What does it not do?
 
 It is a very basic program thus far. I have tried a few circle coordinates, but not every possibility. Most
-likely it will find a bug eventually...
+likely a bug will pop up eventually. It doesn't support multilayered strata, yet.
 
 
 What do I need for this program to work?
