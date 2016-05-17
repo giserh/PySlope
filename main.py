@@ -376,8 +376,8 @@ numerator_list, denominator_list = np.array(numerator_list), np.array(denominato
 errors =  "\nTotal number of errors encountered: " + str(errors)
 factor_of_safety = numerator_list.sum()/ denominator_list.sum()
 
-results = errors + '\nCohesion: %d\nEffective Friction Angle: %d\nBulk Density: %d\nNumber of slices ' \
-                   'calculated: %d\n\nFactor of Safety:' % (
+results = errors + '\n\nCohesion: %d\nEffective Friction Angle: %d\nBulk Density: %d\nNumber of slices ' \
+                   'calculated: %d\n\nFactor of Safety: ' % (
     soil_cohesion, angle, bulk_density, slice) + str(factor_of_safety)
 
 f = open('results.log', 'w')
