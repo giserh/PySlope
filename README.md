@@ -1,6 +1,6 @@
 #Slope Stability, alpha 1.0#
 
-##Who is the program intended for and what is it about?##
+###Who is the program intended for and what is it about?###
 
 The program written is a slope stability analysis program. Given a set of 2-D x,y values that should indicate the
 profile of a slope the program works out the Factor of Saftey of the slope depending on where the circle 
@@ -10,7 +10,7 @@ following this [equation](http://www.HostMath.com/Show.aspx?Code=%5Cfrac%7B%5Csu
 This program is intended to anyone who is interested in doing slope stability analysis.
      
      
-##What does it do?##
+###How does it work?###
 
 Given some basic configuration options the program reads in the configuration file and data from an ambiguous
 file of your choosing. Right now the program only supports very basic - Basic Method of Slicing. It reads the
@@ -34,7 +34,7 @@ After everything is done it will spit out:
 * the Factor of Safety of your slope from your given config settings.
 * Results can be found in your terminal and results.log
 
-##Few Pointers##
+###Few Pointers###
 
 * It has a built in error catching system. It is common as a computer generated values sometimes things don't
  go as planned and its impossible to account for each and every problem.. therefore.. when calculating the
@@ -51,13 +51,13 @@ is 'trapped' in the circle and perform calculation on those
   colors to see how everything plays out.
 
 
-##What does it not do?##
+###What does it not do?###
 
 It is a very basic program thus far. I have tried a few circle coordinates, but not every possibility. Most
 likely a bug will pop up eventually. It doesn't support multilayered strata, yet.
 
 
-##What do I need for this program to work?##
+###What do I need for this program to work?###
 
    You will need the following Python Modules for this to work:
 
@@ -67,7 +67,7 @@ likely a bug will pop up eventually. It doesn't support multilayered strata, yet
    * matplotlib
 
 
-##Configuration File Explained##
+###Configuration File Explained###
 
 The config is very basic and simple. It ignores any line that starts with a '#' and it is very case sensitive.
 Each config option has a comment above it showing you exactly how it should be done. Copy it word for work and
