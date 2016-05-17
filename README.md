@@ -5,7 +5,7 @@ What does it do?
 Given some basic configuration options the program reads in the configuration file and data from an ambiguous
 file of your choosing. Right now the program only supports very basic - Basic Method of Slicing. It reads the
 elevation data (x,y) coordinates and loads them up into a numpy array. It then generates coordinates of a perfect
-circle based on the config file where you define your circle.
+circle or ellipse based on the configuration file where you define your circle.
 
 It takes both coordinate sets and isolates the points where the circle intersects the profile. For some number
 crunching it takes the elevation profile itself and generates a user-defined amount of data points that fits the
@@ -59,16 +59,16 @@ What do I need for this program to work?
 
 Configuration File Explained
 
-The config is very basic and simple. It ignores any line that starts with a '#' and it is very case sensitive.
-Each config option has a comment above it showing you exactly how it should be done. Copy it word for work and
-just change the values where you see fit. Be warned though unexpected results may happen.. but thats good any
-bugs you find email me @
+    The config is very basic and simple. It ignores any line that starts with a '#' and it is very case sensitive.
+    Each config option has a comment above it showing you exactly how it should be done. Copy it word for work and
+    just change the values where you see fit. Be warned though unexpected results may happen.. but thats good any
+    bugs you find email me @
+    
+    duan_uys@icloud.com
 
-duan_uys@icloud.com
+    delimiter = ','
 
-delimiter = ','
-
-This option reads your data file and removes the delimiter which by default is ','.
+    This option reads your data file and removes the delimiter which by default is ','.
 
 What does this mean?
 
