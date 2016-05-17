@@ -219,9 +219,9 @@ if int1 == int2:
 
 circle_coordinates = np.array(list(shapely_circle.coords))
 elevation_profile = np.array(list(shapely_elevation_profile.coords))
-plt.scatter(circle_coordinates[:,0], circle_coordinates[:,1], color='red')
-plt.scatter(elevation_profile[:,0], elevation_profile[:,1])
-plt.show()
+#plt.scatter(circle_coordinates[:,0], circle_coordinates[:,1], color='red')
+#plt.scatter(elevation_profile[:,0], elevation_profile[:,1])
+#plt.show()
 #
 #
 # Create sliced array with boundaries from ep_profile
