@@ -12,7 +12,7 @@ class FromConfig(object):
         self.file_path       = config_file
         self.delimiter       = None
         self.data_file       = None
-        self.circle_radius   = None
+        self.circle_data   = None
         self.soil_cohesion   = None
         self.effective_angle = None
         self.bulk_density    = None
@@ -55,8 +55,8 @@ class FromConfig(object):
                 self.data_file = value
                 init_variables.append(self.data_file)
 
-            elif key_word == 'circle_radius':
-                self.circle_radius = value
+            elif key_word == 'circle_data':
+                self.circle_data = value
                 init_variables.append(self.circle_radius.split(','))
 
             elif key_word == 'soil_cohesion':
@@ -88,7 +88,7 @@ class FromConfig(object):
                 raise NotImplementedError('Not all variables were set - check config file syntax')
 
         return self.delimiter, self.data_file, \
-               self.circle_radius, self.soil_cohesion, \
+               self.circle_data, self.soil_cohesion, \
                self.effective_angle, self.bulk_density, \
                self.num_of_elements, self.show_figure, \
                self.save_figure
@@ -180,9 +180,29 @@ class Calculate(object):
 
         return slice_array2d
 
+    @staticmethod
+    def generateEllipse(c_x,c_y, c_a, c_b):
+        x_coords, y_coords = [], []
+        degree = 0
+        while degree <= 360:
+            x = c_x + (c_a*np.cos(Calculate.degree2rad(degree)))
+            y = c_y + (c_b*np.sin(Calculate.degree2rad(degree)))
+            x_coords.append(x), y_coords.append(y)
+
+            x = (c_x + (c_a*np.cos(Calculate.degree2rad(degree))))*-1
+            y = (c_y + (c_b*np.sin(Calculate.degree2rad(degree))))*-1
+            x_coords.append(x), y_coords.append(y)
+            print degree
+            degree += 1
+
+        x_coords, y_coords = np.array(x_coords), np.array(y_coords)
+        xy_ellipse = np.stack((x_coords, y_coords), axis=-1)
+
+        return xy_ellipse
+
 #### set variables from the configuratoin file
 delimter, data_file, \
-circle_radius, soil_cohesion, \
+circle_data, soil_cohesion, \
 effective_angle, bulk_density,\
 num_of_elements, show_figure, save_figure = FromConfig('config.txt').get_vars()
 
@@ -192,7 +212,7 @@ bulk_density    = float(bulk_density)
 effective_angle = float(effective_angle)
 angle           = float(effective_angle)
 soil_cohesion   = float(soil_cohesion)
-cr              = circle_radius.split(',')
+cr              = circle_data.split(',')
 c_x, c_y, c_r   = float(cr[0]), float(cr[1]), float(cr[2])
 
 ####

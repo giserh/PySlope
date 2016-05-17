@@ -88,8 +88,15 @@ So this WON'T work
     data_file = slope_profile.elev
             This option is simple.. just type in the file name of your raw data.. without any quotes.
 
-    circle_radius = 0,0,3 (x,y, radius) - meters
-            This option reads in the circle coordinates, default units are meters
+    circle_data = 0,0,3 (x,y, radius) or 0,0,(1,2) - (x,y,(a,b))
+            Pay attention to the syntax here. The program allows you to set your circle_data to be either a perfect 
+            circle or an ellipse. To provide a perfect circle just supply the argument of:
+            (x,y, radius) - without the parenthesis
+            
+            To provide data for an ellipse supply the argument of:
+            (x, y, (a,b)) - without the parenthesis
+            a = horizontal radius
+            b = vertical radius
 
     soil_cohesion = 22 (in kPa)
             Reads in soil cohesion in kPa
