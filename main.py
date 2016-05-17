@@ -201,6 +201,12 @@ c_x, c_y, c_r   = float(cr[0]), float(cr[1]), float(cr[2])
 data = np.loadtxt(data_file, delimiter=delimter)
 ####
 #
+#### Check to see if num_of_elements is lower than actual length of data:
+if num_of_elements < len(data):
+    print "Error: You can't have num_of_elements set lower to your total amount of data points" \
+          "\n\nTotal Data Points: %s" \
+          "\nNum_of_elements: %s" % (str(len(data)), str(int(num_of_elements)))
+    sys.exit()
 #
 ## create shapely circle with circle data
 shapely_circle = Point(c_x, c_y).buffer(c_r).boundary
@@ -311,7 +317,7 @@ for index in range(len(sliced_ep_profile)-1):
 
 
 numerator_list, denominator_list = np.array(numerator_list), np.array(denominator_list)
-errors =  "Total number of errors encountered: " + str(errors)
+errors =  "\nTotal number of errors encountered: " + str(errors)
 factor_of_safety = numerator_list.sum()/ denominator_list.sum()
 
 results = errors + '\nCohesion: %d\nEffective Friction Angle: %d\nBulk Density: %d\nNumber of slices ' \

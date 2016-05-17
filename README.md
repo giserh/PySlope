@@ -108,4 +108,13 @@ So this WON'T work
             kind of error if the num_of_elements is lower than the actual total amount of data points you have.
             I also haven't tested it extensivly to see what happens when you really rise that number, but the higher the
             number than theortically it turns the Factor of Saftey into an integral because the length -> 0 of each slice.
+            
+    show_figure = yes/no
+            This option just toggles whether or not you would like the workspace plotted via matplotlib and showed to
+             you
+    
+    
+    save_figure = yes/no
+            This option toggles whether or not you would like the workspace to be saved as an image in your directory
+            Default - .tiff
 

@@ -22,10 +22,7 @@ effective_friction_angle_soil = 45
 bulk_density = 1760
 
 # num_of_elements = 100
-num_of_elements = 100
-
-# plot_diagram = True
-plot_diagram = True
+num_of_elements = 1000
 
 # save_figure = yes/no
 save_figure = no
