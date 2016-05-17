@@ -92,9 +92,11 @@ So this WON'T work
             Pay attention to the syntax here. The program allows you to set your circle_data to be either a perfect 
             circle or an ellipse. To provide a perfect circle just supply the argument of:
             (x,y, radius) - without the parenthesis
+            x, y, radius
             
             To provide data for an ellipse supply the argument of:
-            (x, y, (a,b)) - without the parenthesis
+            (x, y, (a,b)) - without the outside parenthesis
+            x, y, (a,b)
             a = horizontal radius
             b = vertical radius
 
