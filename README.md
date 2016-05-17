@@ -1,5 +1,12 @@
 Slope Stability, alpha 1.0
 
+Who is the program intended for and what is it about?
+    The program written is a slope stability analysis program. Given a set of 2-D x,y values that should indicate the
+     profile of a slope the program works out the Factor of Saftey of the slope depending on where the circle 
+     intersects with the elevational profile. So far it only uses the method of slices to obtain the results by 
+     following this [equation](http://www.HostMath.com/Show.aspx?Code=%5Cfrac%7B%5Csum%7Bc_il_i%20%2B%20(w_icosa_i%20-%20u_il_i)tan%5Cphi%5E%5Cprime%7D%7D%7B%5Csum%7Bwsina%7D%7D):
+     
+     
 What does it do?
 
 Given some basic configuration options the program reads in the configuration file and data from an ambiguous
