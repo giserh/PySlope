@@ -57,7 +57,7 @@ class FromConfig(object):
 
             elif key_word == 'circle_data':
                 self.circle_data = value
-                init_variables.append(self.circle_radius.split(','))
+                init_variables.append(self.circle_data.split(','))
 
             elif key_word == 'soil_cohesion':
                 self.soil_cohesion = value
@@ -93,6 +93,23 @@ class FromConfig(object):
                self.num_of_elements, self.show_figure, \
                self.save_figure
 
+    @staticmethod
+    def checkCircleData(circle_data):
+        is_ellipse = True
+        cr = circle_data.split(',')
+        if '' in cr:
+            sys.exit("Error: Blank space found in: %s" % str(circle_data))
+
+        elif len(cr) == 3:
+            # its a perfect circle style x,y,r
+            return not is_ellipse
+
+        elif len(cr) == 4:
+            # its in ellipse format x,y,(a,b)
+            return is_ellipse
+
+        else:
+            sys.exit('Something went wrong')
 
 class Calculate(object):
 
@@ -189,10 +206,6 @@ class Calculate(object):
             y = c_y + (c_b*np.sin(Calculate.degree2rad(degree)))
             x_coords.append(x), y_coords.append(y)
 
-            x = (c_x + (c_a*np.cos(Calculate.degree2rad(degree))))*-1
-            y = (c_y + (c_b*np.sin(Calculate.degree2rad(degree))))*-1
-            x_coords.append(x), y_coords.append(y)
-            print degree
             degree += 1
 
         x_coords, y_coords = np.array(x_coords), np.array(y_coords)
@@ -212,8 +225,15 @@ bulk_density    = float(bulk_density)
 effective_angle = float(effective_angle)
 angle           = float(effective_angle)
 soil_cohesion   = float(soil_cohesion)
-cr              = circle_data.split(',')
-c_x, c_y, c_r   = float(cr[0]), float(cr[1]), float(cr[2])
+is_ellipse = FromConfig.checkCircleData(circle_data)
+cr = circle_data.split(',')
+c_x, c_y, c_r, c_a, c_b = None, None, None, None, None
+if not is_ellipse:
+    c_x, c_y, c_r   = float(cr[0]), float(cr[1]), float(cr[2])
+else:
+    c_x, c_y = float(cr[0]), float(cr[1])
+    c_a = float(cr[2].replace('(',''))
+    c_b = float(cr[3].replace(')',''))
 
 ####
 #
@@ -230,12 +250,25 @@ if num_of_elements < len(data):
     sys.exit()
 #
 ## create shapely circle with circle data
-shapely_circle = Point(c_x, c_y).buffer(c_r).boundary
+#shapely_circle = Point(c_x, c_y).buffer(c_r).boundary
+
+try:
+    if c_x is not None or c_y is not None or c_b is not None or c_a is not None:
+        ellipse = Calculate.generateEllipse(c_x, c_y, c_a, c_b)
+        shapely_circle = LineString(ellipse)
+    else:
+        sys.exit("Error: c_x, c_y, c_a, c_b not set.. Report bug")
+except:
+    if c_x is not None or c_y is not None or c_r is not None:
+        shapely_circle = Point(c_x, c_y).buffer(c_r).boundary
+    else:
+        sys.exit("Error: c_x, c_y, c_r not set.. Report bug")
+#
 #
 ## create shapely line with elevation profile
 shapely_elevation_profile = LineString(data)
 intersection_coordinates = list(shapely_circle.intersection(shapely_elevation_profile).bounds)
-
+#
 if len(intersection_coordinates) == 0:
     print "Error: Circle doesn't intersect the profile - please readjust circle coordinates in config file"
     sys.exit()
