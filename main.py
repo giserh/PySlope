@@ -95,18 +95,18 @@ class FromConfig(object):
 
     @staticmethod
     def checkCircleData(circle_data):
-        is_ellipse = True
+        an_ellipse = True
         cr = circle_data.split(',')
         if '' in cr:
             sys.exit("Error: Blank space found in: %s" % str(circle_data))
 
         elif len(cr) == 3:
             # its a perfect circle style x,y,r
-            return not is_ellipse
+            return not an_ellipse
 
         elif len(cr) == 4:
             # its in ellipse format x,y,(a,b)
-            return is_ellipse
+            return an_ellipse
 
         else:
             sys.exit('Something went wrong')
