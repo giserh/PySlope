@@ -225,10 +225,10 @@ bulk_density    = float(bulk_density)
 effective_angle = float(effective_angle)
 angle           = float(effective_angle)
 soil_cohesion   = float(soil_cohesion)
-is_ellipse = FromConfig.checkCircleData(circle_data)
+an_ellipse = FromConfig.checkCircleData(circle_data)
 cr = circle_data.split(',')
 c_x, c_y, c_r, c_a, c_b = None, None, None, None, None
-if not is_ellipse:
+if not an_ellipse:
     c_x, c_y, c_r   = float(cr[0]), float(cr[1]), float(cr[2])
 else:
     c_x, c_y = float(cr[0]), float(cr[1])
