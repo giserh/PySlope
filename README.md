@@ -8,7 +8,66 @@ intersects with the elevational profile. So far it only uses the ordinary method
 following this [equation](http://www.HostMath.com/Show.aspx?Code=%5Cfrac%7B%5Csum%7Bc_il_i%20%2B%20(w_icosa_i%20-%20u_il_i)tan%5Cphi%5E%5Cprime%7D%7D%7B%5Csum%7Bwsina%7D%7D)
 
 This program is intended to anyone who is interested in doing slope stability analysis.
-     
+
+###What do I need for this program to work?###
+
+   You will need the following Python Modules for this to work:
+
+   * Numpy
+   * Scipy
+   * Shapely
+   * matplotlib
+   
+   
+   Super Easy Way:
+   
+   Download the complete python package called: [Anaconda](https://www.continuum.io/downloads)
+   This is a brilliant option for scientists who use programming because it comes with pretty much every module you 
+   will ever need including the ones required by this program. Highly recommended and great tutorials on how to set 
+   that up on your machine - windows/OSX/Linux
+   
+   
+   Medium Way:
+        
+   If you have a Mac OSX I highly recommend you install [brew] (http://brew.sh/)
+   Then it is as simple as:
+        
+        brew install numpy scipy matplotlib shapely
+   
+   If you have anything else [pip](https://pip.pypa.io/en/stable/installing/) (which you can test by 
+   typing 'pip' in your terminal
+    and if you get something else besides):
+           
+        -bash: pip: command not found
+   
+   Then you can happily go and install the modules by:
+   
+        pip install scipy
+        pip install numpy
+        pip install shapely
+        pip install matplotlib
+        
+   For windows users - you are out of luck for any of my help. I am not a windows guy nor will I ever be. There are a
+    few tutorials online that allow you to install python and the modules itself. If you realized your major mistake 
+    by not going with a Unix type OS then have no fear windows has made some sort of a comeback by using [cygwin]
+    (https://www.cygwin.com/)
+    
+    
+   Hard Way:
+   
+   You can physically go to the homepages of each of the modules and install and compile them yourself. However this 
+   is not recommended because you would have to make sure that the modules reside in your PYTHONPATH - I don't 
+   recommend.
+        
+### How to use it ###
+
+Edit the config.txt file with the parameters you choose. For a step-by-step guide to what each config option does 
+read on down below under the section 'Configuration File Explained' Once you have everything you need make sure your 
+datafile, config.txt, and main.py is in the same directory. Run the program in your terminal:
+
+python main.py
+
+This program only runs on Python 2.7 - sorry Python 3 users... 
      
 ###How does it work?###
 
@@ -55,16 +114,6 @@ is 'trapped' in the circle and perform calculation on those
 
 It is a very basic program thus far. I have tried a few circle coordinates, but not every possibility. Most
 likely a bug will pop up eventually. It doesn't support multilayered strata, yet.
-
-
-###What do I need for this program to work?###
-
-   You will need the following Python Modules for this to work:
-
-   * Numpy
-   * Scipy
-   * Shapely
-   * matplotlib
 
 
 ###Configuration File Explained###
