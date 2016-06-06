@@ -148,12 +148,17 @@ Will not work.
     circle_data = 0,0,3 (x,y, radius) or 0,0,(1,2) - (x,y,(a,b))
             Pay attention to the syntax here. The program allows you to set your circle_data to be either a perfect 
             circle or an ellipse. To provide a perfect circle just supply the argument of:
-            (x,y, radius) - without the parenthesis
-            x, y, radius
+            (x,y,radius) - without the parenthesis
+            x,y,radius
             
             To provide data for an ellipse supply the argument of:
             (x, y, (a,b)) - without the outside parenthesis
-            x, y, (a,b)
+            x, y,(a,b)
+            
+            or
+            
+            x,y,a,b
+            
             a = horizontal radius
             b = vertical radius
 
