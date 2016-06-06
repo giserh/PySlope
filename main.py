@@ -1,97 +1,100 @@
-#!/usr/bin/env python
+    #!/usr/bin/env python
 
 import numpy as np
 from shapely.geometry import LineString, Point, Polygon
 import sys, math, itertools
 import scipy as sp
 import matplotlib.pyplot as plt
+from utils import *
 
+# Initialize Variables #
+delimiter = ''
+data_file = ''
+soil_cohesion = -1
+bulk_density = -1
+num_of_elements = -1
+effective_friction_angle_soil = -1
+show_figure = ''
+save_figure = ''
+circle_data = ''
 
-class FromConfig(object):
-    def __init__(self, config_file):
-        self.file_path       = config_file
-        self.delimiter       = None
-        self.data_file       = None
-        self.circle_data   = None
-        self.soil_cohesion   = None
-        self.effective_angle = None
-        self.bulk_density    = None
-        self.num_of_elements = None
-        self.show_figure     = None
-        self.save_figure     = None
+### Circle Data ###
+c_x = 0.
+c_y = 0.
+## perfect circle ##
+c_r = 0.
+## Ellipse ##
+c_a = 0.
+c_b = 0.
 
-    def get_vars(self):
-        """
-            Function reads config file and returns variables that will be used
-            in the program. This is very syntax sensitive so make sure to use exact
-            syntax style from comments in config file
+options_from_config = [
+        'delimiter',
+        'data_file',
+        'circle_data'
+        'soil_cohesion',
+        'effective_friction_angle_soil',
+        'bulk_density',
+        'num_of_elements',
+        'show_figure',
+        'save_figure',
+    ]
 
-            The function ignores lines that start with #
-        """
-        with open(self.file_path) as f:
-            content = f.read().splitlines()
+"""To this point"""
 
-        variables = []
-        init_variables = []
+class ReadConfig(object):
 
+    def __init__(self, file_name):
+        ## General ##
+        global delimiter, data_file, soil_cohesion, bulk_density, num_of_elements, show_figure, save_figure
+
+        ## circle Data ##
+        global c_x, c_y, c_r, c_a, c_b
+
+        self.file_name = file_name
+
+        # open file and read contents to store in variables
+        with open(file_name) as f:
+            content = f.readlines()
+        line_num = 1
         for line in content:
-            if not line.startswith('#') and line != '':
-                variables.append(line)
+            if not line.startswith('#') and not line.isspace():
+                if not contains("=", line):
+                    sys.exit("Could not find an '=' %d: %s" %  (line_num, line))
 
-        for word in variables:
-            entry = word.split()
-            if len(entry) < 3:
-                print 'Error: Config file - wrong syntax\n' \
-                      '%s not set correctly' % word
-                sys.exit()
-            key_word = entry[0].lower()
-            value    = entry[2]
 
-            if key_word == 'delimiter':
-                self.delimiter = value
-                init_variables.append(self.delimiter)
+                variable = line.split()[0]
+                equal    = line.split()[1]
+                value    = line.split()[2]
+                if len(line.split()) > 3:
+                    raiseGeneralError("Wrong Syntax on line, %s: %s" % (line_num, line))
+                if equal != '=':
+                    sys.exit("This shouldn't appear.Ever.")
+                if not variable in str(options_from_config):
+                    raiseGeneralError("Couldn't find %s in options_from_config list" % variable)
+                else:
+                    if isInt(value):
+                        globals()[variable] = int(value)
+                    elif isFloat(value):
+                        globals()[variable] = float(value)
+                    elif hasComma(value):
+                        ## value has comma in expression
+                        if isEllipse(value):
+                            value = formatCircleData(value)
+                            c_x = float(value[0])
+                            c_y = float(value[1])
+                            c_a = float(value[2])
+                            c_b = float(value[3])
+                        else:
+                            value = formatCircleData(value)
+                            c_x = float(value[0])
+                            c_y = float(value[1])
+                            c_r = float(value[2])
 
-            elif key_word == 'data_file':
-                self.data_file = value
-                init_variables.append(self.data_file)
+                    elif isString(value):
+                        globals()[variable] = str(value)
 
-            elif key_word == 'circle_data':
-                self.circle_data = value
-                init_variables.append(self.circle_data.split(','))
 
-            elif key_word == 'soil_cohesion':
-                self.soil_cohesion = value
-                init_variables.append(self.soil_cohesion)
-
-            elif key_word == 'effective_friction_angle_soil':
-                self.effective_angle = value
-                init_variables.append(self.effective_angle)
-
-            elif key_word == 'bulk_density':
-                self.bulk_density = value
-                init_variables.append(self.bulk_density)
-
-            elif key_word == 'num_of_elements':
-                self.num_of_elements = value
-                init_variables.append(self.num_of_elements)
-
-            elif key_word == 'show_figure':
-                self.show_figure = value
-                init_variables.append(self.show_figure)
-
-            elif key_word == 'save_figure':
-                self.save_figure = value
-                init_variables.append(self.save_figure)
-
-        for variable in init_variables:
-            if variable is None:
-                raise NotImplementedError('Not all variables were set - check config file syntax')
-
-        return self.delimiter, self.data_file, \
-               self.circle_data, self.soil_cohesion, \
-               self.effective_angle, self.bulk_density, \
-               self.num_of_elements, self.show_figure, \
-               self.save_figure
+            line_num += 1
 
     @staticmethod
     def checkCircleData(circle_data):
@@ -214,32 +217,14 @@ class Calculate(object):
         return xy_ellipse
 
 #### set variables from the configuratoin file
-delimter, data_file, \
-circle_data, soil_cohesion, \
-effective_angle, bulk_density,\
-num_of_elements, show_figure, save_figure = FromConfig('config.txt').get_vars()
+ReadConfig('config.txt')
 
-show_figure, save_figure = show_figure.lower(), save_figure.lower()
-num_of_elements = float(num_of_elements)
-bulk_density    = float(bulk_density)
-effective_angle = float(effective_angle)
-angle           = float(effective_angle)
-soil_cohesion   = float(soil_cohesion)
-an_ellipse = FromConfig.checkCircleData(circle_data)
-cr = circle_data.split(',')
-c_x, c_y, c_r, c_a, c_b = None, None, None, None, None
-if not an_ellipse:
-    c_x, c_y, c_r   = float(cr[0]), float(cr[1]), float(cr[2])
-else:
-    c_x, c_y = float(cr[0]), float(cr[1])
-    c_a = float(cr[2].replace('(',''))
-    c_b = float(cr[3].replace(')',''))
-
+effective_angle, angle = effective_friction_angle_soil, effective_friction_angle_soil
 ####
 #
 #
 #### load data from file as numpy array
-data = np.loadtxt(data_file, delimiter=delimter)
+data = np.loadtxt(data_file, delimiter=delimiter)
 ####
 #
 #### Check to see if num_of_elements is lower than actual length of data:

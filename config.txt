@@ -27,7 +27,7 @@ bulk_density = 1760
 num_of_elements = 500
 
 # save_figure = yes/no
-save_figure = no
+save_figure = yes
 
 # show_figure = yes/no
-show_figure = no
+show_figure = yes
