@@ -14,6 +14,21 @@ def calculateFOS(sliced_ep_profile, shapely_circle, bulk_density, soil_cohesion,
         returns a single float number of the calculated factor of safety from the given parameters
     """
     effective_angle = effective_friction_angle
+
+    ### Some checks to see if parameters passed are the right objects ###
+    if sliced_ep_profile.ndim != 2:
+        raiseGeneralError("Numpy array is wrong size, %d, needs to be 2" % sliced_ep_profile.ndim)
+
+    if not isinstance(shapely_circle, LineString):
+        raiseGeneralError("Shapely_circle is somehow not a LineString object")
+
+    if not isInt(bulk_density):
+        raiseGeneralError("Bulk Density is somehow not an integer")
+    if not isInt(soil_cohesion):
+        raiseGeneralError("Bulk Density is somehow not an integer")
+    if not isInt(effective_friction_angle):
+        raiseGeneralError("Bulk Density is somehow not an integer")
+
     ### Perform actual calculation of forces slice-by-slice
     numerator_list = []
     denominator_list = []

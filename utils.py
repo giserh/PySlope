@@ -1,6 +1,7 @@
 import sys
 import numpy as np
 
+
 def contains(character, string):
     equals = 0
     for char in string:
@@ -12,8 +13,11 @@ def contains(character, string):
         return True
 
 
-def raiseGeneralError(*args):
-    sys.exit(*args)
+def raiseGeneralError(arg):
+    with open('err.log', "a") as errlog:
+        errlog.write("Error: %s\n" % arg)
+    sys.exit(arg)
+
 
 def isInt(value):
     try:
@@ -159,3 +163,5 @@ def generateEllipse(c_x,c_y, c_a, c_b):
         xy_ellipse = np.stack((x_coords, y_coords), axis=-1)
 
         return xy_ellipse
+
+
