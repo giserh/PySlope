@@ -24,7 +24,7 @@ effective_friction_angle_soil = 45
 bulk_density = 1760
 
 # num_of_elements = 100
-num_of_elements = 1000
+num_of_elements = 1232
 
 # save_figure = yes/no
 save_figure = no
@@ -37,4 +37,7 @@ show_figure = no
 ## Not required ##
 
 # Verbose Options #
-vslice = 57
+vslice = 100
+
+# Percentage_status = on/off #
+percentage_status = on

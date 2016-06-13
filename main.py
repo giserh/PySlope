@@ -18,6 +18,7 @@ show_figure = ''
 save_figure = ''
 circle_data = ''
 vslice = 0
+percentage_status = ''
 # Circle Data #
 c_x = 0.
 c_y = 0.
@@ -43,6 +44,7 @@ options_from_config = [
         'show_figure',
         'save_figure',
         'vslice',
+        'percentage_status',
     ]
 
 
@@ -181,7 +183,8 @@ results = calculateFOS(
                 bulk_density,
                 soil_cohesion,
                 effective_friction_angle_soil,
-                vslice
+                vslice,
+                percentage_status
             )
 
 print results

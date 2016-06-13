@@ -175,7 +175,13 @@ def slice_array(array2d, intersection_coord_1, intersection_coord_2, num_of_elem
 
 #### FOS Calculations Utils ####
 
-def calculateFOS(sliced_ep_profile, shapely_circle, bulk_density, soil_cohesion, effective_friction_angle, vslice):
+def calculateFOS(sliced_ep_profile,
+                 shapely_circle,
+                 bulk_density,
+                 soil_cohesion,
+                 effective_friction_angle,
+                 vslice,
+                 percentage_status,):
     """
 
     :param sliced_ep_profile: a numpy array of the profile that is in the circle of interest
@@ -189,7 +195,7 @@ def calculateFOS(sliced_ep_profile, shapely_circle, bulk_density, soil_cohesion,
     """
     effective_angle = effective_friction_angle
 
-    ### Some checks to see if parameters passed are the right objects ###
+    ### Some checks to see if parameters passed are the right objects and set correctly ###
     if sliced_ep_profile.ndim != 2:
         raiseGeneralError("Numpy array is wrong size, %d, needs to be 2" % sliced_ep_profile.ndim)
 
@@ -202,10 +208,16 @@ def calculateFOS(sliced_ep_profile, shapely_circle, bulk_density, soil_cohesion,
         raiseGeneralError("Bulk Density is somehow not an integer")
     if not isInt(effective_friction_angle):
         raiseGeneralError("Bulk Density is somehow not an integer")
-
     if vslice <= 0:
         print '\r\n vslice can not be 0 or less: Setting default: 50.\r\n'
         vslice = 50
+    if percentage_status == 'on':
+        percentage_status = True
+    elif percentage_status == 'off':
+        percentage_status = False
+    else:
+        raiseGeneralError("Percentage_status is not configured correctly: percentage_status = %s" % percentage_status)
+
     ### Perform actual calculation of forces slice-by-slice
     numerator_list = []
     denominator_list = []
@@ -268,8 +280,13 @@ def calculateFOS(sliced_ep_profile, shapely_circle, bulk_density, soil_cohesion,
 
                 numerator_list.append(numerator)
                 denominator_list.append(denominator)
+                ps_str = ''
+                if percentage_status:
+                    num_elements = float(sliced_ep_profile.size/2)
+                    perc = (slice /num_elements) * 100
+                    ps_str = " | (%d%%)" % perc
                 if slice % vslice == 0:
-                    print 'Calculating Slice: ' + str(slice)
+                    print 'Calculating Slice: %s %s' % (str(slice), str(ps_str))
                 slice +=1
         except:
             errors +=1
