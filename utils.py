@@ -171,7 +171,19 @@ def slice_array(array2d, intersection_coord_1, intersection_coord_2, num_of_elem
 
         return slice_array2d
 
+
+def display_percentage_status(percentage_status, size, slice):
+    if percentage_status:
+        num_elements = float(size/2)
+        perc = (slice /num_elements) * 100
+
+        return " | (%d%%)" % perc
+    else:
+        return ''
+    
 #### /Formatting Utils ####
+
+
 
 #### FOS Calculations Utils ####
 
@@ -280,13 +292,10 @@ def calculateFOS(sliced_ep_profile,
 
                 numerator_list.append(numerator)
                 denominator_list.append(denominator)
-                ps_str = ''
-                if percentage_status:
-                    num_elements = float(sliced_ep_profile.size/2)
-                    perc = (slice /num_elements) * 100
-                    ps_str = " | (%d%%)" % perc
                 if slice % vslice == 0:
-                    print 'Calculating Slice: %s %s' % (str(slice), str(ps_str))
+                    print 'Calculating Slice: %s %s' % (str(slice), display_percentage_status(percentage_status,
+                                                                                              sliced_ep_profile.size,
+                                                                                              slice))
                 slice +=1
         except:
             errors +=1
@@ -304,3 +313,4 @@ def calculateFOS(sliced_ep_profile,
     f.write(results)
     f.close()
     return results
+
