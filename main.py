@@ -7,7 +7,7 @@ import scipy as sp
 import matplotlib.pyplot as plt
 from utils import *
 
-# Initialize Variables #
+### Initialize Variables ###
 delimiter = ''
 data_file = ''
 soil_cohesion = -1
@@ -17,17 +17,22 @@ effective_friction_angle_soil = -1
 show_figure = ''
 save_figure = ''
 circle_data = ''
-
-### Circle Data ###
+vslice = 0
+# Circle Data #
 c_x = 0.
 c_y = 0.
-## perfect circle ##
+# perfect circle #
 c_r = 0.
-## Ellipse ##
+# Ellipse #
 c_a = 0.
 c_b = 0.
 
+
 options_from_config = [
+        """ Add to list to search for options that
+        should be in the config file
+        """
+
         'delimiter',
         'data_file',
         'circle_data'
@@ -37,6 +42,7 @@ options_from_config = [
         'num_of_elements',
         'show_figure',
         'save_figure',
+        'vslice',
     ]
 
 
@@ -174,7 +180,8 @@ results = calculateFOS(
                 shapely_circle,
                 bulk_density,
                 soil_cohesion,
-                effective_friction_angle_soil
+                effective_friction_angle_soil,
+                vslice
             )
 
 print results

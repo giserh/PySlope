@@ -189,3 +189,11 @@ Will not work.
             This option toggles whether or not you would like the workspace to be saved as an image in your directory
             Default - .tiff
 
+    ##EXTRA OPTIONS##
+            These options does not affect the actual calcuations of the various FOS methods, instead they are more like
+            preferences.
+            
+    vslices = 100
+            This option takes an integer and wraps the different amount of slices calculated into bundles to display 
+            to the terminal. vslices = 100 will display to the terminal when 100 slices has been calculated.. This is
+             a good option to show the progress.

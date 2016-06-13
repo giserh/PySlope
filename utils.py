@@ -15,7 +15,6 @@ def contains(character, string):
     else:
         return True
 
-
 def raiseGeneralError(arg):
     with open('err.log', "a") as errlog:
         errlog.write("Error: %s\n" % arg)
@@ -176,7 +175,7 @@ def slice_array(array2d, intersection_coord_1, intersection_coord_2, num_of_elem
 
 #### FOS Calculations Utils ####
 
-def calculateFOS(sliced_ep_profile, shapely_circle, bulk_density, soil_cohesion, effective_friction_angle):
+def calculateFOS(sliced_ep_profile, shapely_circle, bulk_density, soil_cohesion, effective_friction_angle, vslice):
     """
 
     :param sliced_ep_profile: a numpy array of the profile that is in the circle of interest
@@ -184,6 +183,7 @@ def calculateFOS(sliced_ep_profile, shapely_circle, bulk_density, soil_cohesion,
     :param bulk_density:    an integer for bulk_density of the soil
     :param soil_cohesion:   an integer for soil_cohesion of the soil
     :param effective_friction_angle: an integer in degrees of the effective angle of friction
+    :param vslice: an integer that determines the modulo per batch of slices that should be outputed to the terminal
     :return:
         returns a single float number of the calculated factor of safety from the given parameters
     """
@@ -203,6 +203,9 @@ def calculateFOS(sliced_ep_profile, shapely_circle, bulk_density, soil_cohesion,
     if not isInt(effective_friction_angle):
         raiseGeneralError("Bulk Density is somehow not an integer")
 
+    if vslice <= 0:
+        print '\r\n vslice can not be 0 or less: Setting default: 50.\r\n'
+        vslice = 50
     ### Perform actual calculation of forces slice-by-slice
     numerator_list = []
     denominator_list = []
@@ -265,7 +268,7 @@ def calculateFOS(sliced_ep_profile, shapely_circle, bulk_density, soil_cohesion,
 
                 numerator_list.append(numerator)
                 denominator_list.append(denominator)
-                if slice % 100 == 0:
+                if slice % vslice == 0:
                     print 'Calculating Slice: ' + str(slice)
                 slice +=1
         except:
