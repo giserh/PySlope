@@ -196,4 +196,8 @@ Will not work.
     vslices = 100
             This option takes an integer and wraps the different amount of slices calculated into bundles to display 
             to the terminal. vslices = 100 will display to the terminal when 100 slices has been calculated.. This is
-             a good option to show the progress.
+             a good option to show the progress. Cannot be 0 or a negative.
+             
+    percentage_status = on
+            This option toggles whether or not you will see a percentage of completion with each slice batch that is 
+            completed. This option works jointly with vslices.
