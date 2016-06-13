@@ -6,7 +6,6 @@ import sys, math, itertools
 import scipy as sp
 import matplotlib.pyplot as plt
 from utils import *
-import fos
 
 # Initialize Variables #
 delimiter = ''
@@ -40,7 +39,6 @@ options_from_config = [
         'save_figure',
     ]
 
-"""To this point"""
 
 class ReadConfig(object):
 
@@ -171,15 +169,13 @@ sliced_ep_profile = slice_array(ep_profile, int1, int2, num_of_elements)
 #
 #
 ### Perform actual calculation of forces slice-by-slice
-results = fos.calculateFOS(sliced_ep_profile,
-                 shapely_circle,
-                 bulk_density,
-                 soil_cohesion,
-                 effective_friction_angle_soil)
-
-f = open('results.log', 'w')
-f.write(results)
-f.close()
+results = calculateFOS(
+                sliced_ep_profile,
+                shapely_circle,
+                bulk_density,
+                soil_cohesion,
+                effective_friction_angle_soil
+            )
 
 print results
 
