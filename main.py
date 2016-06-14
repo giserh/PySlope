@@ -6,6 +6,7 @@ import sys, math, itertools
 import scipy as sp
 import matplotlib.pyplot as plt
 from utils import *
+from fos import *
 
 ### Initialize Variables ###
 delimiter = ''
@@ -19,6 +20,7 @@ save_figure = ''
 circle_data = ''
 vslice = 0
 percentage_status = ''
+FOS = 0
 # Circle Data #
 c_x = 0.
 c_y = 0.
@@ -45,6 +47,7 @@ options_from_config = [
         'save_figure',
         'vslice',
         'percentage_status',
+        'FOS'
     ]
 
 
@@ -102,7 +105,6 @@ class ReadConfig(object):
 
 
             line_num += 1
-
 
 #### set variables from the configuratoin file
 ReadConfig('config.txt')
@@ -177,7 +179,7 @@ sliced_ep_profile = slice_array(ep_profile, int1, int2, num_of_elements)
 #
 #
 ### Perform actual calculation of forces slice-by-slice
-results = calculateFOS(
+results = FOS_Method_Slices(
                 sliced_ep_profile,
                 shapely_circle,
                 bulk_density,

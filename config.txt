@@ -3,6 +3,14 @@
 #######################################
 # Reading From Elevation File Options##
 #######################################
+
+# FOS Calculation Options  #
+#==========================#
+# 1) method_of_slices      #
+#==========================#
+## Factor of safety Method ##
+FOS = 1
+
 # delimiter = ,
 delimiter = ,
 
@@ -24,7 +32,7 @@ effective_friction_angle_soil = 45
 bulk_density = 1760
 
 # num_of_elements = 100
-num_of_elements = 1232
+num_of_elements = 100
 
 # save_figure = yes/no
 save_figure = no
@@ -37,7 +45,9 @@ show_figure = no
 ## Not required ##
 
 # Verbose Options #
-vslice = 100
+vslice = 5
 
 # Percentage_status = on/off #
 percentage_status = on
+
+
