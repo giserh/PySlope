@@ -3,8 +3,13 @@ import numpy as np
 from utils import *
 from shapely.geometry import LineString, Point, Polygon
 
-
 #### Basic Utils ####
+
+def verb(v, string):
+    if v:
+        print '-> %s' % string
+
+
 def contains(character, string):
     equals = 0
     for char in string:
@@ -78,7 +83,7 @@ def generateEllipse(c_x,c_y, c_a, c_b):
         return xy_ellipse
 #### /Geometry Utils ####
 
-#### Formatting Utils ####
+#### Data Formatting Utils ####
 def formatCircleData(coordinates):
     results = []
 
@@ -184,8 +189,6 @@ def display_percentage_status(percentage_status, size, slice):
 #### /Formatting Utils ####
 
 
-
-#### FOS Calculations Utils ####
 
 
 

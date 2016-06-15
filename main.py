@@ -21,6 +21,7 @@ circle_data = ''
 vslice = 0
 percentage_status = ''
 FOS = 0
+verbose = ''
 # Circle Data #
 c_x = 0.
 c_y = 0.
@@ -47,7 +48,8 @@ options_from_config = [
         'save_figure',
         'vslice',
         'percentage_status',
-        'FOS'
+        'FOS',
+        'verbose'
     ]
 
 
@@ -108,16 +110,19 @@ class ReadConfig(object):
 
 #### set variables from the configuratoin file
 ReadConfig('config.txt')
-
+verbose = True if verbose == 'yes' else False
 effective_angle, angle = effective_friction_angle_soil, effective_friction_angle_soil
 ####
 #
 #
 #### load data from file as numpy array
+verb(verbose, 'Load data from file as numpy array.')
+
 data = np.loadtxt(data_file, delimiter=delimiter)
 ####
 #
 #### Check to see if num_of_elements is lower than actual length of data:
+verb(verbose, 'Check to see if num_of_elements is lower than actual length of data.')
 if num_of_elements < len(data):
     print "Error: You can't have num_of_elements set lower to your total amount of data points" \
           "\n\nTotal Data Points: %s" \
@@ -125,15 +130,18 @@ if num_of_elements < len(data):
     sys.exit()
 #
 ## create shapely circle with circle data
+verb(verbose, 'Creating Shapely circle with circle data.')
 #shapely_circle = Point(c_x, c_y).buffer(c_r).boundary
 
 try:
+    verb(verbose, 'Trying to generate ellipse')
     if c_x is not None or c_y is not None or c_b is not None or c_a is not None:
         ellipse = generateEllipse(c_x, c_y, c_a, c_b)
         shapely_circle = LineString(ellipse)
     else:
         sys.exit("Error: c_x, c_y, c_a, c_b not set.. Report bug")
 except:
+    verb(verbose, 'Ellipse failed: Reverting to perfect circle.')
     if c_x is not None or c_y is not None or c_r is not None:
         shapely_circle = Point(c_x, c_y).buffer(c_r).boundary
     else:
@@ -141,6 +149,7 @@ except:
 #
 #
 ## create shapely line with elevation profile
+verb(verbose, 'Creating Shapely line with elevation profile.')
 shapely_elevation_profile = LineString(data)
 intersection_coordinates = list(shapely_circle.intersection(shapely_elevation_profile).bounds)
 #
@@ -155,7 +164,7 @@ if len(intersection_coordinates) != 4:
     print "Error: Found more/less than two intersection coordinates\nNumber of intersections: %s" % \
           str(len(intersection_coordinates))
     sys.exit()
-
+verb(verbose, 'Isolating section of profile: Length of element is correct.')
 int1, int2 = (intersection_coordinates[0], intersection_coordinates[1]), (intersection_coordinates[2],
                                                                           intersection_coordinates[3])
 #
@@ -164,21 +173,27 @@ int1, int2 = (intersection_coordinates[0], intersection_coordinates[1]), (inters
 if int1 == int2:
     print "Error: Circle only intersects the profile in one place - please readjust circle coordinates in config file"
     sys.exit()
+verb(verbose, 'Cross-checking intersection coordinates.')
 
+verb(verbose, 'Converting circle/ellipse coordinates into Numpy Array.')
 circle_coordinates = np.array(list(shapely_circle.coords))
+verb(verbose, 'Converting profile coordinates into Numpy Array.')
 elevation_profile = np.array(list(shapely_elevation_profile.coords))
+
 #plt.scatter(circle_coordinates[:,0], circle_coordinates[:,1], color='red')
 #plt.scatter(elevation_profile[:,0], elevation_profile[:,1])
 #plt.show()
 #
 #
 # Create sliced array with boundaries from ep_profile
+verb(verbose, 'Creating Numpy array of sliced profile bounded within circle.')
 ep_profile = arraylinspace2d(elevation_profile, num_of_elements)
 sliced_ep_profile = slice_array(ep_profile, int1, int2, num_of_elements)
 #
 #
 #
 ### Perform actual calculation of forces slice-by-slice
+verb(verbose, 'Performing actual FOS calculation')
 results = FOS_Method_Slices(
                 sliced_ep_profile,
                 shapely_circle,
@@ -197,8 +212,10 @@ plt.scatter(sliced_ep_profile[:,0], sliced_ep_profile[:,1], color='green')
 
 
 if save_figure == 'yes':
+    verb('Saving result to figure.')
     plt.savefig('slope_profile.tif')
 
 if show_figure == 'yes':
+    verb('Show figure: True.')
     plt.show()
 
