@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 
+import numpy as np
+from shapely.geometry import LineString, Point, Polygon
+import sys, math, itertools
+import scipy as sp
 import matplotlib.pyplot as plt
-
-import sys
+from utils import *
 from fos import *
 
-
-    ### Initialize Variables ###
+### Initialize Variables ###
 delimiter = ''
 data_file = ''
 soil_cohesion = -1
@@ -107,7 +109,7 @@ class ReadConfig(object):
             line_num += 1
 
 #### set variables from the configuratoin file
-ReadConfig('config.txt')
+ReadConfig('../config.txt')
 verbose = True if verbose == 'yes' else False
 effective_angle, angle = effective_friction_angle_soil, effective_friction_angle_soil
 ####
@@ -116,7 +118,7 @@ effective_angle, angle = effective_friction_angle_soil, effective_friction_angle
 #### load data from file as numpy array
 verb(verbose, 'Load data from file as numpy array.')
 
-data = np.loadtxt(data_file, delimiter=delimiter)
+data = np.loadtxt(("../" + data_file), delimiter=delimiter)
 ####
 #
 #### Check to see if num_of_elements is lower than actual length of data:
