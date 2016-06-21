@@ -81,8 +81,9 @@ for more help on the syntax
 
 		./ss --help
 
-This program only runs on Python 2.7 - sorry Python 3 users... 
-     
+This program only runs on Python 2.7 - sorry Python 3 users...
+
+
 ###How does it work?###
 
 Given some basic configuration options the program reads in the configuration file and data from an ambiguous
