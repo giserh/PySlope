@@ -7,7 +7,7 @@ profile of a slope the program works out the Factor of Saftey of the slope depen
 intersects with the elevational profile. So far it only uses the ordinary method of slices to obtain the results by 
 following this [equation](http://www.HostMath.com/Show.aspx?Code=%5Cfrac%7B%5Csum%7Bc_il_i%20%2B%20(w_icosa_i%20-%20u_il_i)tan%5Cphi%5E%5Cprime%7D%7D%7B%5Csum%7Bwsina%7D%7D)
 
-This program is intended to anyone who is interested in doing slope stability analysis.
+This program is intended for anyone who is interested in doing slope stability analysis.
 
 ###What do I need for this program to work?###
 
@@ -17,7 +17,7 @@ This program is intended to anyone who is interested in doing slope stability an
    * Scipy
    * Shapely
    * matplotlib
-   
+   * click
    
    Super Easy Way:
    
@@ -25,6 +25,10 @@ This program is intended to anyone who is interested in doing slope stability an
    This is a brilliant option for scientists who use programming because it comes with pretty much every module you 
    will ever need including the ones required by this program. Highly recommended and great tutorials on how to set 
    that up on your machine - windows/OSX/Linux
+
+    -> Conda does not include Click - you must manually download it<-
+
+    	conda install click
    
    
    Medium Way:
@@ -33,6 +37,8 @@ This program is intended to anyone who is interested in doing slope stability an
    Then it is as simple as:
         
         brew install numpy scipy matplotlib shapely
+
+        -> Click is not availble on brew <-
    
    If you have anything else [pip](https://pip.pypa.io/en/stable/installing/) (which you can test by 
    typing 'pip' in your terminal
@@ -42,10 +48,11 @@ This program is intended to anyone who is interested in doing slope stability an
    
    Then you can happily go and install the modules by:
    
-        pip install scipy
-        pip install numpy
-        pip install shapely
-        pip install matplotlib
+        sudo pip install scipy
+        sudo pip install numpy
+        sudo pip install shapely
+        sudo pip install matplotlib
+        sudo pip install click
         
    For windows users - you are out of luck for any of my help. I am not a windows guy nor will I ever be. There are a
     few tutorials online that allow you to install python and the modules itself. If you realized your major mistake 
@@ -56,16 +63,23 @@ This program is intended to anyone who is interested in doing slope stability an
    Hard Way:
    
    You can physically go to the homepages of each of the modules and install and compile them yourself. However this 
-   is not recommended because you would have to make sure that the modules reside in your PYTHONPATH - I don't 
+   is not recommended because you would have to make sure that the modules reside in your PYTHONPATH - NOT
    recommend.
+
+
         
 ### How to use it ###
 
-Edit the config.txt file with the parameters you choose. For a step-by-step guide to what each config option does 
-read on down below under the section 'Configuration File Explained' Once you have everything you need make sure your 
-datafile, config.txt, and main.py is in the same directory. Run the program in your terminal:
+The program works in two ways - configuring the config.txt (or similiar) and using the command line to execute the
+different commands. Editing the config.txt file with the parameters you choose. For a step-by-step guide to what each
+config option does read on down below under the section 'Configuration File Explained' Once you have everything you need
+make sure your datafile and config.txt are in the same directory. Run the program in your terminal:
 
-python main.py
+        ./ss -fos=[general|bishop] [config_file] [data_file]
+
+for more help on the syntax
+
+		./ss --help
 
 This program only runs on Python 2.7 - sorry Python 3 users... 
      
@@ -141,9 +155,6 @@ So:
     delimiter = ',()':
 
 Will not work.
-
-    data_file = slope_profile.elev
-            This option is simple.. just type in the file name of your raw data.. without any quotes.
 
     circle_data = 0,0,3 (x,y, radius) or 0,0,(1,2) - (x,y,(a,b))
             Pay attention to the syntax here. The program allows you to set your circle_data to be either a perfect 
