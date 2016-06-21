@@ -1,7 +1,8 @@
-import sys
 import numpy as np
-from utils import *
 from shapely.geometry import LineString, Point, Polygon
+
+from src.utils import *
+
 
 def FOS_Method_Slices(sliced_ep_profile,
                  shapely_circle,

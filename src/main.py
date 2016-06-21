@@ -1,14 +1,12 @@
-    #!/usr/bin/env python
+#!/usr/bin/env python
 
-import numpy as np
-from shapely.geometry import LineString, Point, Polygon
-import sys, math, itertools
-import scipy as sp
 import matplotlib.pyplot as plt
-from utils import *
+
+import sys
 from fos import *
 
-### Initialize Variables ###
+
+    ### Initialize Variables ###
 delimiter = ''
 data_file = ''
 soil_cohesion = -1

@@ -1,7 +1,5 @@
 import sys
-import numpy as np
-from utils import *
-from shapely.geometry import LineString, Point, Polygon
+from src.utils import *
 
 #### Basic Utils ####
 
