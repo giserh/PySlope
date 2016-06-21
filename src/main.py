@@ -114,7 +114,7 @@ def fos(fos, config_file, data_file):
         num_of_elements, show_figure, save_figure, vslice, \
         percentage_status
 
-    
+
     ReadConfig(config_file)
 
     verbose = True if verbose == 'yes' else False

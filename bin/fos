@@ -9,19 +9,21 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
 
 import src.main
 
+projdir = os.path.dirname(os.path.abspath(__file__)) + "/../"
+
 @click.command()
 @click.option('-m', type=click.Choice(['general', 'bishop']), help="Calculates Factor of Saftey.")
 @click.argument('config')
 @click.argument('data')
-def start(m, config, data):
+def fos(m, config, data):
     """
     Usage:
 
     fos -m[general|bishop] [config_file] [data_file]
     """
-    config = "../" + config
-    data = "../" + data
+    config = projdir + config
+    data = projdir + data
     src.main.fos(m, config, data)
 
 if __name__ == '__main__':
-    start()
+    fos()
