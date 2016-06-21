@@ -1,15 +1,18 @@
 #!/usr/bin/env python
 
-import click, sys
+import click
 
-sys.path.append("..")
+import sys
+import os.path
+# Import from sibling directory ..\api
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
+
 import src.main
 
 @click.command()
 @click.option('-m', type=click.Choice(['general', 'bishop']), help="Calculates Factor of Saftey.")
 @click.argument('config')
 @click.argument('data')
-
 def start(m, config, data):
     """
     Usage:
