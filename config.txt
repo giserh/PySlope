@@ -8,14 +8,12 @@
 #==========================#
 # 1) method_of_slices      #
 #==========================#
-## Factor of safety Method ##
-FOS = 1
 
 # delimiter = ,
-delimiter = ,
+delimit = ,
 
 # data_file = slope_profile.elev
-data_file = slope_profile.elev
+#data_file = slope_profile.elev
 
 # circle_data = 0,0,3 (x,y, radius) - meters
 # To use an ellipse instead -

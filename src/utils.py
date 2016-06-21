@@ -187,8 +187,3 @@ def display_percentage_status(percentage_status, size, slice):
         return ''
 
 #### /Formatting Utils ####
-
-
-
-
-
