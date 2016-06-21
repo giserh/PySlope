@@ -114,7 +114,10 @@ def fos(fos, config_file, data_file):
         num_of_elements, show_figure, save_figure, vslice, \
         percentage_status
 
+    print config_file
+    sys.exit()
     ReadConfig(config_file)
+
     verbose = True if verbose == 'yes' else False
     effective_angle, angle = effective_friction_angle_soil, effective_friction_angle_soil
     ####

@@ -17,8 +17,10 @@ def start(m, config, data):
     """
     Usage:
 
-    fos -m=[general|bishop] [config_file] [data_file]
+    fos -m[general|bishop] [config_file] [data_file]
     """
+    config = "../" + config
+    data = "../" + data
     src.main.fos(m, config, data)
 
 if __name__ == '__main__':
