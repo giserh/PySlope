@@ -13,17 +13,17 @@ curdir = os.getcwd() + '/'
 
 @click.command()
 @click.option('-m', type=click.Choice(['general', 'bishop']), help="Calculates Factor of Saftey.")
-@click.argument('config')
-@click.argument('data')
-def fos(m, config, data):
+@click.argument('config_file')
+@click.argument('data_file')
+def fos(m, config_file, data_file):
     """
     Usage:
 
     fos -m[general|bishop] [config_file] [data_file]
     """
-    config = curdir + config
-    data = curdir + data
-    src.main.fos(m, config, data)
+    config = curdir + config_file
+    data = curdir + data_file
+    src.main.fos(m, config_file, data_file)
 
 if __name__ == '__main__':
     fos()
