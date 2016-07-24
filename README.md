@@ -77,6 +77,11 @@ config option does read on down below under the section 'Configuration File Expl
 make sure your **datafile** and **config.txt** are in the same directory. Make sure to point your shell path to the /bin/
 and run the commands as follows:
 
+* Note for now everytime you pull a new copy of this project you have to physically make /bin/fos executable in order
+for it to work properly simply 
+        
+        chmod +x where_you_put_the_project/bin/fos
+
 ####fos - factor of safety####
 
         Usage: fos [OPTIONS] CONFIG_FILE DATA_FILE
