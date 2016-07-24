@@ -19,6 +19,7 @@ This program is intended for anyone who is interested in doing slope stability a
    * matplotlib
    * click
    
+   
    Super Easy Way:
    
    Download the complete python package called: [Anaconda](https://www.continuum.io/downloads)
@@ -73,15 +74,25 @@ This program is intended for anyone who is interested in doing slope stability a
 The program works in two ways - configuring the config.txt (or similiar) and using the command line to execute the
 different commands. Editing the config.txt file with the parameters you choose. For a step-by-step guide to what each
 config option does read on down below under the section 'Configuration File Explained' Once you have everything you need
-make sure your datafile and config.txt are in the same directory. Run the program in your terminal:
+make sure your **datafile** and **config.txt** are in the same directory. Make sure to point your shell path to the /bin/
+and run the commands as follows:
 
-        ./ss -fos=[general|bishop] [config_file] [data_file]
+####fos - factor of safety####
 
-for more help on the syntax
+        Usage: fos [OPTIONS] CONFIG_FILE DATA_FILE
 
-		./ss --help
+        Usage:
 
-This program only runs on Python 2.7 - sorry Python 3 users...
+            fos -m[general|bishop] [config_file] [data_file]
+
+        Options:
+            -m [general|bishop]  Specifies Slope Stability Method.
+            --help               Show this message and exit.
+
+		
+
+
+This program only runs on Python 2.7x
 
 
 ###How does it work?###
