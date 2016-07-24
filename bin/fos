@@ -12,7 +12,7 @@ import src.main
 curdir = os.getcwd() + '/'
 
 @click.command()
-@click.option('-m', type=click.Choice(['general', 'bishop']), help="Calculates Factor of Saftey.")
+@click.option('-m', type=click.Choice(['general', 'bishop']), help="Specifies Slope Stability Method.")
 @click.argument('config_file')
 @click.argument('data_file')
 def fos(m, config_file, data_file):
