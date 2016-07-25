@@ -217,7 +217,15 @@ def fos(fos, config_file, data_file):
                                     verbose)
 
     elif fos == 'bishop':
-        print 'performing bishop method'
+        results = FOS_Bishop(sliced_ep_profile,
+                                    shapely_circle,
+                                    bulk_density,
+                                    soil_cohesion,
+                                    effective_friction_angle,
+                                    vslice,
+                                    percentage_status,
+                                    water_pore_pressure,
+                                    verbose)
 
     else:
         raiseGeneralError("Method: %s didn't execute" % fos)

@@ -162,7 +162,9 @@ def FOS_Bishop(  sliced_ep_profile,
                  soil_cohesion,
                  effective_friction_angle,
                  vslice,
-                 percentage_status,):
+                 percentage_status,
+                 water_pore_pressure,
+                 verbose):
     """
 
     :param sliced_ep_profile: a numpy array of the profile that is in the circle of interest
@@ -174,4 +176,5 @@ def FOS_Bishop(  sliced_ep_profile,
     :return:
         returns a single float number of the calculated factor of safety from the given parameters
     """
+    print 'doing the bishop dance..'
 #### /Bishop Method ####
