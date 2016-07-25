@@ -61,8 +61,6 @@ def printslice(slice, vslice, percentage_status, sliced_ep_profile):
         print 'Calculating Slice: %s %s' % (str(slice), display_percentage_status(  percentage_status,
                                                                                     sliced_ep_profile.size,
                                                                                     slice))
-        slice += 1
-        return slice
 
 #### /Basic Utils ####
 
@@ -198,17 +196,31 @@ def display_percentage_status(percentage_status, size, slice):
 
 
 #### Calculation Utils ####
-def FOS_calc_general(water_pore_pressure, mg, degree, effective_angle, cohesion, length):
-    denominator  = mg * np.sin(degree)
+def FOS_calc(method, water_pore_pressure, mg, degree, effective_angle, cohesion, length):
+    if method == 'general':
+        denominator  = mg * np.sin(degree)
+        if water_pore_pressure == 0:
+            numerator = (mg*np.cos(degree))*np.tan(effective_angle) + (cohesion*length)
 
-    if water_pore_pressure == 0:
-        numerator = (mg*np.cos(degree))*np.tan(effective_angle) + (cohesion*length)
-    elif water_pore_pressure > 0:
-        numerator = cohesion*length + (mg*np.cos(degree)-water_pore_pressure*length)*np.tan(effective_angle)
-    else:
-        raiseGeneralError("water_pore_pressure is a negative number!!!: %s" % water_pore_pressure)
+        elif water_pore_pressure > 0:
+            numerator = (cohesion*length + (mg*np.cos(degree) - water_pore_pressure * length * np.cos(degree)) *
+                         np.tan(effective_angle))
+            numerator = (numerator / np.cos(degree) + (np.sin(degree)*np.tan(effective_angle) / 1.2))
+        else:
+            raiseGeneralError("water_pore_pressure is a negative number!!!: %s" % water_pore_pressure)
 
-    return numerator, denominator
+        return numerator, denominator
+    elif method == 'bishop':
+        denominator  = mg * np.sin(degree)
+        if water_pore_pressure == 0:
+            numerator = (mg*np.cos(degree))*np.tan(effective_angle) + (cohesion*length)
+        elif water_pore_pressure > 0:
+            numerator = cohesion*length + (mg*np.cos(degree)-water_pore_pressure*length)*np.tan(effective_angle)
+        else:
+            raiseGeneralError("water_pore_pressure is a negative number!!!: %s" % water_pore_pressure)
+
+        return numerator, denominator
+
 
 
 def isolate_slice(index,

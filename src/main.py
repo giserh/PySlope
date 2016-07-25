@@ -206,26 +206,28 @@ def fos(fos, config_file, data_file):
 
     results = ''
     if fos == 'general':
-        results = FOS_Method_Slices(sliced_ep_profile,
-                                    shapely_circle,
-                                    bulk_density,
-                                    soil_cohesion,
-                                    effective_friction_angle,
-                                    vslice,
-                                    percentage_status,
-                                    water_pore_pressure,
-                                    verbose)
+        results = FOS_Method( fos,
+                                     sliced_ep_profile,
+                                     shapely_circle,
+                                     bulk_density,
+                                     soil_cohesion,
+                                     effective_friction_angle,
+                                     vslice,
+                                     percentage_status,
+                                     water_pore_pressure,
+                                     verbose)
 
     elif fos == 'bishop':
-        results = FOS_Bishop(sliced_ep_profile,
-                                    shapely_circle,
-                                    bulk_density,
-                                    soil_cohesion,
-                                    effective_friction_angle,
-                                    vslice,
-                                    percentage_status,
-                                    water_pore_pressure,
-                                    verbose)
+        results = FOS_Method(fos,
+                             sliced_ep_profile,
+                             shapely_circle,
+                             bulk_density,
+                             soil_cohesion,
+                             effective_friction_angle,
+                             vslice,
+                             percentage_status,
+                             water_pore_pressure,
+                             verbose)
 
     else:
         raiseGeneralError("Method: %s didn't execute" % fos)
