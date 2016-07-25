@@ -213,6 +213,7 @@ def fos(fos, config_file, data_file):
                                     effective_friction_angle,
                                     vslice,
                                     percentage_status,
+                                    water_pore_pressure,
                                     verbose)
 
     elif fos == 'bishop':
