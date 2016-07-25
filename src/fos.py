@@ -5,7 +5,7 @@ from shapely.geometry import LineString, Point, Polygon
 
 
 
-#### Bishop Method ####
+#### Different FOS Methods ####
 def FOS_Method( method,
                 sliced_ep_profile,
                  shapely_circle,
@@ -79,10 +79,8 @@ def FOS_Method( method,
                                                          soil_cohesion)
             # calculate the Factor of Safety:
             effective_angle = degree2rad(effective_angle)
-            # calculate the Factor of Safety:
-            # PRESSURE
-            effective_angle = degree2rad(effective_angle)
 
+            # Calculate numerator and denominator of individual slice based on method
             numerator, denominator = FOS_calc(method,
                                               water_pore_pressure,
                                               mg,
@@ -104,11 +102,14 @@ def FOS_Method( method,
         except:
             errors +=1
 
-
+    # convert calculated lists into numpy arrays
     numerator_list, denominator_list = np.array(numerator_list), np.array(denominator_list)
     errors =  "\nTotal number of errors encountered: " + str(errors)
+
+    # calculate actual FOS from lists
     factor_of_safety = numerator_list.sum()/ denominator_list.sum()
 
+    # Finish up with some statistics
     results = errors + '\n\nCohesion: %d\nEffective Friction Angle: %d\nBulk Density: %d\nNumber of slices ' \
                        'calculated: %d\nWater Pore Pressure: %d\n\nFactor of Safety: ' % (
         soil_cohesion, effective_friction_angle, bulk_density, slice, water_pore_pressure) + str(factor_of_safety)
