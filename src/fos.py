@@ -3,6 +3,8 @@ import numpy as np
 from utils import *
 from shapely.geometry import LineString, Point, Polygon
 
+
+#### Method of Slices ####
 def FOS_Method_Slices(sliced_ep_profile,
                  shapely_circle,
                  bulk_density,
@@ -129,3 +131,26 @@ def FOS_Method_Slices(sliced_ep_profile,
     f.write(results)
     f.close()
     return results
+#### /Method of Slices ####
+
+
+#### Bishop Method ####
+def FOS_Bishop(  sliced_ep_profile,
+                 shapely_circle,
+                 bulk_density,
+                 soil_cohesion,
+                 effective_friction_angle,
+                 vslice,
+                 percentage_status,):
+    """
+
+    :param sliced_ep_profile: a numpy array of the profile that is in the circle of interest
+    :param shapely_circle:  a shapely object linestring that has the coorindates of the circle/ellipse
+    :param bulk_density:    an integer for bulk_density of the soil
+    :param soil_cohesion:   an integer for soil_cohesion of the soil
+    :param effective_friction_angle: an integer in degrees of the effective angle of friction
+    :param vslice: an integer that determines the modulo per batch of slices that should be outputed to the terminal
+    :return:
+        returns a single float number of the calculated factor of safety from the given parameters
+    """
+#### /Bishop Method ####

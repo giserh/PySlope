@@ -228,10 +228,10 @@ def fos(fos, config_file, data_file):
 
 
     if save_figure == 'yes':
-        verb('Saving result to figure.')
+        verb(verbose, 'Saving result to figure.')
         plt.savefig('slope_profile.tif')
 
     if show_figure == 'yes':
-        verb('Show figure: True.')
+        verb(verbose, 'Show figure: True.')
         plt.show()
 
