@@ -11,7 +11,7 @@ def FOS_Method_Slices(sliced_ep_profile,
                  soil_cohesion,
                  effective_friction_angle,
                  vslice,
-                 percentage_status,):
+                 percentage_status, water_pore_pressure=0):
     """
 
     :param sliced_ep_profile: a numpy array of the profile that is in the circle of interest
@@ -102,12 +102,16 @@ def FOS_Method_Slices(sliced_ep_profile,
                 mg = area* bulk_density
                 cohesion = soil_cohesion
                 # calculate the Factor of Safety:
-                #numerator = cohesion*length + (mg*np.cos(degree)-u*length)*np.tan(effective_angle) NOT INCLUDE WATER PORE
                 # PRESSURE
                 effective_angle = degree2rad(effective_angle)
-                numerator = (mg*np.cos(degree))*np.tan(effective_angle) + (cohesion*length)
-                denominator  = mg * np.sin(degree)
+                if water_pore_pressure == 0:
+                    numerator = (mg*np.cos(degree))*np.tan(effective_angle) + (cohesion*length)
+                elif water_pore_pressure > 0:
+                    numerator = cohesion*length + (mg*np.cos(degree)-water_pore_pressure*length)*np.tan(effective_angle)
+                else:
+                    raiseGeneralError("water_pore_pressure is a negative number!!!: %s", water_pore_pressure)
 
+                denominator  = mg * np.sin(degree)
                 numerator_list.append(numerator)
                 denominator_list.append(denominator)
                 if slice % vslice == 0:
