@@ -84,6 +84,9 @@ def FOS_Method_Slices(sliced_ep_profile,
             denominator_list.append(denominator)
 
             printslice(slice, vslice, percentage_status, sliced_ep_profile)
+
+            slice += 1
+            
         except:
             errors +=1
 
