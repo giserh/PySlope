@@ -57,10 +57,13 @@ def degree2rad(degree):
     return degree * np.pi /180.
 
 def printslice(slice, vslice, percentage_status, sliced_ep_profile):
-    if slice % vslice == 0:
-        print 'Calculating Slice: %s %s' % (str(slice), display_percentage_status(  percentage_status,
-                                                                                    sliced_ep_profile.size,
-                                                                                    slice))
+    try:
+        if slice % vslice == 0:
+            print 'Calculating Slice: %s %s' % (str(slice), display_percentage_status(  percentage_status,
+                                                                                        sliced_ep_profile.size,
+                                                                                        slice))
+    except:
+        pass
 
 #### /Basic Utils ####
 
