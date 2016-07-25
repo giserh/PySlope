@@ -3,6 +3,58 @@ import numpy as np
 from utils import *
 from shapely.geometry import LineString, Point, Polygon
 
+def isolate_slice(index,
+                  sliced_ep_profile,
+                  shapely_circle,
+                  bulk_density,
+                  soil_cohesion):
+    buff = 10**100
+    current, next = sliced_ep_profile[index], sliced_ep_profile[index+1]
+
+    # create ambiguous line to be used for intersection calculation
+    tempL_line = LineString([current, (current[0], current[1]-buff)])
+
+    # find the intersection coord with the fake line and the arc
+    intsec_arc1 =  shapely_circle.intersection(tempL_line)
+
+    # create ambiguous line to be used for intersection calculation
+    tempR_line = LineString([next, (next[0], next[1]-buff)])
+
+    # find the intersection coord with the fake right line and the arc
+    intsec_arc2 = shapely_circle.intersection((tempR_line))
+
+    # create actual polygon using the dimensions if and only if boundaries are set
+    if not intsec_arc1.is_empty and not intsec_arc2.is_empty:
+        # try to get the angle of the slope using trignometry
+
+        int1_x, in1t_y = intsec_arc1.bounds[0], intsec_arc1.bounds[1]
+        int2_x, in2t_y = intsec_arc2.bounds[2], intsec_arc2.bounds[3]
+        hypotenuse = LineString([(int1_x, in1t_y), (int2_x, in2t_y)]).length
+
+        tempH_line = LineString([(int2_x, in2t_y), (int2_x-buff, in2t_y)])
+
+        temp_coor = tempL_line.intersection(tempH_line)
+        base = LineString([temp_coor, (int2_x, in2t_y)]).length
+        length = LineString([(int1_x, in1t_y), (int2_x, in2t_y)]).length
+
+        degree = np.arccos(base/hypotenuse)
+        # For explanation on this piece of code:
+        # https://github.com/Toblerity/Shapely/issues/21
+        # Points and Coordinates are different things in Shapely
+        # You have to work around that to use Points to construct
+        # a Polygon
+        curr, nx = Point(current), Point(next)
+        int1, int2 = Point(int1_x, in1t_y), Point(int2_x, in2t_y)
+        points = [int1, curr, nx, int2]
+        coords = sum(map(list, (p.coords for p in points)), [])
+        polygon = Polygon(coords)
+        #
+        # find the area of the polygon
+        area = polygon.area
+        # Find the weight of the slab:
+        mg = area* bulk_density
+        cohesion = soil_cohesion
+        return length, degree, mg, cohesion
 
 #### Method of Slices ####
 def FOS_Method_Slices(sliced_ep_profile,
@@ -72,70 +124,28 @@ def FOS_Method_Slices(sliced_ep_profile,
     slice = 1
     for index in range(len(sliced_ep_profile)-1):
         try:
-            buff = 10**100
-            current, next = sliced_ep_profile[index], sliced_ep_profile[index+1]
+            ### HERE###
+            length, degree, mg, cohesion = isolate_slice(index, sliced_ep_profile, shapely_circle, bulk_density,
+                                                         soil_cohesion)
 
-            # create ambiguous line to be used for intersection calculation
-            tempL_line = LineString([current, (current[0], current[1]-buff)])
+            # calculate the Factor of Safety:
+            # PRESSURE
+            effective_angle = degree2rad(effective_angle)
+            if water_pore_pressure == 0:
+                numerator = (mg*np.cos(degree))*np.tan(effective_angle) + (cohesion*length)
+            elif water_pore_pressure > 0:
+                numerator = cohesion*length + (mg*np.cos(degree)-water_pore_pressure*length)*np.tan(effective_angle)
+            else:
+                raiseGeneralError("water_pore_pressure is a negative number!!!: %s" % water_pore_pressure)
 
-            # find the intersection coord with the fake line and the arc
-            intsec_arc1 =  shapely_circle.intersection(tempL_line)
-
-            # create ambiguous line to be used for intersection calculation
-            tempR_line = LineString([next, (next[0], next[1]-buff)])
-
-            # find the intersection coord with the fake right line and the arc
-            intsec_arc2 = shapely_circle.intersection((tempR_line))
-
-            # create actual polygon using the dimensions if and only if boundaries are set
-            if not intsec_arc1.is_empty and not intsec_arc2.is_empty:
-                # try to get the angle of the slope using trignometry
-
-                int1_x, in1t_y = intsec_arc1.bounds[0], intsec_arc1.bounds[1]
-                int2_x, in2t_y = intsec_arc2.bounds[2], intsec_arc2.bounds[3]
-                hypotenuse = LineString([(int1_x, in1t_y), (int2_x, in2t_y)]).length
-
-                tempH_line = LineString([(int2_x, in2t_y), (int2_x-buff, in2t_y)])
-
-                temp_coor = tempL_line.intersection(tempH_line)
-                base = LineString([temp_coor, (int2_x, in2t_y)]).length
-                length = LineString([(int1_x, in1t_y), (int2_x, in2t_y)]).length
-
-                degree = np.arccos(base/hypotenuse)
-                # For explanation on this piece of code:
-                # https://github.com/Toblerity/Shapely/issues/21
-                # Points and Coordinates are different things in Shapely
-                # You have to work around that to use Points to construct
-                # a Polygon
-                curr, nx = Point(current), Point(next)
-                int1, int2 = Point(int1_x, in1t_y), Point(int2_x, in2t_y)
-                points = [int1, curr, nx, int2]
-                coords = sum(map(list, (p.coords for p in points)), [])
-                polygon = Polygon(coords)
-                #
-                # find the area of the polygon
-                area = polygon.area
-                # Find the weight of the slab:
-                mg = area* bulk_density
-                cohesion = soil_cohesion
-                # calculate the Factor of Safety:
-                # PRESSURE
-                effective_angle = degree2rad(effective_angle)
-                if water_pore_pressure == 0:
-                    numerator = (mg*np.cos(degree))*np.tan(effective_angle) + (cohesion*length)
-                elif water_pore_pressure > 0:
-                    numerator = cohesion*length + (mg*np.cos(degree)-water_pore_pressure*length)*np.tan(effective_angle)
-                else:
-                    raiseGeneralError("water_pore_pressure is a negative number!!!: %s" % water_pore_pressure)
-
-                denominator  = mg * np.sin(degree)
-                numerator_list.append(numerator)
-                denominator_list.append(denominator)
-                if slice % vslice == 0:
-                    print 'Calculating Slice: %s %s' % (str(slice), display_percentage_status(percentage_status,
-                                                                                              sliced_ep_profile.size,
-                                                                                              slice))
-                slice +=1
+            denominator  = mg * np.sin(degree)
+            numerator_list.append(numerator)
+            denominator_list.append(denominator)
+            if slice % vslice == 0:
+                print 'Calculating Slice: %s %s' % (str(slice), display_percentage_status(percentage_status,
+                                                                                          sliced_ep_profile.size,
+                                                                                          slice))
+            slice +=1
         except:
             errors +=1
 
@@ -145,7 +155,7 @@ def FOS_Method_Slices(sliced_ep_profile,
     factor_of_safety = numerator_list.sum()/ denominator_list.sum()
 
     results = errors + '\n\nCohesion: %d\nEffective Friction Angle: %d\nBulk Density: %d\nNumber of slices ' \
-                       'calculated: %d\n\nWater Pore Pressure: %d\n\nFactor of Safety: ' % (
+                       'calculated: %d\nWater Pore Pressure: %d\n\nFactor of Safety: ' % (
         soil_cohesion, effective_friction_angle, bulk_density, slice, water_pore_pressure) + str(factor_of_safety)
 
     f = open('results.log', 'w')
@@ -301,7 +311,7 @@ def FOS_Bishop( sliced_ep_profile,
     factor_of_safety = numerator_list.sum()/ denominator_list.sum()
 
     results = errors + '\n\nCohesion: %d\nEffective Friction Angle: %d\nBulk Density: %d\nNumber of slices ' \
-                       'calculated: %d\n\nWater Pore Pressure: %d\n\nFactor of Safety: ' % (
+                       'calculated: %d\nWater Pore Pressure: %d\n\nFactor of Safety: ' % (
         soil_cohesion, effective_friction_angle, bulk_density, slice, water_pore_pressure) + str(factor_of_safety)
 
     f = open('results.log', 'w')
