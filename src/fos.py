@@ -77,17 +77,13 @@ def FOS_Method_Slices(sliced_ep_profile,
             length, degree, mg, cohesion = isolate_slice(index, sliced_ep_profile, shapely_circle, bulk_density,
                                                          soil_cohesion)
             # calculate the Factor of Safety:
-            # PRESSURE
             effective_angle = degree2rad(effective_angle)
             numerator, denominator = FOS_calc_general(water_pore_pressure, mg, degree, effective_angle, cohesion, length)
 
             numerator_list.append(numerator)
             denominator_list.append(denominator)
-            if slice % vslice == 0:
-                print 'Calculating Slice: %s %s' % (str(slice), display_percentage_status(percentage_status,
-                                                                                          sliced_ep_profile.size,
-                                                                                          slice))
-            slice +=1
+
+            printslice(slice, vslice, percentage_status, sliced_ep_profile)
         except:
             errors +=1
 
