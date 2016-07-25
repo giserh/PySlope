@@ -49,7 +49,10 @@ def FOS_Method_Slices(sliced_ep_profile,
 
     if not isInt(water_pore_pressure):
         print type(water_pore_pressure)
-        raiseGeneralError("Water Pore Pressure is not an integer")
+        if int(water_pore_pressure) == 0:
+            water_pore_pressure = 0
+        else:
+            raiseGeneralError("Water Pore Pressure is not an integer")
     elif water_pore_pressure < 0:
         raiseGeneralError("Water Pore Pressure cannot be a negative number: water_pore_pressure= %d" %
                           water_pore_pressure)
