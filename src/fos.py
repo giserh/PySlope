@@ -120,10 +120,8 @@ def FOS_Method_Slices(sliced_ep_profile,
                 effective_angle = degree2rad(effective_angle)
                 if water_pore_pressure == 0:
                     numerator = (mg*np.cos(degree))*np.tan(effective_angle) + (cohesion*length)
-                    print('water pore = 0')
                 elif water_pore_pressure > 0:
                     numerator = cohesion*length + (mg*np.cos(degree)-water_pore_pressure*length)*np.tan(effective_angle)
-                    print 'water pore > 0: %d' % water_pore_pressure
                 else:
                     raiseGeneralError("water_pore_pressure is a negative number!!!: %s" % water_pore_pressure)
 
