@@ -48,7 +48,6 @@ def FOS_Method_Slices(sliced_ep_profile,
         vslice = 50
 
     if not isInt(water_pore_pressure):
-        print type(water_pore_pressure)
         if int(water_pore_pressure) == 0:
             water_pore_pressure = 0
         else:
