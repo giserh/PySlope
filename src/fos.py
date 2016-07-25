@@ -11,7 +11,9 @@ def FOS_Method_Slices(sliced_ep_profile,
                  soil_cohesion,
                  effective_friction_angle,
                  vslice,
-                 percentage_status, water_pore_pressure=0):
+                 percentage_status,
+                 water_pore_pressure,
+                 verbose):
     """
 
     :param sliced_ep_profile: a numpy array of the profile that is in the circle of interest
@@ -34,13 +36,25 @@ def FOS_Method_Slices(sliced_ep_profile,
 
     if not isInt(bulk_density):
         raiseGeneralError("Bulk Density is somehow not an integer")
+
     if not isInt(soil_cohesion):
-        raiseGeneralError("Bulk Density is somehow not an integer")
+        raiseGeneralError("Soil Cohesion is somehow not an integer")
+
     if not isInt(effective_friction_angle):
-        raiseGeneralError("Bulk Density is somehow not an integer")
+        raiseGeneralError("Effective Friction Angle is somehow not an integer")
+
     if vslice <= 0:
         print '\r\nvslice can not be 0 or less: Setting default: 50.\r\n'
         vslice = 50
+
+    if not isInt(water_pore_pressure):
+        raiseGeneralError("Water Pore Pressure is not an integer")
+    elif water_pore_pressure < 0:
+        raiseGeneralError("Water Pore Pressure cannot be a negative number: water_pore_pressure= %d" %
+                          water_pore_pressure)
+    else:
+        verb(verbose, "Water Pressure Set at %d" % water_pore_pressure)
+
     if percentage_status == 'on':
         percentage_status = True
     elif percentage_status == 'off':
@@ -111,7 +125,7 @@ def FOS_Method_Slices(sliced_ep_profile,
                     numerator = cohesion*length + (mg*np.cos(degree)-water_pore_pressure*length)*np.tan(effective_angle)
                     print 'water pore > 0: %d' % water_pore_pressure
                 else:
-                    raiseGeneralError("water_pore_pressure is a negative number!!!: %s", water_pore_pressure)
+                    raiseGeneralError("water_pore_pressure is a negative number!!!: %s" % water_pore_pressure)
 
                 denominator  = mg * np.sin(degree)
                 numerator_list.append(numerator)

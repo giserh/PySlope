@@ -212,8 +212,8 @@ def fos(fos, config_file, data_file):
                                     soil_cohesion,
                                     effective_friction_angle,
                                     vslice,
-                                    percentage_status
-                                    )
+                                    percentage_status,
+                                    verbose)
 
     elif fos == 'bishop':
         print 'performing bishop method'
