@@ -42,6 +42,9 @@ show_figure = no
 ## EXTRA OPTIONS ##
 ## Not required ##
 
+# water_pore_pressure = 20 (kPa)
+water_pore_pressure = 20
+
 # Slice Stack Output #
 vslice = 75
 

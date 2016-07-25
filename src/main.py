@@ -43,6 +43,7 @@ options_from_config = [
         'num_of_elements',
         'show_figure',
         'save_figure',
+        'water_pore_pressure',
         'vslice',
         'percentage_status',
         'FOS',
@@ -111,7 +112,7 @@ def fos(fos, config_file, data_file):
     #### set variables from the configuration file
     global \
         verbose, delimit, soil_cohesion, bulk_density, \
-        num_of_elements, show_figure, save_figure, vslice, \
+        num_of_elements, show_figure, save_figure, water_pore_pressure, vslice, \
         percentage_status
 
 
