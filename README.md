@@ -111,12 +111,12 @@ It takes both coordinate sets and isolates the points where the circle intersect
 crunching it takes the elevation profile itself and generates a user-defined amount of data points that fits the
 profile of the elevation.
 
-* This allows for a scientist to gather as few points as possible and letting the computer generate n number
+This allows for a scientist to gather as few points as possible and letting the computer generate n number
 of points that simulates a lot of points...
 
 After it isolates the 'workspace', then the actual calculation for Factor of Safety begins.
 
-* I am not going to go into the logistics if you are interested; follow the source code
+I am not going to go into the logistics if you are interested; follow the source code
 
 After everything is done it will spit out:
 
@@ -220,6 +220,11 @@ Will not work.
     ##EXTRA OPTIONS##
             These options does not affect the actual calcuations of the various FOS methods, instead they are more like
             preferences.
+            
+    water_pore_pressure = 0
+            This option takes an only positive integer or 0 that defines the water_pore_pressure of your data. Leave the value at
+            0 to neglect water pore pressure in the calculations.
+
             
     vslices = 100
             This option takes an integer and wraps the different amount of slices calculated into bundles to display 

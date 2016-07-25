@@ -200,7 +200,9 @@ def FOS_calc(method, water_pore_pressure, mg, degree, effective_angle, cohesion,
     if method == 'general':
         denominator  = mg * np.sin(degree)
         if water_pore_pressure == 0:
-            numerator = (mg*np.cos(degree))*np.tan(effective_angle) + (cohesion*length)
+            numerator = (cohesion*length + (mg*np.cos(degree)) *
+                         np.tan(effective_angle))
+            numerator = (numerator / np.cos(degree) + (np.sin(degree)*np.tan(effective_angle) / 1.2))
 
         elif water_pore_pressure > 0:
             numerator = (cohesion*length + (mg*np.cos(degree) - water_pore_pressure * length * np.cos(degree)) *

@@ -77,7 +77,6 @@ def FOS_Method( method,
             ### Isolate variables of individual slice ##
             length, degree, mg, cohesion = isolate_slice(index, sliced_ep_profile, shapely_circle, bulk_density,
                                                          soil_cohesion)
-            # calculate the Factor of Safety:
             effective_angle = degree2rad(effective_angle)
 
             # Calculate numerator and denominator of individual slice based on method
@@ -109,7 +108,7 @@ def FOS_Method( method,
     # calculate actual FOS from lists
     factor_of_safety = numerator_list.sum()/ denominator_list.sum()
 
-    # Finish up with some statistics
+    # Finish up with so
     results = errors + '\n\nCohesion: %d\nEffective Friction Angle: %d\nBulk Density: %d\nNumber of slices ' \
                        'calculated: %d\nWater Pore Pressure: %d\n\nFactor of Safety: ' % (
         soil_cohesion, effective_friction_angle, bulk_density, slice, water_pore_pressure) + str(factor_of_safety)
