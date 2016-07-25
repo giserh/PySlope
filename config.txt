@@ -43,6 +43,7 @@ show_figure = no
 ## Not required ##
 
 # water_pore_pressure = 20 (kPa)
+# Leave at 0 to disable use
 water_pore_pressure = 20
 
 # Slice Stack Output #

@@ -17,13 +17,17 @@ def FOS_Method( method,
                  water_pore_pressure,
                  verbose):
     """
-
+    :param method: a string stating the method of FOS calculation to be used
     :param sliced_ep_profile: a numpy array of the profile that is in the circle of interest
     :param shapely_circle:  a shapely object linestring that has the coorindates of the circle/ellipse
     :param bulk_density:    an integer for bulk_density of the soil
     :param soil_cohesion:   an integer for soil_cohesion of the soil
     :param effective_friction_angle: an integer in degrees of the effective angle of friction
     :param vslice: an integer that determines the modulo per batch of slices that should be outputed to the terminal
+    :param percentage_status: a boolian expression to show percentage_status when completing stacks of slices
+    :param water_pore_pressure: a positive integer expressing the water_pore_pore in kPa
+    :param verbose: boolian expression if verbose statements should be printed to terminal
+
     :return:
         returns a single float number of the calculated factor of safety from the given parameters
     """
