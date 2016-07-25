@@ -156,7 +156,7 @@ def FOS_Method_Slices(sliced_ep_profile,
 
 
 #### Bishop Method ####
-def FOS_Bishops( sliced_ep_profile,
+def FOS_Bishop( sliced_ep_profile,
                  shapely_circle,
                  bulk_density,
                  soil_cohesion,
