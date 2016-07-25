@@ -145,8 +145,8 @@ def FOS_Method_Slices(sliced_ep_profile,
     factor_of_safety = numerator_list.sum()/ denominator_list.sum()
 
     results = errors + '\n\nCohesion: %d\nEffective Friction Angle: %d\nBulk Density: %d\nNumber of slices ' \
-                       'calculated: %d\n\nFactor of Safety: ' % (
-        soil_cohesion, effective_friction_angle, bulk_density, slice) + str(factor_of_safety)
+                       'calculated: %d\n\nWater Pore Pressure: %d\n\nFactor of Safety: ' % (
+        soil_cohesion, effective_friction_angle, bulk_density, slice, water_pore_pressure) + str(factor_of_safety)
 
     f = open('results.log', 'w')
     f.write(results)
@@ -301,8 +301,8 @@ def FOS_Bishop( sliced_ep_profile,
     factor_of_safety = numerator_list.sum()/ denominator_list.sum()
 
     results = errors + '\n\nCohesion: %d\nEffective Friction Angle: %d\nBulk Density: %d\nNumber of slices ' \
-                       'calculated: %d\n\nFactor of Safety: ' % (
-        soil_cohesion, effective_friction_angle, bulk_density, slice) + str(factor_of_safety)
+                       'calculated: %d\n\nWater Pore Pressure: %d\n\nFactor of Safety: ' % (
+        soil_cohesion, effective_friction_angle, bulk_density, slice, water_pore_pressure) + str(factor_of_safety)
 
     f = open('results.log', 'w')
     f.write(results)
