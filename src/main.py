@@ -84,11 +84,13 @@ class ReadConfig(object):
                     raiseGeneralError("Couldn't find %s in options_from_config list" % variable)
                 else:
                     if isInt(value):
+                        hi('isInt')
                         globals()[variable] = int(value)
                     elif isFloat(value):
+                        hi('isFloat')
                         globals()[variable] = float(value)
                     elif hasComma(value):
-                        hi()
+                        hi('hasComma')
                         ## value has comma in expression
                         if isEllipse(value):
                             value = formatCircleData(value)
