@@ -156,8 +156,10 @@ def fos(fos, config_file, data_file):
             sys.exit("Error: c_x, c_y, c_r not set.. Report bug")
 
     #### Preview geometery ####
-    plt.scatter(data)
-    plt.scatter(shapely_circle)
+    circle_preview = np.array(list(shapely_circle.coords))
+    plt.scatter(data[:,0], data[:,1], color='red')
+    plt.scatter(circle_preview[:,0], circle_preview[:,1])
+    plt.show()
     #
     #
     ## create shapely line with elevation profile
