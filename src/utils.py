@@ -2,6 +2,7 @@ import sys
 import numpy as np
 from utils import *
 from shapely.geometry import LineString, Point, Polygon
+import matplotlib.pyplot as plt
 
 #### Basic Utils ####
 
@@ -295,5 +296,6 @@ class Index(object):
 
     def cont_gui(self, event):
         print 'Proceeding'
+        plt.close('all')
 
 #### /GUI FUNCS ####
