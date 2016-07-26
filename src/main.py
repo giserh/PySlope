@@ -154,6 +154,10 @@ def fos(fos, config_file, data_file):
             shapely_circle = Point(c_x, c_y).buffer(c_r).boundary
         else:
             sys.exit("Error: c_x, c_y, c_r not set.. Report bug")
+
+    #### Preview geometery ####
+    plt.scatter(data)
+    plt.scatter(shapely_circle)
     #
     #
     ## create shapely line with elevation profile
@@ -246,4 +250,5 @@ def fos(fos, config_file, data_file):
     if show_figure == 'yes':
         verb(verbose, 'Show figure: True.')
         plt.show()
+
 
