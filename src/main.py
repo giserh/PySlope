@@ -164,7 +164,7 @@ def fos(fos, config_file, data_file):
 
     #### Preview geometery ####
     circle_preview = np.array(list(shapely_circle.coords))
-    plt.scatter(data[:,0], data[:,1], color='red')
+    plt.plot(data[:,0], data[:,1], color='red')
     plt.scatter(circle_preview[:,0], circle_preview[:,1])
 
     buttonopt = Index()
