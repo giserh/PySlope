@@ -291,7 +291,7 @@ def isolate_slice(index,
 #### GUI FUNCS ####
 class Index(object):
     def abort_gui(self, event):
-        print 'quitting'
+        sys.exit()
 
     def cont_gui(self, event):
         print 'Proceeding'
