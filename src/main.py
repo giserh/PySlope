@@ -88,6 +88,7 @@ class ReadConfig(object):
                     elif isFloat(value):
                         globals()[variable] = float(value)
                     elif hasComma(value):
+                        hi()
                         ## value has comma in expression
                         if isEllipse(value):
                             value = formatCircleData(value)

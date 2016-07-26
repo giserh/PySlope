@@ -9,7 +9,8 @@ import matplotlib.pyplot as plt
 def verb(v, string):
     if v:
         print '-> %s' % string
-
+def hi():
+    print '\nhello\n'
 
 def contains(character, string):
     equals = 0
