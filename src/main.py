@@ -169,9 +169,9 @@ def fos(fos, config_file, data_file):
     quitax = plt.axes([0.7, 0.05, 0.1, 0.075])
     contax = plt.axes([0.81, 0.05, 0.1, 0.075])
     quit = Button(quitax, 'Quit')
-    quit.on_clicked(abort_gui)
+    quit.on_clicked(abort_gui())
     cont = Button(contax, 'Continue')
-    cont.on_clicked(cont_gui)
+    cont.on_clicked(cont_gui())
     plt.show()
     #
     if len(intersection_coordinates) == 0:
