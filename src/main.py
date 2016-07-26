@@ -173,7 +173,7 @@ def fos(fos, config_file, data_file):
     quit = Button(quitax, 'Quit')
     quit.on_clicked(buttonopt.abort_gui)
     cont = Button(contax, 'Continue')
-    cont.on_clicked(buttonopt.cont_gui())
+    cont.on_clicked(buttonopt.cont_gui)
     plt.show()
     #
     if len(intersection_coordinates) == 0:
