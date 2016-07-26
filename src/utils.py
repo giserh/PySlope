@@ -289,10 +289,11 @@ def isolate_slice(index,
 #### /Calculation Utils ####
 
 #### GUI FUNCS ####
-def abort_gui():
-    print 'quitting'
+class Index(object):
+    def abort_gui(self, event):
+        print 'quitting'
 
-def cont_gui():
-    print 'Proceeding'
+    def cont_gui(self, event):
+        print 'Proceeding'
 
 #### /GUI FUNCS ####
