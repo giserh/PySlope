@@ -84,7 +84,7 @@ class ReadConfig(object):
                     raiseGeneralError("Couldn't find %s in options_from_config list" % variable)
                 else:
                     if isInt(value):
-                        hi('isInt')
+                        hi('isInt %s' % value)
                         globals()[variable] = int(value)
                     elif isFloat(value):
                         hi('isFloat')
