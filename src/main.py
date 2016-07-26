@@ -95,6 +95,8 @@ class ReadConfig(object):
                             c_y = float(value[1])
                             c_a = float(value[2])
                             c_b = float(value[3])
+                            print c_x, c_y, c_a, c_b
+                            exit()
                         else:
                             value = formatCircleData(value)
                             c_x = float(value[0])
