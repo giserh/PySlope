@@ -142,7 +142,7 @@ def fos(fos, config_file, data_file):
     #shapely_circle = Point(c_x, c_y).buffer(c_r).boundary
 
     try:
-        verb(verbose, 'Trying to generate ellipse')
+        verb(verbose, 'Trying to generate ellipsoid')
         if c_x is not None or c_y is not None or c_b is not None or c_a is not None:
             ellipse = generateEllipse(c_x, c_y, c_a, c_b)
             shapely_circle = LineString(ellipse)
@@ -154,18 +154,18 @@ def fos(fos, config_file, data_file):
             shapely_circle = Point(c_x, c_y).buffer(c_r).boundary
         else:
             sys.exit("Error: c_x, c_y, c_r not set.. Report bug")
-
-    #### Preview geometery ####
-    circle_preview = np.array(list(shapely_circle.coords))
-    plt.scatter(data[:,0], data[:,1], color='red')
-    plt.scatter(circle_preview[:,0], circle_preview[:,1])
-    plt.show()
     #
     #
     ## create shapely line with elevation profile
     verb(verbose, 'Creating Shapely line with elevation profile.')
     shapely_elevation_profile = LineString(data)
     intersection_coordinates = list(shapely_circle.intersection(shapely_elevation_profile).bounds)
+
+    #### Preview geometery ####
+    circle_preview = np.array(list(shapely_circle.coords))
+    plt.scatter(shapely_elevation_profile[:,0], shapely_elevation_profile[:,1], color='red')
+    plt.scatter(circle_preview[:,0], circle_preview[:,1])
+    plt.show()
     #
     if len(intersection_coordinates) == 0:
         print "Error: Circle doesn't intersect the profile - please readjust circle coordinates in config file"
