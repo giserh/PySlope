@@ -292,10 +292,10 @@ def isolate_slice(index,
 #### GUI FUNCS ####
 class Index(object):
     def abort_gui(self, event):
-        sys.exit()
+        sys.exit("Exitting")
 
     def cont_gui(self, event):
-        print 'Proceeding'
+        print '-> Proceeding'
         plt.close('all')
 
 #### /GUI FUNCS ####
