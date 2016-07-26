@@ -201,7 +201,7 @@ def display_percentage_status(percentage_status, size, slice):
 
 #### Calculation Utils ####
 def FOS_calc(method, water_pore_pressure, mg, degree, effective_angle, cohesion, length):
-    if method == 'general':
+    if method == 'bishop':
         denominator  = mg * np.sin(degree)
         if water_pore_pressure == 0:
             numerator = (cohesion*length + (mg*np.cos(degree)) *
@@ -218,7 +218,7 @@ def FOS_calc(method, water_pore_pressure, mg, degree, effective_angle, cohesion,
         return numerator, denominator
 
 
-    elif method == 'bishop':
+    elif method == 'general':
         denominator  = mg * np.sin(degree)
         if water_pore_pressure == 0:
             numerator = (mg*np.cos(degree))*np.tan(effective_angle) + (cohesion*length)
