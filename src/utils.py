@@ -287,3 +287,12 @@ def isolate_slice(index,
         return length, degree, mg, cohesion
 
 #### /Calculation Utils ####
+
+#### GUI FUNCS ####
+def abort_gui():
+    print 'quitting'
+
+def cont_gui():
+    print 'Proceeding'
+
+#### /GUI FUNCS ####
