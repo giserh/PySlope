@@ -163,7 +163,8 @@ def fos(fos, config_file, data_file):
 
     #### Preview geometery ####
     circle_preview = np.array(list(shapely_circle.coords))
-    plt.scatter(shapely_elevation_profile[:,0], shapely_elevation_profile[:,1], color='red')
+    elevation_preivew = np.array(list(shapely_elevation_profile.coords))
+    plt.scatter(elevation_preivew[:,0], elevation_preivew[:,1], color='red')
     plt.scatter(circle_preview[:,0], circle_preview[:,1])
     plt.show()
     #
