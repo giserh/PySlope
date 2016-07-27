@@ -53,7 +53,7 @@ def FOS_Method( method,
         print '\r\nvslice can not be 0 or less: Setting default: 50.\r\n'
         vslice = 50
 
-    if not isInt(water_pore_pressure):
+    if not isInt(water_pore_pressure, 'water_pore_pressure'):
         if int(water_pore_pressure) == 0:
             water_pore_pressure = 0
         else:
