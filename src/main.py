@@ -100,7 +100,7 @@ class ReadConfig(object):
                             c_a = float(value[2])
                             c_b = float(value[3])
                             print c_x, c_y, c_a, c_b
-                            exit()
+                            
                         else:
                             hi('hasComma')
                             value = formatCircleData(value)
