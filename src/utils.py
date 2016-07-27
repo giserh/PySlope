@@ -45,12 +45,22 @@ def isString(value):
         return False
 
 def hasComma(value):
+    content_list = []
+    """
     for index in range(len(value)-1):
         current, next = value[index], value[index+1]
+
         if current == ',' or next == ',':
             return True
         else:
             return False
+    """
+    for char in value:
+        content_list.append(char)
+    if ',' in content_list:
+        return True
+    else:
+        return False
 
 def rad2degree(rad):
     return rad * 180. / np.pi
