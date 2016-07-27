@@ -76,6 +76,7 @@ class ReadConfig(object):
                 variable = line.split()[0]
                 equal    = line.split()[1]
                 value    = line.split()[2]
+                print value
                 if len(line.split()) > 3:
                     raiseGeneralError("Wrong Syntax on line, %s: %s" % (line_num, line))
                 if equal != '=':
@@ -100,7 +101,7 @@ class ReadConfig(object):
                             c_a = float(value[2])
                             c_b = float(value[3])
                             print c_x, c_y, c_a, c_b
-                            
+
                         else:
                             hi('hasComma')
                             value = formatCircleData(value)
