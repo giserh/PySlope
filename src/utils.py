@@ -73,11 +73,10 @@ def printslice(slice, vslice, percentage_status, sliced_ep_profile):
 
 #### Geometry Utils ####
 def isEllipse(value):
-    if hasComma(value):
-        for char in value:
-            if char == "(" or char == ")":
-                return True
-        return False
+    for char in value:
+        if char == "(" or char == ")":
+            return True
+    return False
 
 def generateEllipse(c_x,c_y, c_a, c_b):
         x_coords, y_coords = [], []
