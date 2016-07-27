@@ -9,57 +9,45 @@ from matplotlib.widgets import Button
 from utils import *
 from fos import *
 
-### Initialize Variables ###
-delimit = ''
-soil_cohesion = -1
-bulk_density = -1
-num_of_elements = -1
-effective_friction_angle_soil = -1
-show_figure = ''
-save_figure = ''
-circle_data = ''
-vslice = 0
-percentage_status = ''
-verbose = ''
-# Circle Data #
-c_x = 0.
-c_y = 0.
-# perfect circle #
-c_r = 0.
-# Ellipse #
-c_a = 0.
-c_b = 0.
-
-
-options_from_config = [
-        """ Add to list to search for options that
-        should be in the config file
-        """
-
-        'delimit',
-        'circle_data'
-        'soil_cohesion',
-        'effective_friction_angle_soil',
-        'bulk_density',
-        'num_of_elements',
-        'show_figure',
-        'save_figure',
-        'water_pore_pressure',
-        'vslice',
-        'percentage_status',
-        'FOS',
-        'verbose'
-    ]
-
-
 class ReadConfig(object):
+    ### Initialize Variables ###
+    delimit = ''
+    soil_cohesion = -1
+    bulk_density = -1
+    num_of_slices = -1
+    effective_friction_angle_soil = -1
+    water_pore_pressure = -1
+    show_figure = ''
+    save_figure = ''
+    circle_coordinates = ''
+    vslice = 0
+    percentage_status = ''
+    verbose = ''
+    # Circle Data #
+    c_x = 0.
+    c_y = 0.
+    # perfect circle #
+    c_r = 0.
+    # Ellipse #
+    c_a = 0.
+    c_b = 0.
+    
+    options_from_config = [
+            'delimiter',                        # 0
+            'circle_coordinates',               # 1
+            'soil_cohesion',                    # 2
+            'effective_friction_angle_soil',    # 3
+            'bulk_density',                     # 4
+            'num_of_slices',                    # 5
+            'show_figure',                      # 6
+            'save_figure',                      # 7
+            'water_pore_pressure',              # 8
+            'vslice',                           # 9
+            'percentage_status',                # 10
+            'verbose',                          # 11
+        ]
 
     def __init__(self, file_name):
-        ## General ##
-        global delimiter, soil_cohesion, bulk_density, num_of_elements, show_figure, save_figure
-
-        ## circle Data ##
-        global c_x, c_y, c_r, c_a, c_b
 
         self.file_name = file_name
 
@@ -70,7 +58,7 @@ class ReadConfig(object):
         for line in content:
             if not line.startswith('#') and not line.isspace():
                 if not contains("=", line):
-                    sys.exit("Could not find an '=' %d: %s" %  (line_num, line))
+                    raiseGeneralError("Could not find an '=' %d: %s" %  (line_num, line))
 
 
                 variable = line.split()[0]
@@ -80,70 +68,98 @@ class ReadConfig(object):
                     raiseGeneralError("Wrong Syntax on line, %s: %s" % (line_num, line))
                 if equal != '=':
                     sys.exit("This shouldn't appear.Ever.")
-                if not variable in str(options_from_config):
+                if not variable in str(self.options_from_config):
                     raiseGeneralError("Couldn't find %s in options_from_config list" % variable)
                 else:
-                    if isInt(value):
-                        hi('isInt %s' % value)
-                        globals()[variable] = int(value)
-                    elif isFloat(value):
-                        hi('isFloat')
-                        globals()[variable] = float(value)
-                    elif hasComma(value):
-                        hi('hasComma')
-                        ## value has comma in expression
-                        if isEllipse(value):
-                            hi('isEllipse')
-                            value = formatCircleData(value)
-                            c_x = float(value[0])
-                            c_y = float(value[1])
-                            c_a = float(value[2])
-                            c_b = float(value[3])
-                            print c_x, c_y, c_a, c_b
+                    #print variable, equal, value
 
+                    if variable == self.options_from_config[0]:
+                        #delimeter - string
+                        self.delimit = isString(value, variable)
+
+                    elif variable == self.options_from_config[1]:
+                        # circle_coordinates
+                        if not hasComma(value):
+                            raiseGeneralError("Wrong Circle Coordinates - Check Config File")
                         else:
-                            hi('hasComma')
-                            value = formatCircleData(value)
-                            c_x = float(value[0])
-                            c_y = float(value[1])
-                            c_r = float(value[2])
+                            if isEllipse(value):
+                                value = formatCircleData(value)
+                                self.c_x = float(value[0])
+                                self.c_y = float(value[1])
+                                self.c_a = float(value[2])
+                                self.c_b = float(value[3])
 
-                    elif isString(value):
-                        hi('isString %s' % value)
-                        globals()[variable] = str(value)
+                            else:
+                                value = formatCircleData(value)
+                                self.c_x = float(value[0])
+                                self.c_y = float(value[1])
+                                self.c_r = float(value[2])
 
+                    elif variable == self.options_from_config[2]:
+                        # soil cohesion - float
+                        self.soil_cohesion = isFloat(value,variable)
+
+                    elif variable == self.options_from_config[3]:
+                        # internal friction angle - float
+                        self.effective_friction_angle_soil = isFloat(value, variable)
+
+                    elif variable == self.options_from_config[4]:
+                        # bulk density - float
+                        self.bulk_density = isFloat(value, variable)
+
+                    elif variable == self.options_from_config[5]:
+                        # number of slices - int
+                        self.num_of_slices = isInt(value, variable)
+
+                    elif variable == self.options_from_config[6]:
+                        # save figure - string
+                        self.save_figure = isString(value, variable)
+
+                    elif variable == self.options_from_config[7]:
+                        # show figure - string
+                        self.show_figure = isString(value, variable)
+
+                    elif variable == self.options_from_config[8]:
+                        # water pore pressure - float
+                        self.water_pore_pressure = isFloat(value, variable)
+
+                    elif variable == self.options_from_config[9]:
+                        # vslice bulk output - int
+                        self.vslice = isInt(value, variable)
+
+                    elif variable == self.options_from_config[10]:
+                        # Display percentage status - string
+                        self.percentage_status = isString(value, variable)
+
+                    elif variable == self.options_from_config[11]:
+                        # verbose switch - string
+                        self.verbose = isString(value, variable)
+                    else:
+                        raiseGeneralError("Variable not found in options from config file: %s" % variable)
 
             line_num += 1
 
 def fos(fos, config_file, data_file):
 
+    config = ReadConfig(config_file)
 
-    #### set variables from the configuration file
-    global \
-        verbose, delimit, soil_cohesion, bulk_density, \
-        num_of_elements, show_figure, save_figure, water_pore_pressure, vslice, \
-        percentage_status
-
-
-    ReadConfig(config_file)
-
-    verbose = True if verbose == 'yes' else False
-    effective_angle, angle = effective_friction_angle_soil, effective_friction_angle_soil
+    verbose = True if config.verbose == 'yes' else False
+    effective_angle, angle = config.effective_friction_angle_soil, config.effective_friction_angle_soil
     ####
     #
     #
     #### load data from file as numpy array
     verb(verbose, 'Load data from file as numpy array.')
 
-    data = np.loadtxt(data_file, delimiter=delimit)
+    data = np.loadtxt(data_file, delimiter=config.delimit)
     ####
     #
     #### Check to see if num_of_elements is lower than actual length of data:
     verb(verbose, 'Check to see if num_of_elements is lower than actual length of data.')
-    if num_of_elements < len(data):
+    if config.num_of_slices < len(data):
         print "Error: You can't have num_of_elements set lower to your total amount of data points" \
               "\n\nTotal Data Points: %s" \
-              "\nNum_of_elements: %s" % (str(len(data)), str(int(num_of_elements)))
+              "\nNum_of_elements: %s" % (str(len(data)), str(int(config.num_of_slices)))
         sys.exit()
     #
     ## create shapely circle with circle data
@@ -152,15 +168,15 @@ def fos(fos, config_file, data_file):
 
     try:
         verb(verbose, 'Trying to generate ellipsoid')
-        if c_x is not None or c_y is not None or c_b is not None or c_a is not None:
-            ellipse = generateEllipse(c_x, c_y, c_a, c_b)
+        if config.c_x is not None or config.c_y is not None or config.c_b is not None or config.c_a is not None:
+            ellipse = generateEllipse(config.c_x, config.c_y, config.c_a, config.c_b)
             shapely_circle = LineString(ellipse)
         else:
             sys.exit("Error: c_x, c_y, c_a, c_b not set.. Report bug")
     except:
         verb(verbose, 'Ellipse failed: Reverting to perfect circle.')
-        if c_x is not None or c_y is not None or c_r is not None:
-            shapely_circle = Point(c_x, c_y).buffer(c_r).boundary
+        if config.c_x is not None or config.c_y is not None or config.c_r is not None:
+            shapely_circle = Point(config.c_x, config.c_y).buffer(config.c_r).boundary
         else:
             sys.exit("Error: c_x, c_y, c_r not set.. Report bug")
     #
@@ -218,8 +234,8 @@ def fos(fos, config_file, data_file):
     #
     # Create sliced array with boundaries from ep_profile
     verb(verbose, 'Creating Numpy array of sliced profile bounded within circle.')
-    ep_profile = arraylinspace2d(elevation_profile, num_of_elements)
-    sliced_ep_profile = slice_array(ep_profile, int1, int2, num_of_elements)
+    ep_profile = arraylinspace2d(elevation_profile, config.num_of_slices)
+    sliced_ep_profile = slice_array(ep_profile, int1, int2, config.num_of_slices)
     #
     #
     #
@@ -232,24 +248,24 @@ def fos(fos, config_file, data_file):
         results = FOS_Method( fos,
                                      sliced_ep_profile,
                                      shapely_circle,
-                                     bulk_density,
-                                     soil_cohesion,
+                                     config.bulk_density,
+                                     config.soil_cohesion,
                                      effective_friction_angle,
-                                     vslice,
-                                     percentage_status,
-                                     water_pore_pressure,
+                                     config.vslice,
+                                     config.percentage_status,
+                                     config.water_pore_pressure,
                                      verbose)
 
     elif fos == 'bishop':
         results = FOS_Method(fos,
                              sliced_ep_profile,
                              shapely_circle,
-                             bulk_density,
-                             soil_cohesion,
+                             config.bulk_density,
+                             config.soil_cohesion,
                              effective_friction_angle,
-                             vslice,
-                             percentage_status,
-                             water_pore_pressure,
+                             config.vslice,
+                             config.percentage_status,
+                             config.water_pore_pressure,
                              verbose)
 
     else:
@@ -262,11 +278,11 @@ def fos(fos, config_file, data_file):
     plt.scatter(sliced_ep_profile[:,0], sliced_ep_profile[:,1], color='green')
 
 
-    if save_figure == 'yes':
+    if config.save_figure == 'yes':
         verb(verbose, 'Saving result to figure.')
         plt.savefig('slope_profile.tif')
 
-    if show_figure == 'yes':
+    if config.show_figure == 'yes':
         verb(verbose, 'Show figure: True.')
         plt.show()
 

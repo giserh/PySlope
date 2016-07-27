@@ -28,21 +28,23 @@ def raiseGeneralError(arg):
     sys.exit(arg)
 
 
-def isInt(value):
+def isInt(value, variable):
     try:
         return int(value)
     except:
         return False
-def isFloat(value):
+def isFloat(value, variable):
     try:
         return float(value)
     except:
         return False
-def isString(value):
-    try:
-        return str(value)
-    except:
-        return False
+
+def isString(value, variable):
+    if not value.isdigit():
+        return True
+    else:
+        raiseGeneralError("Cannot contain numeric digits: %s = %s" % (variable, value))
+
 
 def hasComma(value):
     content_list = []
@@ -104,11 +106,9 @@ def formatCircleData(coordinates):
 
     for element in coordinates.split():
         results.append(element)
-    print coordinates
-    print len(results)
     if len(results) > 4:
         raiseGeneralError("There are too many data points for your ellipse. Check config file")
-    elif len(results) <= 3:
+    elif len(results) < 3:
         raiseGeneralError("There are too few data points for your circle/ellipse. Check config file.")
     else:
         return results

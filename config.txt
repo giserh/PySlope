@@ -10,15 +10,15 @@
 #==========================#
 
 # delimiter = ,
-delimit = ,
+delimiter = ,
 
 # data_file = slope_profile.elev
 #data_file = slope_profile.elev
 
-# circle_data = 0,0,3 (x,y, radius) - meters
+# circle_coordinates = 0,0,3 (x,y, radius) - meters
 # To use an ellipse instead -
-#   circle_data = 0,0,(a,b) (x,y, (horizontal_radius, vertical_radius) - meters
-circle_data = 9,11,(5,3)
+#circle_coordinates = 0,0,(a,b) (x,y, (horizontal_radius, vertical_radius) - meters
+circle_coordinates = 10,11,(5,3)
 
 # soil_cohesion = 22 (in kPa)
 soil_cohesion = 1000
@@ -29,8 +29,8 @@ effective_friction_angle_soil = 45
 # bulk_density = 1760 (Kg/m^3)
 bulk_density = 1760
 
-# num_of_elements = 100
-num_of_elements = 1000
+# num_of_slices = 100
+num_of_slices = 1000
 
 # save_figure = yes/no
 save_figure = no
