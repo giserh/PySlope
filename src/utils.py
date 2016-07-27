@@ -105,7 +105,7 @@ def formatCircleData(coordinates):
 
     for element in coordinates.split():
         results.append(element)
-
+    print len(results)
     if len(results) > 4:
         raiseGeneralError("There are too many data points for your ellipse. Check config file")
     elif len(results) <= 3:
