@@ -46,13 +46,12 @@ def isString(value):
 
 def hasComma(value):
     content_list = []
-    for index in range(len(value)-1):
-        current, next = value[index], value[index+1]
-
-        if current == ',' or next == ',':
-            return True
-        else:
-            return False
+    for char in value:
+        content_list.append(char)
+    if ',' in content_list:
+        return True
+    else:
+        return False
 
 def rad2degree(rad):
     return rad * 180. / np.pi
@@ -109,7 +108,7 @@ def formatCircleData(coordinates):
 
     if len(results) > 4:
         raiseGeneralError("There are too many data points for your ellipse. Check config file")
-    elif len(results) < 3:
+    elif len(results) <= 3:
         raiseGeneralError("There are too few data points for your circle/ellipse. Check config file.")
     else:
         return results
