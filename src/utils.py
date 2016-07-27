@@ -41,7 +41,7 @@ def isFloat(value, variable):
 
 def isString(value, variable):
     if not value.isdigit():
-        return True
+        return str(value)
     else:
         raiseGeneralError("Cannot contain numeric digits: %s = %s" % (variable, value))
 
