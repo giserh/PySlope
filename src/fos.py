@@ -40,13 +40,13 @@ def FOS_Method( method,
     if not isinstance(shapely_circle, LineString):
         raiseGeneralError("Shapely_circle is somehow not a LineString object")
 
-    if not isInt(bulk_density):
+    if not isInt(bulk_density, 'bulk_density'):
         raiseGeneralError("Bulk Density is somehow not an integer")
 
-    if not isInt(soil_cohesion):
+    if not isInt(soil_cohesion, 'soil_cohesion'):
         raiseGeneralError("Soil Cohesion is somehow not an integer")
 
-    if not isInt(effective_friction_angle):
+    if not isInt(effective_friction_angle, 'effective_friction_angle'):
         raiseGeneralError("Effective Friction Angle is somehow not an integer")
 
     if vslice <= 0:
