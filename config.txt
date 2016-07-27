@@ -46,8 +46,8 @@ show_figure = no
 # Leave at 0 to disable use
 water_pore_pressure = 1000
 
-# Slice Stack Output - leave at 0 to turn off
-vslice = 0
+# Slice Stack Output
+vslice = 50
 
 # Percentage_status = on/off #
 percentage_status = on
