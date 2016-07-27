@@ -72,7 +72,6 @@ class ReadConfig(object):
                     raiseGeneralError("Couldn't find %s in options_from_config list" % variable)
                 else:
                     #print variable, equal, value
-                    print variable, equal, value
                     if variable == self.options_from_config[0]:
                         #delimeter - string
                         self.delimit = isString(value, variable)
