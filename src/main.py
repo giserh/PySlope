@@ -93,6 +93,7 @@ class ReadConfig(object):
                         hi('hasComma')
                         ## value has comma in expression
                         if isEllipse(value):
+                            hi('isEllipse')
                             value = formatCircleData(value)
                             c_x = float(value[0])
                             c_y = float(value[1])
@@ -101,12 +102,14 @@ class ReadConfig(object):
                             print c_x, c_y, c_a, c_b
                             exit()
                         else:
+                            hi('hasComma')
                             value = formatCircleData(value)
                             c_x = float(value[0])
                             c_y = float(value[1])
                             c_r = float(value[2])
 
                     elif isString(value):
+                        hi('isString %s' % value)
                         globals()[variable] = str(value)
 
 
