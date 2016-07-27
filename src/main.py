@@ -31,7 +31,7 @@ class ReadConfig(object):
     # Ellipse #
     c_a = 0.
     c_b = 0.
-    
+
     options_from_config = [
             'delimiter',                        # 0
             'circle_coordinates',               # 1
@@ -72,7 +72,7 @@ class ReadConfig(object):
                     raiseGeneralError("Couldn't find %s in options_from_config list" % variable)
                 else:
                     #print variable, equal, value
-
+                    print variable, equal, value
                     if variable == self.options_from_config[0]:
                         #delimeter - string
                         self.delimit = isString(value, variable)
@@ -150,7 +150,7 @@ def fos(fos, config_file, data_file):
     #
     #### load data from file as numpy array
     verb(verbose, 'Load data from file as numpy array.')
-
+    print config.delimit
     data = np.loadtxt(data_file, delimiter=config.delimit)
     ####
     #
