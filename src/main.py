@@ -116,7 +116,7 @@ class ReadConfig(object):
 
                     elif variable == self.options_from_config[7]:
                         # show figure - string
-                        print value
+                        print variable, value
                         self.show_figure = isString(value, variable)
 
                     elif variable == self.options_from_config[8]:
