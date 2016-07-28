@@ -28,7 +28,7 @@ elif [[ "$1" == "-u" ]]; then
 # deal with arguments first
 elif [[ $# -eq 0 ]]; then
 	#statements
-    ./setup -u
+    rm -rf $wdir
 
 	# Copy entire directory to seperate directory in /usr/local
 	echo "Making Directory: /slope-stability/"
