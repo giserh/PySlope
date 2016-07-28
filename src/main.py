@@ -116,6 +116,7 @@ class ReadConfig(object):
 
                     elif variable == self.options_from_config[7]:
                         # show figure - string
+                        print value
                         self.show_figure = isString(value, variable)
 
                     elif variable == self.options_from_config[8]:
@@ -149,7 +150,6 @@ def fos(fos, config_file, data_file):
     #
     #### load data from file as numpy array
     verb(verbose, 'Load data from file as numpy array.')
-    print config.delimit
     data = np.loadtxt(data_file, delimiter=config.delimit)
     ####
     #
