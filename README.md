@@ -55,7 +55,7 @@ This program is intended for anyone who is interested in doing slope stability a
         sudo pip install matplotlib
         sudo pip install click
         
-   For windows users - you are out of luck for any of my help. I am not a windows guy nor will I ever be. There are a
+   For windows users - you are out of luck for any of my help. I am not a windows guy. There are a
     few tutorials online that allow you to install python and the modules itself. If you realized your major mistake 
     by not going with a Unix type OS then have no fear, windows has made some sort of a comeback by using [cygwin]
     (https://www.cygwin.com/)
