@@ -186,6 +186,7 @@ def fos(fos, config_file, data_file):
     intersection_coordinates = list(shapely_circle.intersection(shapely_elevation_profile).bounds)
 
     #### Preview geometery ####
+    print 'hello'
     print config.show_figure
     if config.show_figure == 'yes':
         circle_preview = np.array(list(shapely_circle.coords))
