@@ -108,7 +108,7 @@ def FOS_Method( method,
     # convert calculated lists into numpy arrays
     numerator_list, denominator_list = np.array(numerator_list), np.array(denominator_list)
     success = float(100 * (1 - (errors/slice)))
-    error_result =  "\nTotal number of errors encountered: %s\nPercent Success: %.2f%%" % (str(errors), (success))
+    error_result =  "\nTotal number of errors encountered: %s\nPercent Success: %f%%" % (str(errors), (success))
 
     # calculate actual FOS from lists
     factor_of_safety = numerator_list.sum()/ denominator_list.sum()
