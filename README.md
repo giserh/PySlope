@@ -27,7 +27,7 @@ This program is intended for anyone who is interested in doing slope stability a
    will ever need including the ones required by this program. Highly recommended and great tutorials on how to set 
    that up on your machine - windows/OSX/Linux
 
-    -> Conda does not include Click - you must manually download it<-
+    -> Vanilla Conda does not include Click - you must manually download it<-
 
     	conda install click
    
