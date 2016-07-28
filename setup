@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# Variable Declarations
+curdir="../slope-stability/"
+wdir="/usr/local/slope-stability"
+bin="${wdir}/bin"
+cmd="export PATH=\"/usr/local/slope-stability/bin:\$PATH\""
+
+halp=""
+
+if [[ "$1" == "-h" ]]; then
+	echo "
+Usage: ./setup [-h] [-uninstall] --Setup Options for Slope Stability Program
+
+	where:
+		-h    Shows this help message
+		-u    Uninstalls all relavent data 
+
+		*no argument     
+		      Installs relavent data to appropriate folders
+
+			"
+
+elif [[ "$1" == "-u" ]]; then
+	echo "Removing all content from working directory"
+	rm -rf $wdir
+	source ~/.bash_profile
+
+# deal with arguments first
+elif [[ $# -eq 0 ]]; then
+	#statements
+
+	# Copy entire directory to seperate directory in /usr/local
+	echo "Making Directory: /slope-stability/"
+	mkdir $wdir
+
+	echo "Copying Content to: /usr/local/slope-stability"
+	cp -R $curdir $wdir
+
+	# Make /usr/local/slope-stability/bin executable
+	echo "Writing executable"
+	chmod +x "$bin/fos"
+
+	# Add /usr/local/slope-stability/bin to user PATH
+	if grep /usr/local/slope-stability ~/.bash_profile; then
+		:
+	else
+		echo "Adding link to \$PATH"
+		echo $cmd >> ~/.bash_profile
+	fi
+
+	source ~/.bash_profile
+else
+	echo 'Unrecognised argument; try ./setup -h'
+fi
