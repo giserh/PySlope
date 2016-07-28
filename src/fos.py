@@ -84,9 +84,6 @@ def FOS_Method( method,
                                                          soil_cohesion)
             effective_angle = degree2rad(effective_angle)
 
-            print (length / prof_length) * 100.
-            print (degree / prof_degree) * 100.
-
             # Calculate numerator and denominator of individual slice based on method
             numerator, denominator = FOS_calc(method,
                                               water_pore_pressure,
