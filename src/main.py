@@ -139,7 +139,8 @@ class ReadConfig(object):
             line_num += 1
 
 def fos(fos, config_file, data_file):
-
+    if fos is None:
+        raiseGeneralError("No method chosen: fos --help")
     config = ReadConfig(config_file)
 
     verbose = True if config.verbose == 'yes' else False
