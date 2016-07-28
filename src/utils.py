@@ -239,8 +239,7 @@ def FOS_calc(method, water_pore_pressure, mg, degree, effective_angle, cohesion,
 def isolate_slice(index,
                   sliced_ep_profile,
                   shapely_circle,
-                  bulk_density,
-                  soil_cohesion):
+                  bulk_density):
     buff = 10**100
     current, next = sliced_ep_profile[index], sliced_ep_profile[index+1]
 
@@ -301,10 +300,9 @@ def isolate_slice(index,
         area = polygon.area
         # Find the weight of the slab:
         mg = area* bulk_density
-        cohesion = soil_cohesion
 
 
-        return arc_length, arc_degree, mg, cohesion, prof_length, prof_degree
+        return arc_length, arc_degree, mg, prof_length, prof_degree
 
 #### /Calculation Utils ####
 
