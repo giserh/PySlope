@@ -74,13 +74,25 @@ This program is intended for anyone who is interested in doing slope stability a
 The program works in two ways - configuring the config.txt (or similiar) and using the command line to execute the
 different commands. Editing the config.txt file with the parameters you choose. For a step-by-step guide to what each
 config option does read on down below under the section 'Configuration File Explained' Once you have everything you need
-make sure your **datafile** and **config.txt** are in the same directory. Make sure to point your shell path to the /bin/
-and run the commands as follows:
-
-* Note for now everytime you pull a new copy of this project you have to physically make /bin/fos executable in order
-for it to work properly simply 
+make sure your **datafile** and **config.txt** are in the same directory. 
         
-        chmod +x where_you_put_the_project/bin/fos
+There will be a file called **setup** once downloaded. It is a unix executable file that will install the program to /usr/local
+and create all relevant links to be able for use it immediately via commands described below. The setup file also includes other options
+including an uninstall feature. More info below.
+
+    Usage: ./setup [-h] [-u] --Setup Options for Slope Stability Program
+    
+        where:
+            -h    Shows this help message
+            -u    Uninstalls all relevant data 
+    
+            *no argument     
+                  Installs relevant data to appropriate folders
+    
+                
+
+
+Supported Commands that work out of the box
 
 ####fos - factor of safety####
 

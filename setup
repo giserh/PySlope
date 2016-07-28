@@ -10,14 +10,14 @@ halp=""
 
 if [[ "$1" == "-h" ]]; then
 	echo "
-Usage: ./setup [-h] [-uninstall] --Setup Options for Slope Stability Program
+Usage: ./setup [-h] [-u] --Setup Options for Slope Stability Program
 
 	where:
 		-h    Shows this help message
-		-u    Uninstalls all relavent data 
+		-u    Uninstalls all relevant data 
 
 		*no argument     
-		      Installs relavent data to appropriate folders
+		      Installs relevant data to appropriate folders
 
 			"
 
