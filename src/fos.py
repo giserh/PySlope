@@ -79,10 +79,14 @@ def FOS_Method( method,
     for index in range(len(sliced_ep_profile)-1):
         try:
             ### Isolate variables of individual slice ##
-            length, degree, mg, cohesion = isolate_slice(index, sliced_ep_profile, shapely_circle, bulk_density,
+            length, degree, mg, cohesion, prof_length, prof_degree = isolate_slice(index, sliced_ep_profile,
+                                                                               shapely_circle, bulk_density,
                                                          soil_cohesion)
             effective_angle = degree2rad(effective_angle)
 
+            print length, prof_length
+            print degree, prof_degree
+            
             # Calculate numerator and denominator of individual slice based on method
             numerator, denominator = FOS_calc(method,
                                               water_pore_pressure,
