@@ -6,7 +6,6 @@ wdir="/usr/local/slope-stability"
 bin="${wdir}/bin"
 cmd="export PATH=\"/usr/local/slope-stability/bin:\$PATH\""
 
-halp=""
 
 if [[ "$1" == "-h" ]]; then
 	echo "
@@ -29,6 +28,7 @@ elif [[ "$1" == "-u" ]]; then
 # deal with arguments first
 elif [[ $# -eq 0 ]]; then
 	#statements
+    ./setup -u
 
 	# Copy entire directory to seperate directory in /usr/local
 	echo "Making Directory: /slope-stability/"
