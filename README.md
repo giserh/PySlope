@@ -57,7 +57,7 @@ This program is intended for anyone who is interested in doing slope stability a
         
    For windows users - you are out of luck for any of my help. I am not a windows guy nor will I ever be. There are a
     few tutorials online that allow you to install python and the modules itself. If you realized your major mistake 
-    by not going with a Unix type OS then have no fear windows has made some sort of a comeback by using [cygwin]
+    by not going with a Unix type OS then have no fear, windows has made some sort of a comeback by using [cygwin]
     (https://www.cygwin.com/)
     
     
@@ -185,22 +185,15 @@ So:
 
 Will not work.
 
-    circle_data = 0,0,3 (x,y, radius) or 0,0,(1,2) - (x,y,(a,b))
-            Pay attention to the syntax here. The program allows you to set your circle_data to be either a perfect 
-            circle or an ellipse. To provide a perfect circle just supply the argument of:
-            (x,y,radius) - without the parenthesis
-            x,y,radius
-            
+    circle_data = 0,0,(1,2) - (x,y,(a,b))
             To provide data for an ellipse supply the argument of:
             (x, y, (a,b)) - without the outside parenthesis
             x, y,(a,b)
-            
-            or
-            
-            x,y,a,b
-            
+     
             a = horizontal radius
             b = vertical radius
+            
+            For a circle simply make a=b
 
     soil_cohesion = 22 (in kPa)
             Reads in soil cohesion in kPa

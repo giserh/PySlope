@@ -15,8 +15,7 @@ delimiter = ,
 # data_file = slope_profile.elev
 #data_file = slope_profile.elev
 
-# circle_coordinates = 0,0,3 (x,y, radius) - meters
-# To use an ellipse instead -
+
 #circle_coordinates = 0,0,(a,b) (x,y, (horizontal_radius, vertical_radius) - meters
 circle_coordinates = 10,11,(5,3)
 
