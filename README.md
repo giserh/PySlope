@@ -148,16 +148,15 @@ After everything is done it will spit out:
 * Play around with the circle coordinates, it will only catch the coordinates of the elevation profile that
 is 'trapped' in the circle and perform calculation on those
 
-* The main.py is documented.. quite heavly... if you can contribute to the code I would greatly appreciate it.
-* It does offer some methods for you to plot results using matplotlib.. by default it will plot your entire area
-  in different
-  colors to see how everything plays out.
+* The whole project is documented.. quite heavly... if you can contribute to the code I would greatly appreciate it.
+* It does support a preview of your data with the plotted circle before any calculations are made. This ensures visual confirmation
+that the ellipsiod encloses the profile. If the ellipsiod doesn't intersect the profile an error will pop up once you 'continue'
 
 
 ###What does it not do?###
 
 It is a very basic program thus far. I have tried a few circle coordinates, but not every possibility. Most
-likely a bug will pop up eventually. It doesn't support multilayered strata, yet.
+likely a bug will pop up eventually. It doesn't support multilayered strata or 3D... yet.
 
 
 ###Configuration File Explained###
@@ -168,45 +167,41 @@ just change the values where you see fit. Be warned though unexpected results ma
 bugs you find email me @ duan_uys@icloud.com
 
     delimiter = ,
-    This option reads your data file and removes the delimiter which by default is ','.
+            This option reads your data file and removes the delimiter which by default is ','.
+        
+            What does this mean?
+            If you have a sample set like this:
+        
+            2,3
+            3,4
+            4,5
+            6,6
+        
+            Program will load it in a numpy array removing the ',': at this point it only takes one delimiter.
+            So:
+            
+            delimiter = ,(): - Will not work.
 
-What does this mean?
-
-If you have a sample set like this:
-
-    2,3
-    3,4
-    4,5
-    6,6
-
-Program will load it in a numpy array removing the ',': at this point it only takes one delimiter.
-So:
-    
-    delimiter = ',()':
-
-Will not work.
 
     circle_data = 0,0,(1,2) - (x,y,(a,b))
             To provide data for an ellipse supply the argument of:
             (x, y, (a,b)) - without the outside parenthesis
-            x, y,(a,b)
-     
+            
+            x, y,(a,b) - example
             a = horizontal radius
             b = vertical radius
             
-            For a circle simply make a=b
+            For a circle simply; a=b
 
     soil_cohesion = 22 (in kPa)
             Reads in soil cohesion in kPa
 
     effective_friction_angle_soil = 40 (degrees)
-            Reads in the effective friction angle of the soil.. this is the angle that will be used in:
-
-        N tan(effective_friction_angle_soil) - ul
+            Internal soil friction maximum angle
 
     bulk_density = 1760 (Kg/m^3)
-            Reads in bulk density of the soil - the program doesn't support multi layered strata yet. It assumes the area of
-            interest if homogenous. Also this is just 2D but hopefully will expand to 3D soon.
+            Reads in bulk density of the soil - the program doesn't support multi layered strata yet. It assumes the area 
+            is homogenous. Also this is just 2D but hopefully will expand to 3D soon.
 
     num_of_elements = 100
             This is the number of elements you wish to 'generate' for your eleveation profile. Be warned you may get some
@@ -216,7 +211,7 @@ Will not work.
             
     show_figure = yes/no
             This option just toggles whether or not you would like the workspace plotted via matplotlib and showed to
-             you
+            you
     
     
     save_figure = yes/no

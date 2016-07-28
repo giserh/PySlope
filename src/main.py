@@ -186,18 +186,19 @@ def fos(fos, config_file, data_file):
     intersection_coordinates = list(shapely_circle.intersection(shapely_elevation_profile).bounds)
 
     #### Preview geometery ####
-    circle_preview = np.array(list(shapely_circle.coords))
-    plt.plot(data[:,0], data[:,1], color='red')
-    plt.scatter(circle_preview[:,0], circle_preview[:,1])
+    if config.show_figure == 'yes':
+        circle_preview = np.array(list(shapely_circle.coords))
+        plt.plot(data[:,0], data[:,1], color='red')
+        plt.scatter(circle_preview[:,0], circle_preview[:,1])
 
-    buttonopt = Index()
-    quitax = plt.axes([0.7, 0.05, 0.1, 0.075])
-    contax = plt.axes([0.81, 0.05, 0.1, 0.075])
-    quit = Button(quitax, 'Quit')
-    quit.on_clicked(buttonopt.abort_gui)
-    cont = Button(contax, 'Continue')
-    cont.on_clicked(buttonopt.cont_gui)
-    plt.show()
+        buttonopt = Index()
+        quitax = plt.axes([0.7, 0.05, 0.1, 0.075])
+        contax = plt.axes([0.81, 0.05, 0.1, 0.075])
+        quit = Button(quitax, 'Quit')
+        quit.on_clicked(buttonopt.abort_gui)
+        cont = Button(contax, 'Continue')
+        cont.on_clicked(buttonopt.cont_gui)
+        plt.show()
     #
     if len(intersection_coordinates) == 0:
         print "Error: Circle doesn't intersect the profile - please readjust circle coordinates in config file"
@@ -280,9 +281,10 @@ def fos(fos, config_file, data_file):
     if config.save_figure == 'yes':
         verb(verbose, 'Saving result to figure.')
         plt.savefig('slope_profile.tif')
+    """
 
-    if config.show_figure == 'yes':
         verb(verbose, 'Show figure: True.')
         plt.show()
+        """
 
 

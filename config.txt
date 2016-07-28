@@ -35,7 +35,7 @@ num_of_slices = 1000
 save_figure = no
 
 # show_figure = yes/no
-show_figure = no
+show_figure = yes
 
 
 ## EXTRA OPTIONS ##
