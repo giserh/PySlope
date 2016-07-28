@@ -271,7 +271,8 @@ def isolate_slice(index,
         arc_hypotenuse = LineString([(int1_x, in1t_y), (int2_x, in2t_y)]).length
         prof_hypotenuse = LineString([(prof1_x, prof1_y), (prof2_x, prof2_y)]).length
 
-        arc_tempH_line = LineString([(int2_x, in2t_y), (int2_x-buff, in2t_y)])
+        #arc_tempH_line = LineString([(int2_x, in2t_y), (int2_x-buff, in2t_y)])
+        arc_tempH_line = LineString([(int1_x, in1t_y), (int1_x+buff, in1t_y)])
         prof_tempH_line = LineString([(prof1_x, prof1_y), (prof1_x+buff, prof1_y)])
 
         arc_temp_coor = tempL_line.intersection(arc_tempH_line)
