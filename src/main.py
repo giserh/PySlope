@@ -39,8 +39,8 @@ class ReadConfig(object):
             'effective_friction_angle_soil',    # 3
             'bulk_density',                     # 4
             'num_of_slices',                    # 5
-            'show_figure',                      # 6
-            'save_figure',                      # 7
+            'save_figure',                      # 6
+            'show_figure',                      # 7
             'water_pore_pressure',              # 8
             'vslice',                           # 9
             'percentage_status',                # 10
@@ -116,7 +116,6 @@ class ReadConfig(object):
 
                     elif variable == self.options_from_config[7]:
                         # show figure - string
-                        print variable, value
                         self.show_figure = isString(value, variable)
 
                     elif variable == self.options_from_config[8]:
@@ -186,8 +185,6 @@ def fos(fos, config_file, data_file):
     intersection_coordinates = list(shapely_circle.intersection(shapely_elevation_profile).bounds)
 
     #### Preview geometery ####
-    print 'hello'
-    print config.show_figure
     if config.show_figure == 'yes':
         circle_preview = np.array(list(shapely_circle.coords))
         plt.plot(data[:,0], data[:,1], color='red')
