@@ -141,6 +141,7 @@ class ReadConfig(object):
 def fos(fos, config_file, data_file):
     if fos is None:
         raiseGeneralError("No method chosen: fos --help")
+
     config = ReadConfig(config_file)
 
     verbose = True if config.verbose == 'yes' else False
@@ -154,11 +155,11 @@ def fos(fos, config_file, data_file):
     ####
     #
     #### Check to see if num_of_elements is lower than actual length of data:
-    verb(verbose, 'Check to see if num_of_elements is lower than actual length of data.')
+    verb(verbose, 'Check to see if number of slices is lower than actual length of data.')
     if config.num_of_slices < len(data):
         print "Error: You can't have num_of_elements set lower to your total amount of data points" \
               "\n\nTotal Data Points: %s" \
-              "\nNum_of_elements: %s" % (str(len(data)), str(int(config.num_of_slices)))
+              "\nNum_of_slices: %s" % (str(len(data)), str(int(config.num_of_slices)))
         sys.exit()
     #
     ## create shapely circle with circle data
