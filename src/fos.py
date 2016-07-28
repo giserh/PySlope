@@ -113,10 +113,10 @@ def FOS_Method( method,
     factor_of_safety = numerator_list.sum()/ denominator_list.sum()
 
     # Finish up with so
-    results = errors + '\n\nMethod: %s\nCohesion: %d\nEffective Friction Angle: %d\nBulk Density: %d\nNumber of ' \
+    results = errors + '\n\nMethod: %s\nCohesion: %d kPa\nEffective Friction Angle: %d\nBulk Density: %d Kg/m^3\nNumber of ' \
                        'slices ' \
-                       'calculated: %d\nWater Pore Pressure: %d\n\nFactor of Safety: ' % (method.title(),
-        soil_cohesion, effective_friction_angle, bulk_density, slice, water_pore_pressure) + str(factor_of_safety)
+                       'calculated: %d\nWater Pore Pressure: %d kPa\n\nFactor of Safety: %s\n' % (method.title(),
+        soil_cohesion, effective_friction_angle, bulk_density, slice, water_pore_pressure, str(factor_of_safety))
 
     f = open('results.log', 'w')
     f.write(results)
