@@ -4,9 +4,8 @@
 # Reading From Elevation File Options##
 #######################################
 
-# FOS Calculation Options  #
 #==========================#
-# 1) method_of_slices      #
+# Configuration Options    #
 #==========================#
 
 # delimiter = ,
