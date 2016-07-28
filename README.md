@@ -78,7 +78,7 @@ make sure your **datafile** and **config.txt** are in the same directory.
         
 There will be a file called **setup** once downloaded. It is a unix executable file that will install the program to /usr/local
 and create all relevant links to be able for use it immediately via commands described below. The setup file also includes other options
-including an uninstall feature. More info below.
+including an uninstall feature. More info below. 
 
     Usage: ./setup [-h] [-u] --Setup Options for Slope Stability Program
     
@@ -90,7 +90,8 @@ including an uninstall feature. More info below.
                   Installs relevant data to appropriate folders
     
                 
-
+I constantly work on this program and push out major to minor updates. Once you **git clone** the project **git pull** in the same directory.
+Once you have the newest version run **setup** again to update the program.
 
 Supported Commands that work out of the box
 
