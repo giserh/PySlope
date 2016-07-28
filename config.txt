@@ -31,11 +31,6 @@ bulk_density = 1760
 # num_of_slices = 100
 num_of_slices = 1000
 
-# save_figure = yes/no
-save_figure = no
-
-# show_figure = yes/no
-show_figure = yes
 
 
 ## EXTRA OPTIONS ##
@@ -54,4 +49,10 @@ percentage_status = on
 
 # verbose = yes/no
 verbose = yes
+
+# save_figure = yes/no
+save_figure = no
+
+# show_figure = yes/no
+show_figure = yes
 

@@ -209,14 +209,6 @@ bugs you find email me @ duan_uys@icloud.com
             I also haven't tested it extensivly to see what happens when you really rise that number, but the higher the
             number than theortically it turns the Factor of Saftey into an integral because the length -> 0 of each slice.
             
-    show_figure = yes/no
-            This option just toggles whether or not you would like the workspace plotted via matplotlib and showed to
-            you
-    
-    
-    save_figure = yes/no
-            This option toggles whether or not you would like the workspace to be saved as an image in your directory
-            Default - .tiff
 
     ##EXTRA OPTIONS##
             These options does not affect the actual calcuations of the various FOS methods, instead they are more like
@@ -235,3 +227,12 @@ bugs you find email me @ duan_uys@icloud.com
     percentage_status = on
             This option toggles whether or not you will see a percentage of completion with each slice batch that is 
             completed. This option works jointly with vslices.
+    
+    show_figure = yes/no
+            This option just toggles whether or not you would like the workspace plotted via matplotlib and showed to
+            you
+    
+    
+    save_figure = yes/no
+            This option toggles whether or not you would like the workspace to be saved as an image in your directory
+            Default - .tiff
