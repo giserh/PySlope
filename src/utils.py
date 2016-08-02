@@ -74,6 +74,23 @@ def printslice(slice, vslice, percentage_status, sliced_ep_profile):
 
 
 #### Geometry Utils ####
+
+def createShapelyCircle(verbose, c_x, c_y, c_a, c_b, c_r):
+    verb(verbose, 'Creating Shapely circle with circle data.')
+    try:
+        verb(verbose, 'Trying to generate ellipsoid')
+        if c_x is not None or c_y is not None or c_b is not None or c_a is not None:
+            ellipse = generateEllipse(c_x, c_y, c_a, c_b)
+            return LineString(ellipse)
+        else:
+            sys.exit("Error: c_x, c_y, c_a, c_b not set.. Report bug")
+    except:
+        verb(verbose, 'Ellipse failed: Reverting to perfect circle.')
+        if c_x is not None or c_y is not None or c_r is not None:
+            return Point(c_x, c_y).buffer(c_r).boundary
+        else:
+            sys.exit("Error: c_x, c_y, c_r not set.. Report bug")
+
 def isEllipse(value):
     for char in value:
         if char == "(" or char == ")":

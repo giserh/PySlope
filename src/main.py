@@ -147,154 +147,157 @@ class ReadConfig(object):
 def fos(fos, config_file, data_file):
     if fos is None:
         raiseGeneralError("No method chosen: fos --help")
-
     config = ReadConfig(config_file)
 
-    if config.perform_critical_slope == 'yes':
-        pass
-    else:
-        verbose = True if config.verbose == 'yes' else False
-        effective_angle, angle = config.effective_friction_angle_soil, config.effective_friction_angle_soil
-        ####
-        #
-        #
-        #### load data from file as numpy array
-        verb(verbose, 'Load data from file as numpy array.')
-        data = np.loadtxt(data_file, delimiter=config.delimit)
-        ####
-        #
-        #### Check to see if num_of_elements is lower than actual length of data:
-        verb(verbose, 'Check to see if number of slices is lower than actual length of data.')
-        if config.num_of_slices < len(data):
-            print "Error: You can't have num_of_elements set lower to your total amount of data points" \
-                  "\n\nTotal Data Points: %s" \
-                  "\nNum_of_slices: %s" % (str(len(data)), str(int(config.num_of_slices)))
-            sys.exit()
-        #
-        ## create shapely circle with circle data
-        verb(verbose, 'Creating Shapely circle with circle data.')
-        #shapely_circle = Point(c_x, c_y).buffer(c_r).boundary
+    verbose = True if config.verbose == 'yes' else False
+    effective_angle, angle = config.effective_friction_angle_soil, config.effective_friction_angle_soil
+    ####
+    #
+    #
+    #### load data from file as numpy array
+    verb(verbose, 'Load data from file as numpy array.')
+    data = np.loadtxt(data_file, delimiter=config.delimit)
+    ####
+    #
+    #### Check to see if num_of_elements is lower than actual length of data:
+    verb(verbose, 'Check to see if number of slices is lower than actual length of data.')
+    if config.num_of_slices < len(data):
+        print "Error: You can't have num_of_elements set lower to your total amount of data points" \
+              "\n\nTotal Data Points: %s" \
+              "\nNum_of_slices: %s" % (str(len(data)), str(int(config.num_of_slices)))
+        sys.exit()
+    #
 
-        try:
-            verb(verbose, 'Trying to generate ellipsoid')
-            if config.c_x is not None or config.c_y is not None or config.c_b is not None or config.c_a is not None:
-                ellipse = generateEllipse(config.c_x, config.c_y, config.c_a, config.c_b)
-                shapely_circle = LineString(ellipse)
-            else:
-                sys.exit("Error: c_x, c_y, c_a, c_b not set.. Report bug")
-        except:
-            verb(verbose, 'Ellipse failed: Reverting to perfect circle.')
-            if config.c_x is not None or config.c_y is not None or config.c_r is not None:
-                shapely_circle = Point(config.c_x, config.c_y).buffer(config.c_r).boundary
-            else:
-                sys.exit("Error: c_x, c_y, c_r not set.. Report bug")
-        #
-        #
-        ## create shapely line with elevation profile
-        verb(verbose, 'Creating Shapely line with elevation profile.')
-        shapely_elevation_profile = LineString(data)
-        intersection_coordinates = list(shapely_circle.intersection(shapely_elevation_profile).bounds)
-
-        #### Preview geometery ####
-        if config.show_figure == 'yes':
-            circle_preview = np.array(list(shapely_circle.coords))
-            plt.plot(data[:,0], data[:,1], color='red')
-            plt.scatter(circle_preview[:,0], circle_preview[:,1])
-
-            buttonopt = Index()
-            quitax = plt.axes([0.7, 0.05, 0.1, 0.075])
-            contax = plt.axes([0.81, 0.05, 0.1, 0.075])
-            quit = Button(quitax, 'Quit')
-            quit.on_clicked(buttonopt.abort_gui)
-            cont = Button(contax, 'Continue')
-            cont.on_clicked(buttonopt.cont_gui)
-            plt.show()
-        #
-        if len(intersection_coordinates) == 0:
-            print "Error: Circle doesn't intersect the profile - please readjust circle coordinates in config file"
-            sys.exit()
-        #
-        ## Using intersection coordinates isolate the section of profile that is within the circle.
-        ### Check to see if intersection_coordinates length is 4 elements.. if it isn't so that means for some reason
-        # there are moreless than two intersection points in the profile - shouldn't really happen at all...
-        if len(intersection_coordinates) != 4:
-            print "Error: Found more/less than two intersection coordinates\nNumber of intersections: %s" % \
-                  str(len(intersection_coordinates))
-            sys.exit()
-        verb(verbose, 'Isolating section of profile: Length of element is correct.')
-        int1, int2 = (intersection_coordinates[0], intersection_coordinates[1]), (intersection_coordinates[2],
-                                                                                  intersection_coordinates[3])
-        #
-        # Check to see if intersection_1 and intersection_2 are the same. If they are that means the circle only intersects
-        # the profile once.. not allowed
-        if int1 == int2:
-            print "Error: Circle only intersects the profile in one place - please readjust circle coordinates in config file"
-            sys.exit()
-        verb(verbose, 'Cross-checking intersection coordinates.')
-
-        verb(verbose, 'Converting circle/ellipse coordinates into Numpy Array.')
-        circle_coordinates = np.array(list(shapely_circle.coords))
-        verb(verbose, 'Converting profile coordinates into Numpy Array.')
-        elevation_profile = np.array(list(shapely_elevation_profile.coords))
-
-        #plt.scatter(circle_coordinates[:,0], circle_coordinates[:,1], color='red')
-        #plt.scatter(elevation_profile[:,0], elevation_profile[:,1])
-        #plt.show()
-        #
-        #
-        # Create sliced array with boundaries from ep_profile
-        verb(verbose, 'Creating Numpy array of sliced profile bounded within circle.')
-        ep_profile = arraylinspace2d(elevation_profile, config.num_of_slices)
-        sliced_ep_profile = slice_array(ep_profile, int1, int2, config.num_of_slices)
-        #
-        #
-        #
-        ### Perform actual calculation of forces slice-by-slice
-        verb(verbose, 'Performing actual FOS calculation by Method: %s' % fos)
-        effective_friction_angle = effective_angle
-
-        results = ''
-        if fos == 'general':
-            results = FOS_Method( fos,
-                                         sliced_ep_profile,
-                                         shapely_circle,
-                                         config.bulk_density,
-                                         config.soil_cohesion,
-                                         effective_friction_angle,
-                                         config.vslice,
-                                         config.percentage_status,
-                                         config.water_pore_pressure,
-                                         verbose)
-
-        elif fos == 'bishop':
-            results = FOS_Method(fos,
-                                 sliced_ep_profile,
-                                 shapely_circle,
-                                 config.bulk_density,
-                                 config.soil_cohesion,
-                                 effective_friction_angle,
-                                 config.vslice,
-                                 config.percentage_status,
-                                 config.water_pore_pressure,
-                                 verbose)
-
+    ## create shapely circle with circle data
+    shapely_circle = createShapelyCircle(verbose,
+                                         config.c_x,
+                                         config.c_y,
+                                         config.c_a,
+                                         config.c_b,
+                                         config.c_r)
+    """
+    verb(verbose, 'Creating Shapely circle with circle data.')
+    try:
+        verb(verbose, 'Trying to generate ellipsoid')
+        if config.c_x is not None or config.c_y is not None or config.c_b is not None or config.c_a is not None:
+            ellipse = generateEllipse(config.c_x, config.c_y, config.c_a, config.c_b)
+            shapely_circle = LineString(ellipse)
         else:
-            raiseGeneralError("Method: %s didn't execute" % fos)
-
-        print results
-
-        plt.scatter(circle_coordinates[:,0], circle_coordinates[:,1], color='red')
-        plt.scatter(ep_profile[:,0], ep_profile[:,1])
-        plt.scatter(sliced_ep_profile[:,0], sliced_ep_profile[:,1], color='green')
-
-
-        if config.save_figure == 'yes':
-            verb(verbose, 'Saving result to figure.')
-            plt.savefig('slope_profile.tif')
-        """
-
-            verb(verbose, 'Show figure: True.')
-            plt.show()
+            sys.exit("Error: c_x, c_y, c_a, c_b not set.. Report bug")
+    except:
+        verb(verbose, 'Ellipse failed: Reverting to perfect circle.')
+        if config.c_x is not None or config.c_y is not None or config.c_r is not None:
+            shapely_circle = Point(config.c_x, config.c_y).buffer(config.c_r).boundary
+        else:
+            sys.exit("Error: c_x, c_y, c_r not set.. Report bug")
             """
+    #
+    #
+    ## create shapely line with elevation profile
+    verb(verbose, 'Creating Shapely line with elevation profile.')
+    shapely_elevation_profile = LineString(data)
+    intersection_coordinates = list(shapely_circle.intersection(shapely_elevation_profile).bounds)
+
+    #### Preview geometery ####
+    if config.show_figure == 'yes':
+        circle_preview = np.array(list(shapely_circle.coords))
+        plt.plot(data[:,0], data[:,1], color='red')
+        plt.scatter(circle_preview[:,0], circle_preview[:,1])
+
+        buttonopt = Index()
+        quitax = plt.axes([0.7, 0.05, 0.1, 0.075])
+        contax = plt.axes([0.81, 0.05, 0.1, 0.075])
+        quit = Button(quitax, 'Quit')
+        quit.on_clicked(buttonopt.abort_gui)
+        cont = Button(contax, 'Continue')
+        cont.on_clicked(buttonopt.cont_gui)
+        plt.show()
+    #
+    if len(intersection_coordinates) == 0:
+        print "Error: Circle doesn't intersect the profile - please readjust circle coordinates in config file"
+        sys.exit()
+    #
+    ## Using intersection coordinates isolate the section of profile that is within the circle.
+    ### Check to see if intersection_coordinates length is 4 elements.. if it isn't so that means for some reason
+    # there are moreless than two intersection points in the profile - shouldn't really happen at all...
+    if len(intersection_coordinates) != 4:
+        print "Error: Found more/less than two intersection coordinates\nNumber of intersections: %s" % \
+              str(len(intersection_coordinates))
+        sys.exit()
+    verb(verbose, 'Isolating section of profile: Length of element is correct.')
+    int1, int2 = (intersection_coordinates[0], intersection_coordinates[1]), (intersection_coordinates[2],
+                                                                              intersection_coordinates[3])
+    #
+    # Check to see if intersection_1 and intersection_2 are the same. If they are that means the circle only intersects
+    # the profile once.. not allowed
+    if int1 == int2:
+        print "Error: Circle only intersects the profile in one place - please readjust circle coordinates in config file"
+        sys.exit()
+    verb(verbose, 'Cross-checking intersection coordinates.')
+
+    verb(verbose, 'Converting circle/ellipse coordinates into Numpy Array.')
+    circle_coordinates = np.array(list(shapely_circle.coords))
+    verb(verbose, 'Converting profile coordinates into Numpy Array.')
+    elevation_profile = np.array(list(shapely_elevation_profile.coords))
+
+    #plt.scatter(circle_coordinates[:,0], circle_coordinates[:,1], color='red')
+    #plt.scatter(elevation_profile[:,0], elevation_profile[:,1])
+    #plt.show()
+    #
+    #
+    # Create sliced array with boundaries from ep_profile
+    verb(verbose, 'Creating Numpy array of sliced profile bounded within circle.')
+    ep_profile = arraylinspace2d(elevation_profile, config.num_of_slices)
+    sliced_ep_profile = slice_array(ep_profile, int1, int2, config.num_of_slices)
+    #
+    #
+    #
+    ### Perform actual calculation of forces slice-by-slice
+    verb(verbose, 'Performing actual FOS calculation by Method: %s' % fos)
+    effective_friction_angle = effective_angle
+
+    results = ''
+    if fos == 'general':
+        results = FOS_Method( fos,
+                                     sliced_ep_profile,
+                                     shapely_circle,
+                                     config.bulk_density,
+                                     config.soil_cohesion,
+                                     effective_friction_angle,
+                                     config.vslice,
+                                     config.percentage_status,
+                                     config.water_pore_pressure,
+                                     verbose)
+
+    elif fos == 'bishop':
+        results = FOS_Method(fos,
+                             sliced_ep_profile,
+                             shapely_circle,
+                             config.bulk_density,
+                             config.soil_cohesion,
+                             effective_friction_angle,
+                             config.vslice,
+                             config.percentage_status,
+                             config.water_pore_pressure,
+                             verbose)
+
+    else:
+        raiseGeneralError("Method: %s didn't execute" % fos)
+
+    print results
+
+    plt.scatter(circle_coordinates[:,0], circle_coordinates[:,1], color='red')
+    plt.scatter(ep_profile[:,0], ep_profile[:,1])
+    plt.scatter(sliced_ep_profile[:,0], sliced_ep_profile[:,1], color='green')
+
+
+    if config.save_figure == 'yes':
+        verb(verbose, 'Saving result to figure.')
+        plt.savefig('slope_profile.tif')
+    """
+
+        verb(verbose, 'Show figure: True.')
+        plt.show()
+        """
 
 
