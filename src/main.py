@@ -184,34 +184,16 @@ def fos(fos, config_file, data_file):
     shapely_elevation_profile = LineString(data)
 
     #### Preview geometery ####
-    if config.show_figure == 'yes':
-        circle_preview = np.array(list(shapely_circle.coords))
-        plt.plot(data[:,0], data[:,1], color='red')
-        plt.scatter(circle_preview[:,0], circle_preview[:,1])
+    previewGeometery(config.show_figure, shapely_circle, data)
 
-        buttonopt = Index()
-        quitax = plt.axes([0.7, 0.05, 0.1, 0.075])
-        contax = plt.axes([0.81, 0.05, 0.1, 0.075])
-        quit = Button(quitax, 'Quit')
-        quit.on_clicked(buttonopt.abort_gui)
-        cont = Button(contax, 'Continue')
-        cont.on_clicked(buttonopt.cont_gui)
-        plt.show()
-    #
-    if len(intersection_coordinates) == 0:
-        print "Error: Circle doesn't intersect the profile - please readjust circle coordinates in config file"
-        sys.exit()
+
     #
     ## Using intersection coordinates isolate the section of profile that is within the circle.
     ### Check to see if intersection_coordinates length is 4 elements.. if it isn't so that means for some reason
-    # there are moreless than two intersection points in the profile - shouldn't really happen at all...
-    if len(intersection_coordinates) != 4:
-        print "Error: Found more/less than two intersection coordinates\nNumber of intersections: %s" % \
-              str(len(intersection_coordinates))
-        sys.exit()
-    verb(verbose, 'Isolating section of profile: Length of element is correct.')
-    int1, int2 = (intersection_coordinates[0], intersection_coordinates[1]), (intersection_coordinates[2],
-                                                                              intersection_coordinates[3])
+    # there are more or less than two intersection points in the profile - shouldn't really happen at all...
+
+    int1, int2 = fetchIntersecCoords(verbose, intersection_coordinates)
+
     #
     # Check to see if intersection_1 and intersection_2 are the same. If they are that means the circle only intersects
     # the profile once.. not allowed
@@ -225,9 +207,6 @@ def fos(fos, config_file, data_file):
     verb(verbose, 'Converting profile coordinates into Numpy Array.')
     elevation_profile = np.array(list(shapely_elevation_profile.coords))
 
-    #plt.scatter(circle_coordinates[:,0], circle_coordinates[:,1], color='red')
-    #plt.scatter(elevation_profile[:,0], elevation_profile[:,1])
-    #plt.show()
     #
     #
     # Create sliced array with boundaries from ep_profile

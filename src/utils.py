@@ -1,11 +1,11 @@
 import sys
 import numpy as np
-from utils import *
+from matplotlib.widgets import Button
 from shapely.geometry import LineString, Point, Polygon
 import matplotlib.pyplot as plt
 
-#### Basic Utils ####
 
+#### Basic Utils ####
 def verb(v, string):
     if v:
         print '-> %s' % string
@@ -70,6 +70,11 @@ def printslice(slice, vslice, percentage_status, sliced_ep_profile):
     except:
         pass
 
+def fetchIntersecCoords(verbose, intersection_coordinates):
+    verb(verbose, 'Isolating section of profile: Length of element is correct.')
+    int1, int2 = (intersection_coordinates[0], intersection_coordinates[1]), (intersection_coordinates[2],
+                                                                              intersection_coordinates[3])
+    return int1, int2
 #### /Basic Utils ####
 
 
@@ -100,6 +105,16 @@ def intersec_circle_and_profile(verbose, shapely_circle, profile_data):
     verb(verbose, 'Finding Intersection between Circle and Profile')
     shapely_elevation_profile = LineString(profile_data)
     intersection_coordinates = list(shapely_circle.intersection(shapely_elevation_profile).bounds)
+
+    if len(intersection_coordinates) == 0:
+        print "Error: Circle doesn't intersect the profile - please readjust circle coordinates in config file"
+        sys.exit()
+
+    if len(intersection_coordinates) != 4:
+        print "Error: Found more/less than two intersection coordinates\nNumber of intersections: %s" % \
+              str(len(intersection_coordinates))
+        sys.exit()
+
     return intersection_coordinates
 
 
@@ -343,5 +358,20 @@ class Index(object):
     def cont_gui(self, event):
         print '-> Proceeding'
         plt.close('all')
+
+def previewGeometery(show_figure, shapely_circle, profile_data):
+    if show_figure == 'yes':
+        circle_preview = np.array(list(shapely_circle.coords))
+        plt.plot(profile_data[:,0], profile_data[:,1], color='red')
+        plt.scatter(circle_preview[:,0], circle_preview[:,1])
+
+        buttonopt = Index()
+        quitax = plt.axes([0.7, 0.05, 0.1, 0.075])
+        contax = plt.axes([0.81, 0.05, 0.1, 0.075])
+        quit = Button(quitax, 'Quit')
+        quit.on_clicked(buttonopt.abort_gui)
+        cont = Button(contax, 'Continue')
+        cont.on_clicked(buttonopt.cont_gui)
+        plt.show()
 
 #### /GUI FUNCS ####
