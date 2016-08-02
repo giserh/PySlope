@@ -17,7 +17,7 @@ def fos(fos, config_file, data_file):
     verbose = True if config.verbose == 'yes' else False
 
     data = loadProfileData(verbose, data_file, config.num_of_slices, config.delimit)
-    
+
     ## create shapely circle with circle data
     shapely_circle = createShapelyCircle(verbose,
                                          config.c_x,
@@ -30,7 +30,7 @@ def fos(fos, config_file, data_file):
     intersection_coordinates = intersec_circle_and_profile(verbose, shapely_circle, data)
 
     # created normal shapley object from raw profile data
-    shapely_elevation_profile = LineString(data)
+    shapely_elevation_profile = createShapelyLine(verbose, data)
 
     #### Preview geometery ####
     previewGeometery(config.show_figure, shapely_circle, data)
