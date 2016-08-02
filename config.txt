@@ -55,3 +55,7 @@ save_figure = no
 # show_figure = yes/no
 show_figure = yes
 
+##### PERFORMANCE HEAVY ######
+
+# perform_critical_slope = yes/no
+perform_critical_slope = no
