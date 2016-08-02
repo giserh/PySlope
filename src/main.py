@@ -210,8 +210,8 @@ def fos(fos, config_file, data_file):
     #
     #
     ### Perform actual calculation of forces slice-by-slice
+
     verb(verbose, 'Performing actual FOS calculation by Method: %s' % fos)
-    effective_friction_angle = effective_angle
 
     results = ''
     if fos == 'general':
@@ -220,7 +220,7 @@ def fos(fos, config_file, data_file):
                                      shapely_circle,
                                      config.bulk_density,
                                      config.soil_cohesion,
-                                     effective_friction_angle,
+                                     config.effective_friction_angle_soil,
                                      config.vslice,
                                      config.percentage_status,
                                      config.water_pore_pressure,
@@ -232,7 +232,7 @@ def fos(fos, config_file, data_file):
                              shapely_circle,
                              config.bulk_density,
                              config.soil_cohesion,
-                             effective_friction_angle,
+                             config.effective_friction_angle_soil,
                              config.vslice,
                              config.percentage_status,
                              config.water_pore_pressure,
