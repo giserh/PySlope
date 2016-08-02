@@ -74,7 +74,18 @@ def fetchIntersecCoords(verbose, intersection_coordinates):
     verb(verbose, 'Isolating section of profile: Length of element is correct.')
     int1, int2 = (intersection_coordinates[0], intersection_coordinates[1]), (intersection_coordinates[2],
                                                                               intersection_coordinates[3])
+    # Check to see if intersection_1 and intersection_2 are the same. If they are that means the circle only intersects
+    # the profile once.. not allowed
+    verb(verbose, 'Cross-checking intersection coordinates.')
+    if int1 == int2:
+        print "Error: Circle only intersects the profile in one place - please readjust circle coordinates in config file"
+        sys.exit()
+
     return int1, int2
+
+def createNumpyArray(verbose, listObj, obj_name=''):
+    verb(verbose, 'Converting %s coordinates into Numpy Array.') % str(obj_name)
+    return np.array(list(listObj))
 #### /Basic Utils ####
 
 

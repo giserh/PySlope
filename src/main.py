@@ -194,18 +194,11 @@ def fos(fos, config_file, data_file):
 
     int1, int2 = fetchIntersecCoords(verbose, intersection_coordinates)
 
-    #
-    # Check to see if intersection_1 and intersection_2 are the same. If they are that means the circle only intersects
-    # the profile once.. not allowed
-    if int1 == int2:
-        print "Error: Circle only intersects the profile in one place - please readjust circle coordinates in config file"
-        sys.exit()
-    verb(verbose, 'Cross-checking intersection coordinates.')
 
-    verb(verbose, 'Converting circle/ellipse coordinates into Numpy Array.')
-    circle_coordinates = np.array(list(shapely_circle.coords))
-    verb(verbose, 'Converting profile coordinates into Numpy Array.')
-    elevation_profile = np.array(list(shapely_elevation_profile.coords))
+
+    circle_coordinates = createNumpyArray(verbose,list(shapely_circle.coords), "Circle/Ellipse")
+    elevation_profile = createNumpyArray(verbose, list(shapely_elevation_profile.coords),'Profile Coordinates')
+    
 
     #
     #
