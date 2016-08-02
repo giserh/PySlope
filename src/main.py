@@ -42,7 +42,7 @@ def fos(fos, config_file, data_file):
     circle_coordinates = createNumpyArray(verbose,list(shapely_circle.coords), "Circle/Ellipse")
     elevation_profile  = createNumpyArray(verbose, list(shapely_elevation_profile.coords),'Profile Coordinates')
 
-    # Create sliced array with boundaries from ep_profile
+    # Create sliced array with boundaries from elevation_profile
     sliced_ep_profile = createSlicedElevProfile(verbose,
                                                 elevation_profile,
                                                 config.num_of_slices,
@@ -90,6 +90,9 @@ def fos(fos, config_file, data_file):
     if config.save_figure == 'yes':
         verb(verbose, 'Saving result to figure.')
         plt.savefig('slope_profile.tif')
+    if config.show_figure == 'yes':
+        verb(verbose, 'Plotting figure.')
+        plt.show()
 
     print results
 
