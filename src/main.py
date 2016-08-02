@@ -14,25 +14,10 @@ def fos(fos, config_file, data_file):
     if fos is None:
         raiseGeneralError("No method chosen: fos --help")
     config = ReadConfig(config_file)
-
     verbose = True if config.verbose == 'yes' else False
-    ####
-    #
-    #
-    #### load data from file as numpy array
-    verb(verbose, 'Load data from file as numpy array.')
-    data = np.loadtxt(data_file, delimiter=config.delimit)
-    ####
-    #
-    #### Check to see if num_of_elements is lower than actual length of data:
-    verb(verbose, 'Check to see if number of slices is lower than actual length of data.')
-    if config.num_of_slices < len(data):
-        print "Error: You can't have num_of_elements set lower to your total amount of data points" \
-              "\n\nTotal Data Points: %s" \
-              "\nNum_of_slices: %s" % (str(len(data)), str(int(config.num_of_slices)))
-        sys.exit()
-    #
 
+    data = loadProfileData(verbose, data_file, config.num_of_slices, config.delimit)
+    
     ## create shapely circle with circle data
     shapely_circle = createShapelyCircle(verbose,
                                          config.c_x,
@@ -40,8 +25,7 @@ def fos(fos, config_file, data_file):
                                          config.c_a,
                                          config.c_b,
                                          config.c_r)
-    #
-    #
+
     ## find intersection coordinates of shapely_circle and profile data
     intersection_coordinates = intersec_circle_and_profile(verbose, shapely_circle, data)
 
@@ -51,31 +35,21 @@ def fos(fos, config_file, data_file):
     #### Preview geometery ####
     previewGeometery(config.show_figure, shapely_circle, data)
 
-
-    #
     ## Using intersection coordinates isolate the section of profile that is within the circle.
     ### Check to see if intersection_coordinates length is 4 elements.. if it isn't so that means for some reason
     # there are more or less than two intersection points in the profile - shouldn't really happen at all...
-
-    int1, int2 = fetchIntersecCoords(verbose, intersection_coordinates)
-
-
-
+    int1, int2         = fetchIntersecCoords(verbose, intersection_coordinates)
     circle_coordinates = createNumpyArray(verbose,list(shapely_circle.coords), "Circle/Ellipse")
-    elevation_profile = createNumpyArray(verbose, list(shapely_elevation_profile.coords),'Profile Coordinates')
-    #
-    #
+    elevation_profile  = createNumpyArray(verbose, list(shapely_elevation_profile.coords),'Profile Coordinates')
+
     # Create sliced array with boundaries from ep_profile
     sliced_ep_profile = createSlicedElevProfile(verbose,
                                                 elevation_profile,
                                                 config.num_of_slices,
                                                 int1,
                                                 int2)
-    #
-    #
-    #
-    ### Perform actual calculation of forces slice-by-slice
 
+    ### Perform actual calculation of forces slice-by-slice
     verb(verbose, 'Performing actual FOS calculation by Method: %s' % fos)
 
     results = ''
@@ -106,7 +80,6 @@ def fos(fos, config_file, data_file):
     else:
         raiseGeneralError("Method: %s didn't execute" % fos)
 
-    print results
 
     plt.scatter(circle_coordinates[:,0], circle_coordinates[:,1], color='red')
     ep_profile = arraylinspace2d(elevation_profile, config.num_of_slices)
@@ -117,10 +90,7 @@ def fos(fos, config_file, data_file):
     if config.save_figure == 'yes':
         verb(verbose, 'Saving result to figure.')
         plt.savefig('slope_profile.tif')
-    """
 
-        verb(verbose, 'Show figure: True.')
-        plt.show()
-        """
+    print results
 
 
