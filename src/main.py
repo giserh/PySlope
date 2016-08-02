@@ -198,7 +198,7 @@ def fos(fos, config_file, data_file):
 
     circle_coordinates = createNumpyArray(verbose,list(shapely_circle.coords), "Circle/Ellipse")
     elevation_profile = createNumpyArray(verbose, list(shapely_elevation_profile.coords),'Profile Coordinates')
-    
+
 
     #
     #

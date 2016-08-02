@@ -84,7 +84,7 @@ def fetchIntersecCoords(verbose, intersection_coordinates):
     return int1, int2
 
 def createNumpyArray(verbose, listObj, obj_name=''):
-    verb(verbose, 'Converting %s coordinates into Numpy Array.') % str(obj_name)
+    verb(verbose, 'Converting %s coordinates into Numpy Array.' % str(obj_name))
     return np.array(list(listObj))
 #### /Basic Utils ####
 
