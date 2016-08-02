@@ -177,9 +177,11 @@ def fos(fos, config_file, data_file):
                                          config.c_r)
     #
     #
-    ## create shapely line with elevation profile
-    intersection_coordinates = createShapelyLine(verbose, shapely_circle, data)
-    
+    ## find intersection coordinates of shapely_circle and profile data
+    intersection_coordinates = intersec_circle_and_profile(verbose, shapely_circle, data)
+
+    # created normal shapley object from raw profile data
+    shapely_elevation_profile = LineString(data)
 
     #### Preview geometery ####
     if config.show_figure == 'yes':

@@ -91,12 +91,17 @@ def createShapelyCircle(verbose, c_x, c_y, c_a, c_b, c_r):
         else:
             sys.exit("Error: c_x, c_y, c_r not set.. Report bug")
 
-def createShapelyLine(verbose, shapely_circle, profile_data):
+def createShapelyLine(verbose, profile_data):
+    verb(verbose, "Creating Shapely Line with Elevation Profile")
+    return LineString(profile_data)
 
-    verb(verbose, 'Creating Shapely line with elevation profile.')
+def intersec_circle_and_profile(verbose, shapely_circle, profile_data):
+
+    verb(verbose, 'Finding Intersection between Circle and Profile')
     shapely_elevation_profile = LineString(profile_data)
     intersection_coordinates = list(shapely_circle.intersection(shapely_elevation_profile).bounds)
     return intersection_coordinates
+
 
 def isEllipse(value):
     for char in value:
