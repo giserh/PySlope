@@ -175,28 +175,11 @@ def fos(fos, config_file, data_file):
                                          config.c_a,
                                          config.c_b,
                                          config.c_r)
-    """
-    verb(verbose, 'Creating Shapely circle with circle data.')
-    try:
-        verb(verbose, 'Trying to generate ellipsoid')
-        if config.c_x is not None or config.c_y is not None or config.c_b is not None or config.c_a is not None:
-            ellipse = generateEllipse(config.c_x, config.c_y, config.c_a, config.c_b)
-            shapely_circle = LineString(ellipse)
-        else:
-            sys.exit("Error: c_x, c_y, c_a, c_b not set.. Report bug")
-    except:
-        verb(verbose, 'Ellipse failed: Reverting to perfect circle.')
-        if config.c_x is not None or config.c_y is not None or config.c_r is not None:
-            shapely_circle = Point(config.c_x, config.c_y).buffer(config.c_r).boundary
-        else:
-            sys.exit("Error: c_x, c_y, c_r not set.. Report bug")
-            """
     #
     #
     ## create shapely line with elevation profile
-    verb(verbose, 'Creating Shapely line with elevation profile.')
-    shapely_elevation_profile = LineString(data)
-    intersection_coordinates = list(shapely_circle.intersection(shapely_elevation_profile).bounds)
+    intersection_coordinates = createShapelyLine(verbose, shapely_circle, data)
+    
 
     #### Preview geometery ####
     if config.show_figure == 'yes':
