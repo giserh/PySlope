@@ -198,14 +198,14 @@ def fos(fos, config_file, data_file):
 
     circle_coordinates = createNumpyArray(verbose,list(shapely_circle.coords), "Circle/Ellipse")
     elevation_profile = createNumpyArray(verbose, list(shapely_elevation_profile.coords),'Profile Coordinates')
-
-
     #
     #
     # Create sliced array with boundaries from ep_profile
-    verb(verbose, 'Creating Numpy array of sliced profile bounded within circle.')
-    ep_profile = arraylinspace2d(elevation_profile, config.num_of_slices)
-    sliced_ep_profile = slice_array(ep_profile, int1, int2, config.num_of_slices)
+    sliced_ep_profile = createSlicedElevProfile(verbose,
+                                                elevation_profile,
+                                                config.num_of_slices,
+                                                int1,
+                                                int2)
     #
     #
     #
@@ -244,6 +244,7 @@ def fos(fos, config_file, data_file):
     print results
 
     plt.scatter(circle_coordinates[:,0], circle_coordinates[:,1], color='red')
+    ep_profile = arraylinspace2d(elevation_profile, config.num_of_slices)
     plt.scatter(ep_profile[:,0], ep_profile[:,1])
     plt.scatter(sliced_ep_profile[:,0], sliced_ep_profile[:,1], color='green')
 

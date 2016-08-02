@@ -111,6 +111,12 @@ def createShapelyLine(verbose, profile_data):
     verb(verbose, "Creating Shapely Line with Elevation Profile")
     return LineString(profile_data)
 
+def createSlicedElevProfile(verbose, elevation_profile, num_of_slices, intersec_coord1, intersec_coord2):
+    verb(verbose, 'Creating Numpy array of sliced profile bounded within circle.')
+    ep_profile = arraylinspace2d(elevation_profile, num_of_slices)
+    sliced_ep_profile = slice_array(ep_profile, intersec_coord1, intersec_coord2, num_of_slices)
+    return sliced_ep_profile
+
 def intersec_circle_and_profile(verbose, shapely_circle, profile_data):
 
     verb(verbose, 'Finding Intersection between Circle and Profile')
