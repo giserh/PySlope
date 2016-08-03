@@ -263,6 +263,9 @@ def display_percentage_status(percentage_status, size, slice):
 
 
 #### Calculation Utils ####
+
+
+
 def FOS_calc(method, water_pore_pressure, mg, degree, effective_angle, cohesion, length):
     if method == 'bishop':
         denominator  = mg * np.sin(degree)
@@ -364,7 +367,201 @@ def isolate_slice(index,
 
 
         return arc_length, arc_degree, mg, prof_length, prof_degree
+def FOS_Method( method,
+                sliced_ep_profile,
+                 shapely_circle,
+                 bulk_density,
+                 soil_cohesion,
+                 effective_friction_angle,
+                 vslice,
+                 percentage_status,
+                 water_pore_pressure,
+                 verbose):
+    """
+    :param method: a string stating the method of FOS calculation to be used
+    :param sliced_ep_profile: a numpy array of the profile that is in the circle of interest
+    :param shapely_circle:  a shapely object linestring that has the coorindates of the circle/ellipse
+    :param bulk_density:    an integer for bulk_density of the soil
+    :param soil_cohesion:   an integer for soil_cohesion of the soil
+    :param effective_friction_angle: an integer in degrees of the effective angle of friction
+    :param vslice: an integer that determines the modulo per batch of slices that should be outputed to the terminal
+    :param percentage_status: a boolian expression to show percentage_status when completing stacks of slices
+    :param water_pore_pressure: a positive integer expressing the water_pore_pore in kPa
+    :param verbose: boolian expression if verbose statements should be printed to terminal
 
+    :return:
+        returns a single float number of the calculated factor of safety from the given parameters
+    """
+    effective_angle = effective_friction_angle
+
+    ### Some checks to see if parameters passed are the right objects and set correctly ###
+    if sliced_ep_profile.ndim != 2:
+        raiseGeneralError("Numpy array is wrong size, %d, needs to be 2" % sliced_ep_profile.ndim)
+
+    if not isinstance(shapely_circle, LineString):
+        raiseGeneralError("Shapely_circle is somehow not a LineString object")
+
+    if not isInt(bulk_density, 'bulk_density'):
+        raiseGeneralError("Bulk Density is somehow not an integer")
+
+    if not isInt(soil_cohesion, 'soil_cohesion'):
+        raiseGeneralError("Soil Cohesion is somehow not an integer")
+
+    if not isInt(effective_friction_angle, 'effective_friction_angle'):
+        raiseGeneralError("Effective Friction Angle is somehow not an integer")
+
+    if vslice <= 0:
+        print '\r\nvslice can not be 0 or less: Setting default: 50.\r\n'
+        vslice = 50
+
+    if not isInt(water_pore_pressure, 'water_pore_pressure'):
+        if int(water_pore_pressure) == 0:
+            water_pore_pressure = 0
+        else:
+            raiseGeneralError("Water Pore Pressure is not an integer")
+    elif water_pore_pressure < 0:
+        raiseGeneralError("Water Pore Pressure cannot be a negative number: water_pore_pressure= %d" %
+                          water_pore_pressure)
+    else:
+        verb(verbose, "Water Pressure Set at %d" % water_pore_pressure)
+
+    if percentage_status == 'on':
+        percentage_status = True
+    elif percentage_status == 'off':
+        percentage_status = False
+    else:
+        raiseGeneralError("Percentage_status is not configured correctly: percentage_status = %s" % percentage_status)
+
+    ### Perform actual calculation of forces slice-by-slice
+    numerator_list = []
+    denominator_list = []
+    errors = 0
+    slice = 1
+    for index in range(len(sliced_ep_profile)-1):
+        try:
+            ### Isolate variables of individual slice ##
+            length, degree, mg, prof_length, prof_degree = isolate_slice(index, sliced_ep_profile,
+                                                                               shapely_circle, bulk_density)
+            effective_angle = degree2rad(effective_angle)
+
+            # Calculate numerator and denominator of individual slice based on method
+            numerator, denominator = FOS_calc(method,
+                                              water_pore_pressure,
+                                              mg,
+                                              degree,
+                                              effective_angle,
+                                              soil_cohesion,
+                                              length)
+
+            numerator_list.append(numerator)
+            denominator_list.append(denominator)
+
+            # Print slices as they are calculated - turned off and on in config file.
+            printslice(slice, vslice, percentage_status, sliced_ep_profile)
+            slice += 1
+
+            # Add results to lists that will be used to calculate the FOS in bulk
+            numerator_list.append(numerator)
+            denominator_list.append(denominator)
+        except:
+            errors +=1
+
+    # convert calculated lists into numpy arrays
+    numerator_list, denominator_list = np.array(numerator_list), np.array(denominator_list)
+    success = 100 - (float(errors) / float(slice))
+    error_result =  "\nTotal number of errors encountered: %s\nPercent Success: %f%%" % (str(errors), (success))
+
+    # calculate actual FOS from lists
+    factor_of_safety = numerator_list.sum()/ denominator_list.sum()
+
+    # Finish up with so
+    results = error_result + '\n\nMethod: %s\nCohesion: %d kPa\nEffective Friction Angle: %d\nBulk Density: %d ' \
+                      'Kg/m^3\nNumber of ' \
+                       'slices ' \
+                       'calculated: %d\nWater Pore Pressure: %d kPa\n\nFactor of Safety: %s\n' % (method.title(),
+        soil_cohesion, effective_friction_angle, bulk_density, slice, water_pore_pressure, str(factor_of_safety))
+
+    f = open('results.log', 'w')
+    f.write(results)
+    f.close()
+    return results
+#### /Bishop Method ####
+
+def perform_critical_slope_sim(verbose, config, data, fos):
+    # find boundaries
+    x = config.c_x
+    y = config.c_y
+    a, b = config.c_a, config.c_b
+    r = config.c_r
+
+    shapely_circle = createShapelyCircle(verbose, x, y, a, b, r)
+
+    ## find intersection coordinates of shapely_circle and profile data
+    intersection_coordinates = intersec_circle_and_profile(verbose, shapely_circle, data)
+
+    print intersection_coordinates
+    exit()
+
+    # created normal shapley object from raw profile data
+    shapely_elevation_profile = createShapelyLine(verbose, data)
+
+    ## Using intersection coordinates isolate the section of profile that is within the circle.
+    ### Check to see if intersection_coordinates length is 4 elements.. if it isn't so that means for some reason
+    # there are more or less than two intersection points in the profile - shouldn't really happen at all...
+    int1, int2         = fetchIntersecCoords(verbose, intersection_coordinates)
+    circle_coordinates = createNumpyArray(verbose,list(shapely_circle.coords), "Circle/Ellipse")
+    elevation_profile  = createNumpyArray(verbose, list(shapely_elevation_profile.coords),'Profile Coordinates')
+
+    # Create sliced array with boundaries from elevation_profile
+    sliced_ep_profile = createSlicedElevProfile(verbose,
+                                                elevation_profile,
+                                                config.num_of_slices,
+                                                int1,
+                                                int2)
+
+    ### Perform actual calculation of forces slice-by-slice
+    verb(verbose, 'Performing actual FOS calculation by Method: %s' % fos)
+
+    results = ''
+    if fos == 'general':
+        results = FOS_Method( fos,
+                                     sliced_ep_profile,
+                                     shapely_circle,
+                                     config.bulk_density,
+                                     config.soil_cohesion,
+                                     config.effective_friction_angle_soil,
+                                     config.vslice,
+                                     config.percentage_status,
+                                     config.water_pore_pressure,
+                                     verbose)
+
+    elif fos == 'bishop':
+        results = FOS_Method(fos,
+                             sliced_ep_profile,
+                             shapely_circle,
+                             config.bulk_density,
+                             config.soil_cohesion,
+                             config.effective_friction_angle_soil,
+                             config.vslice,
+                             config.percentage_status,
+                             config.water_pore_pressure,
+                             verbose)
+
+    else:
+        raiseGeneralError("Method: %s didn't execute" % fos)
+
+
+    plt.scatter(circle_coordinates[:,0], circle_coordinates[:,1], color='red')
+    ep_profile = arraylinspace2d(elevation_profile, config.num_of_slices)
+    plt.scatter(ep_profile[:,0], ep_profile[:,1])
+    plt.scatter(sliced_ep_profile[:,0], sliced_ep_profile[:,1], color='green')
+
+
+    if config.save_figure == 'yes':
+        verb(verbose, 'Saving result to figure.')
+        plt.savefig('slope_profile.tif')
+
+    print results
 #### /Calculation Utils ####
 
 #### GUI FUNCS ####
