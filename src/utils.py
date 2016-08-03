@@ -515,6 +515,7 @@ def FOS_Method(method,
 	# Finish up with so
 	printResults(verbose, error_result, method, soil_cohesion, effective_friction_angle, bulk_density, slice, water_pore_pressure,
 	             factor_of_safety)
+	return factor_of_safety
 
 
 def perform_critical_slope_sim(verbose, config, data, fos):
@@ -588,22 +589,22 @@ def sim_calc(verbose, x, y, a, b, r, data, config, fos):
 	                                            config.num_of_slices,
 	                                            int1,
 	                                            int2)
-	FOS_Method(fos,
-	           sliced_ep_profile,
-	           shapely_circle,
-	           config.bulk_density,
-	           config.soil_cohesion,
-	           config.effective_friction_angle_soil,
-	           config.vslice,
-	           config.percentage_status,
-	           config.water_pore_pressure,
-	           verbose)
+	factor_of_safety = FOS_Method(fos,
+						           sliced_ep_profile,
+						           shapely_circle,
+						           config.bulk_density,
+						           config.soil_cohesion,
+						           config.effective_friction_angle_soil,
+						           config.vslice,
+						           config.percentage_status,
+						           config.water_pore_pressure,
+						           verbose)
 	
 	
-	
-	ep_profile = arraylinspace2d(elevation_profile, config.num_of_slices)
-	plt.plot(ep_profile[:, 0], ep_profile[:, 1])
-	plt.plot(circle_coordinates[:, 0], circle_coordinates[:, 1])
+	if factor_of_safety < 1:
+		ep_profile = arraylinspace2d(elevation_profile, config.num_of_slices)
+		plt.plot(ep_profile[:, 0], ep_profile[:, 1])
+		plt.plot(circle_coordinates[:, 0], circle_coordinates[:, 1])
 	
 	
 #### /Calculation Utils ####
