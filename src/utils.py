@@ -29,7 +29,7 @@ def contains(character, string):
 def raiseGeneralError(arg):
 	with open('err.log', "a") as errlog:
 		errlog.write("Error: %s\n" % arg)
-	sys.exit(arg)
+	raise StandardError(arg)
 
 
 def isInt(value, variable):
@@ -140,13 +140,11 @@ def intersec_circle_and_profile(verbose, shapely_circle, profile_data):
 	intersection_coordinates = list(shapely_circle.intersection(shapely_elevation_profile).bounds)
 
 	if len(intersection_coordinates) == 0:
-		print "Error: Circle doesn't intersect the profile - please readjust circle coordinates in config file"
-		sys.exit()
+		raiseGeneralError("Error: Circle doesn't intersect the profile - please readjust circle coordinates in config file")
 
 	if len(intersection_coordinates) != 4:
-		print "Error: Found more/less than two intersection coordinates\nNumber of intersections: %s" % \
-		      str(len(intersection_coordinates))
-		sys.exit()
+		raiseGeneralError("Error: Found more/less than two intersection coordinates\nNumber of intersections: %s" % \
+		      str(len(intersection_coordinates)))
 
 	return intersection_coordinates
 
