@@ -553,9 +553,6 @@ def perform_critical_slope_sim(verbose, config, data, method):
 		b += 1
 		"""
 	plt.show()
-	exit()
-
-	
 
 	if config.save_figure == 'yes':
 		verb(verbose, 'Saving result to figure.')
