@@ -27,8 +27,6 @@ def contains(character, string):
 
 
 def raiseGeneralError(arg):
-	with open('err.log', "a") as errlog:
-		errlog.write("Error: %s\n" % arg)
 	raise StandardError(arg)
 
 
@@ -521,22 +519,26 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 	a, b = config.c_a, config.c_b
 	r = config.c_r
 
-	shapely_circle = createShapelyCircle(verbose, x, y, a, b, r)
-
-	## find intersection coordinates of shapely_circle and profile data
-	intersection_coordinates = intersec_circle_and_profile(verbose, shapely_circle, data)
-
-	print intersection_coordinates, x, y, a, b, r
-	try_loop = True
-
-	while try_loop:
+	
+	try_x_pos = True
+	while try_x_pos:
 		try:
-			shapely_circle = createShapelyCircle(verbose, x, y, a, b, r)
-			intersection_coordinates = intersec_circle_and_profile(verbose, shapely_circle, data)
+			shapely_circle = createShapelyCircle(False, x, y, a, b, r)
+			intersection_coordinates = intersec_circle_and_profile(False, shapely_circle, data)
 			x += 1
 			print x
 		except:
-			try_loop = False
+			try_x_pos = False
+			
+	try_x_min = True
+	while try_x_min:
+		try:
+			shapely_circle = createShapelyCircle(False, x, y, a, b, r)
+			intersection_coordinates = intersec_circle_and_profile(False, shapely_circle, data)
+			x -= 1
+			print x
+		except:
+			try_x_min = False
 	exit()
 
 	# created normal shapley object from raw profile data
