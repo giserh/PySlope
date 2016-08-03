@@ -12,6 +12,12 @@ def main(fos, config_file, data_file):
 
     if config.perform_critical_slope == 'yes':
         ### recreate all steps via function ##
+        previewGeometery(config.show_figure,createShapelyCircle(verbose,
+                                                                config.c_x,
+                                                                config.c_y,
+                                                                config.c_a,
+                                                                config.c_b,
+                                                                config.c_r), data)
         perform_critical_slope_sim(verbose, config, data, fos)
     else:
         ## create shapely circle with circle data
@@ -47,15 +53,15 @@ def main(fos, config_file, data_file):
 
         ### Perform actual calculation of forces slice-by-slice
         FOS_Method( fos,
-                                     sliced_ep_profile,
-                                     shapely_circle,
-                                     config.bulk_density,
-                                     config.soil_cohesion,
-                                     config.effective_friction_angle_soil,
-                                     config.vslice,
-                                     config.percentage_status,
-                                     config.water_pore_pressure,
-                                     verbose)
+                 sliced_ep_profile,
+                 shapely_circle,
+                 config.bulk_density,
+                 config.soil_cohesion,
+                 config.effective_friction_angle_soil,
+                 config.vslice,
+                 config.percentage_status,
+                 config.water_pore_pressure,
+                 verbose)
 
 
 

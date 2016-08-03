@@ -25,14 +25,14 @@ def raiseGeneralError(arg):
 	raise StandardError(arg)
 
 
-def isInt(value, variable):
+def isInt(value):
 	try:
 		return int(value)
 	except:
 		return False
 
 
-def isFloat(value, variable):
+def isFloat(value):
 	try:
 		return float(value)
 	except:
@@ -303,6 +303,7 @@ def display_percentage_status(percentage_status, size, slice):
 
 
 def FOS_calc(method, water_pore_pressure, mg, degree, effective_angle, cohesion, length):
+	numerator = None
 	if method == 'bishop':
 		denominator = mg * np.sin(degree)
 		if water_pore_pressure == 0:
@@ -438,20 +439,20 @@ def FOS_Method(method,
 	if not isinstance(shapely_circle, LineString):
 		raiseGeneralError("Shapely_circle is somehow not a LineString object")
 
-	if not isInt(bulk_density, 'bulk_density'):
+	if not isInt(bulk_density):
 		raiseGeneralError("Bulk Density is somehow not an integer")
 
-	if not isInt(soil_cohesion, 'soil_cohesion'):
+	if not isInt(soil_cohesion):
 		raiseGeneralError("Soil Cohesion is somehow not an integer")
 
-	if not isInt(effective_friction_angle, 'effective_friction_angle'):
+	if not isInt(effective_friction_angle):
 		raiseGeneralError("Effective Friction Angle is somehow not an integer")
 
 	if vslice <= 0:
 		print '\r\nvslice can not be 0 or less: Setting default: 50.\r\n'
 		vslice = 50
 
-	if not isInt(water_pore_pressure, 'water_pore_pressure'):
+	if not isInt(water_pore_pressure):
 		if int(water_pore_pressure) == 0:
 			water_pore_pressure = 0
 		else:
@@ -518,6 +519,7 @@ def FOS_Method(method,
 
 
 def perform_critical_slope_sim(verbose, config, data, method):
+	
 	fos = method
 	# find boundaries
 	x = config.c_x
@@ -732,19 +734,19 @@ class ReadConfig(object):
 
 					elif variable == self.options_from_config[2]:
 						# soil cohesion - float
-						self.soil_cohesion = isFloat(value, variable)
+						self.soil_cohesion = isFloat(value)
 
 					elif variable == self.options_from_config[3]:
 						# internal friction angle - float
-						self.effective_friction_angle_soil = isFloat(value, variable)
+						self.effective_friction_angle_soil = isFloat(value)
 
 					elif variable == self.options_from_config[4]:
 						# bulk density - float
-						self.bulk_density = isFloat(value, variable)
+						self.bulk_density = isFloat(value)
 
 					elif variable == self.options_from_config[5]:
 						# number of slices - int
-						self.num_of_slices = isInt(value, variable)
+						self.num_of_slices = isInt(value)
 
 					elif variable == self.options_from_config[6]:
 						# save figure - string
@@ -756,11 +758,11 @@ class ReadConfig(object):
 
 					elif variable == self.options_from_config[8]:
 						# water pore pressure - float
-						self.water_pore_pressure = isFloat(value, variable)
+						self.water_pore_pressure = isFloat(value)
 
 					elif variable == self.options_from_config[9]:
 						# vslice bulk output - int
-						self.vslice = isInt(value, variable)
+						self.vslice = isInt(value)
 
 					elif variable == self.options_from_config[10]:
 						# Display percentage status - string
