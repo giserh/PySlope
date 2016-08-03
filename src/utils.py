@@ -529,124 +529,30 @@ def perform_critical_slope_sim(verbose, config, data, method):
 	y = config.c_y
 	a, b = config.c_a, config.c_b
 	r = config.c_r
-	mult = 1
-	
-	
-	if isCircle(x, y, a, b, r):
+	mult = .5
 
-		expand_ab = True
-		add_ab = True
-		while expand_ab:
-			try:
-				sim_calc(False, x, y, a, b, r, data, config, fos)
-			except:
-				print 'Failed on ', a, b
-				a = config.c_a + 1
-				b = config.c_b + 1
-				if add_ab is False:
-					break
-				add_ab = False
-			
-			if add_ab:
-				a += mult
-				b += mult
-			else:
-				a -= mult
-				b -= mult
-			
-	else:
-		# is ellipsoid x, y, a, b
-		print 'hit else statement'
-	"""
-	### Along X-Axis ###
-	try_x = True
-	add_x = True
-	while try_x:
+	expand_ab = True
+	add_ab = True
+	while expand_ab:
 		try:
-			sim_calc(False, x, y, a, b ,r, data, config, fos)
-		
+			sim_calc(False, x, y, a, b, r, data, config, fos)
 		except:
-			print 'Failed on ', x
-			x = config.c_x + mult
-			y = config.c_y
-			a, b = config.c_a, config.c_b
-			r = config.c_r
-			if add_x is False:
+			print 'Failed on ', a, b
+			a = config.c_a + 1
+			b = config.c_b + 1
+			if add_ab is False:
 				break
-			add_x = False
+			add_ab = False
+		
+		if add_ab:
+			a += mult
+			b += mult
+		else:
+			a -= mult
+			b -= mult
 
-		if add_x:
-			x += mult
-		else:
-			x -= mult
 	
-	### Along Y-Axis ###
-	try_y = True
-	add_y = True
-	while try_y:
-		try:
-			sim_calc(False, x, y, a, b, r, data, config, fos)
-		except:
-			print 'Failed on ', y
-			x = config.c_x
-			y = config.c_y + mult
-			a, b = config.c_a, config.c_b
-			r = config.c_r
-			if add_y is False:
-				break
-			add_y = False
-		
-		if add_y:
-			y += mult
-		else:
-			y -= mult
 	
-	### Along NE-SW-Axis ###
-	try_ne = True
-	add_ne = True
-	while try_ne:
-		try:
-			sim_calc(False, x, y, a, b, r, data, config, fos)
-		except:
-			print 'Failed on ', y
-			x = config.c_x + mult
-			y = config.c_y + mult
-			a, b = config.c_a, config.c_b
-			r = config.c_r
-			if add_ne is False:
-				break
-			add_ne = False
-		
-		if add_ne:
-			y += mult
-			x += mult
-		else:
-			y -= mult
-			x -= mult
-		
-	### Along NW-SE-Axis ###
-	try_nw = True
-	add_nw = True
-	while try_nw:
-		try:
-			sim_calc(False, x, y, a, b, r, data, config, fos)
-		except:
-			print 'Failed on ', y
-			x = config.c_x - mult
-			y = config.c_y + mult
-			a, b = config.c_a, config.c_b
-			r = config.c_r
-			if add_nw is False:
-				break
-			add_nw = False
-		
-		if add_nw:
-			y += mult
-			x -= mult
-		else:
-			y -= mult
-			x += mult
-			"""
 	plt.show()
 	exit()
 
