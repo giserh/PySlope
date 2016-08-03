@@ -546,6 +546,27 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 		else:
 			x -=1
 	
+	try_y = True
+	add_y = True
+	while try_y:
+		try:
+			sim_calc(False, x, y, a, b, r, data, config, fos)
+		
+		except:
+			print 'Failed on ', y
+			x = config.c_x + 1
+			y = config.c_y
+			a, b = config.c_a, config.c_b
+			r = config.c_r
+			if add_y is False:
+				break
+			add_y = False
+		
+		if add_y:
+			y += 1
+		else:
+			y -= 1
+	
 	plt.show()
 	exit()
 
