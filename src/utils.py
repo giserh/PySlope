@@ -99,7 +99,6 @@ def createNumpyArray(verbose, listObj, obj_name=''):
 
 def printResults(verbose, error_result, method, soil_cohesion, effective_friction_angle, bulk_density, slice,
                  water_pore_pressure, factor_of_safety):
-	results = ''
 	if verbose:
 		results =  error_result + '\n\nMethod: %s\nCohesion: %d kPa\nEffective Friction Angle: %d\nBulk Density: %d ' \
 		                         'Kg/m^3\nNumber of ' \
@@ -534,7 +533,6 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 		try:
 			shapely_circle = createShapelyCircle(False, x, y, a, b, r)
 			intersection_coordinates = intersec_circle_and_profile(False, shapely_circle, data)
-			print x, intersection_coordinates
 		except:
 			print 'Failed on ', x
 			break
