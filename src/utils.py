@@ -132,7 +132,8 @@ def isCircle(x, y, a, b, r):
 	print x, y, a, b, r
 	if x is not None or y is not None or b is not None or a is not None:
 		return False
-	elif x is not None  or y is not None or r is not None:
+	elif x is not None or y is not None or r is not None:
+		print 'returning True'
 		return True
 	
 def createShapelyCircle(verbose, c_x, c_y, c_a, c_b, c_r):
