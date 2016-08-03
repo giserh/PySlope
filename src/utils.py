@@ -590,8 +590,8 @@ def sim_calc(verbose, x, y, a, b, r, data, config, fos):
 	if factor_of_safety < 1:
 		ep_profile = arraylinspace2d(elevation_profile, config.num_of_slices)
 		plt.plot(ep_profile[:, 0], ep_profile[:, 1])
-		
-		trimmed = trimmedCircleCoordinates(list(shapely_circle), list(data))
+		print 'trimming'
+		trimmed = trimmedCircleCoordinates(list(shapely_circle), data)
 		plt.plot(trimmed[:, 0], trimmed[:, 1])
 
 
