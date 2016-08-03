@@ -522,14 +522,15 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 	
 	try_x_pos = True
 	while try_x_pos:
-		shapely_circle = createShapelyCircle(False, x, y, a, b, r)
 		try:
+			shapely_circle = createShapelyCircle(False, x, y, a, b, r)
 			intersection_coordinates = intersec_circle_and_profile(False, shapely_circle, data)
 			print x, intersection_coordinates
 		except:
 			print 'Failed on ', x
 			try_x_pos = False
-		doRestStuff(verbose, config, data, intersection_coordinates, fos)
+		
+		doRestStuff(verbose, config, data, intersection_coordinates, shapely_circle, fos)
 		x += 1
 	
 	exit()
