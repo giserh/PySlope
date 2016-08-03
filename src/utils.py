@@ -135,6 +135,8 @@ def isCircle(x, y, a, b, r):
 	elif x is not None or y is not None or r is not None:
 		print 'returning True'
 		return True
+	else:
+		print 'didnt return anything'
 	
 def createShapelyCircle(verbose, c_x, c_y, c_a, c_b, c_r):
 	verb(verbose, 'Creating Shapely circle with circle data.')
