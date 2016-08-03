@@ -529,8 +529,7 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 			x += 1
 		except:
 			print 'Failed on ', x
-			
-
+			try_x_pos = False
 	exit()
 
 	
