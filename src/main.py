@@ -51,7 +51,7 @@ def fos(fos, config_file, data_file):
 
         results = ''
         if fos == 'general':
-            results = FOS_Method( fos,
+            FOS_Method( fos,
                                          sliced_ep_profile,
                                          shapely_circle,
                                          config.bulk_density,
@@ -63,7 +63,7 @@ def fos(fos, config_file, data_file):
                                          verbose)
 
         elif fos == 'bishop':
-            results = FOS_Method(fos,
+            FOS_Method(fos,
                                  sliced_ep_profile,
                                  shapely_circle,
                                  config.bulk_density,
@@ -88,6 +88,5 @@ def fos(fos, config_file, data_file):
             verb(verbose, 'Saving result to figure.')
             plt.savefig('slope_profile.tif')
 
-        print results
 
 
