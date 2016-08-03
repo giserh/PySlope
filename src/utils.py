@@ -591,7 +591,7 @@ def sim_calc(verbose, x, y, a, b, r, data, config, fos):
 		ep_profile = arraylinspace2d(elevation_profile, config.num_of_slices)
 		plt.plot(ep_profile[:, 0], ep_profile[:, 1])
 		print 'trimming'
-		trimmed = trimmedCircleCoordinates(list(shapely_circle.coords), data)
+		trimmed = trimmedCircleCoordinates(list(circle_coordinates), data)
 		plt.plot(trimmed[:, 0], trimmed[:, 1])
 
 
