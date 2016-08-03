@@ -528,7 +528,7 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 			print x, intersection_coordinates
 		except:
 			print 'Failed on ', x
-			try_x_pos = False
+			break
 		
 		doRestStuff(verbose, config, data, intersection_coordinates, shapely_circle, fos)
 		x += 1
