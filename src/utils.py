@@ -526,10 +526,12 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 		try:
 			intersection_coordinates = intersec_circle_and_profile(False, shapely_circle, data)
 			print x, intersection_coordinates
-			x += 1
 		except:
 			print 'Failed on ', x
 			try_x_pos = False
+		doRestStuff(verbose, config, data, intersection_coordinates, fos)
+		x += 1
+	
 	exit()
 
 	
