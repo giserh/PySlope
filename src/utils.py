@@ -528,7 +528,7 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 	try_x_pos = True
 	while try_x_pos:
 		try:
-			sim_calc(verbose, x, y, a, b ,r, data, config, fos)
+			sim_calc(False, x, y, a, b ,r, data, config, fos)
 		
 		except:
 			print 'Failed on ', x
