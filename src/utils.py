@@ -525,7 +525,7 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 		try:
 			shapely_circle = createShapelyCircle(False, x, y, a, b, r)
 			intersection_coordinates = intersec_circle_and_profile(False, shapely_circle, data)
-			print x
+			doRestStuff(False, config, data, intersection_coordinates, fos)
 			x += 1
 			
 		except:
@@ -540,32 +540,39 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 		try:
 			shapely_circle = createShapelyCircle(False, x, y, a, b, r)
 			intersection_coordinates = intersec_circle_and_profile(False, shapely_circle, data)
-			print x
 			x -= 1
 		except:
 			try_x_min = False
 	exit()
 
+	
+
+	if config.save_figure == 'yes':
+		verb(verbose, 'Saving result to figure.')
+		plt.savefig('slope_profile.tif')
+
+
+def doRestStuff(verbose, config, data, intersection_coordinates, shapely_circle, fos):
 	# created normal shapley object from raw profile data
 	shapely_elevation_profile = createShapelyLine(verbose, data)
-
+	
 	## Using intersection coordinates isolate the section of profile that is within the circle.
 	### Check to see if intersection_coordinates length is 4 elements.. if it isn't so that means for some reason
 	# there are more or less than two intersection points in the profile - shouldn't really happen at all...
 	int1, int2 = fetchIntersecCoords(verbose, intersection_coordinates)
 	circle_coordinates = createNumpyArray(verbose, list(shapely_circle.coords), "Circle/Ellipse")
 	elevation_profile = createNumpyArray(verbose, list(shapely_elevation_profile.coords), 'Profile Coordinates')
-
+	
 	# Create sliced array with boundaries from elevation_profile
 	sliced_ep_profile = createSlicedElevProfile(verbose,
 	                                            elevation_profile,
 	                                            config.num_of_slices,
 	                                            int1,
 	                                            int2)
-
+	
 	### Perform actual calculation of forces slice-by-slice
 	verb(verbose, 'Performing actual FOS calculation by Method: %s' % fos)
-
+	
 	results = ''
 	if fos == 'general':
 		results = FOS_Method(fos,
@@ -578,7 +585,7 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 		                     config.percentage_status,
 		                     config.water_pore_pressure,
 		                     verbose)
-
+	
 	elif fos == 'bishop':
 		results = FOS_Method(fos,
 		                     sliced_ep_profile,
@@ -590,22 +597,16 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 		                     config.percentage_status,
 		                     config.water_pore_pressure,
 		                     verbose)
-
+	
 	else:
 		raiseGeneralError("Method: %s didn't execute" % fos)
-
-	plt.scatter(circle_coordinates[:, 0], circle_coordinates[:, 1], color='red')
+	
 	ep_profile = arraylinspace2d(elevation_profile, config.num_of_slices)
-	plt.scatter(ep_profile[:, 0], ep_profile[:, 1])
-	plt.scatter(sliced_ep_profile[:, 0], sliced_ep_profile[:, 1], color='green')
-
-	if config.save_figure == 'yes':
-		verb(verbose, 'Saving result to figure.')
-		plt.savefig('slope_profile.tif')
-
+	plt.plot(ep_profile[:,0], ep_profile[:,1])
+	plt.scatter(circle_coordinates[:, 0], circle_coordinates[:, 1], color='red')
+	
+	
 	print results
-
-
 #### /Calculation Utils ####
 
 #### GUI FUNCS ####
