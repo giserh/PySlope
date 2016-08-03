@@ -551,7 +551,6 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 	while try_y:
 		try:
 			sim_calc(False, x, y, a, b, r, data, config, fos)
-		
 		except:
 			print 'Failed on ', y
 			x = config.c_x
@@ -604,7 +603,7 @@ def sim_calc(verbose, x, y, a, b, r, data, config, fos):
 	
 	ep_profile = arraylinspace2d(elevation_profile, config.num_of_slices)
 	plt.plot(ep_profile[:, 0], ep_profile[:, 1])
-	plt.scatter(circle_coordinates[:, 0], circle_coordinates[:, 1], color='red')
+	plt.plot(circle_coordinates[:, 0], circle_coordinates[:, 1])
 	
 	
 #### /Calculation Utils ####
