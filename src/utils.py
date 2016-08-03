@@ -99,6 +99,7 @@ def createNumpyArray(verbose, listObj, obj_name=''):
 
 def printResults(verbose, error_result, method, soil_cohesion, effective_friction_angle, bulk_density, slice,
                  water_pore_pressure, factor_of_safety):
+	results = ''
 	if verbose:
 		results =  error_result + '\n\nMethod: %s\nCohesion: %d kPa\nEffective Friction Angle: %d\nBulk Density: %d ' \
 		                         'Kg/m^3\nNumber of ' \
@@ -112,7 +113,7 @@ def printResults(verbose, error_result, method, soil_cohesion, effective_frictio
 		                                                                                                    str(
 			                                                                                                    factor_of_safety))
 	else:
-		results = "Factor of Safety: %s", str(factor_of_safety)
+		results = "Factor of Safety: %s" % str(factor_of_safety)
 	
 	with open('results.txt', 'w') as f:
 		f.write(results)
