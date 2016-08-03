@@ -590,8 +590,22 @@ def sim_calc(verbose, x, y, a, b, r, data, config, fos):
 	if factor_of_safety < 1:
 		ep_profile = arraylinspace2d(elevation_profile, config.num_of_slices)
 		plt.plot(ep_profile[:, 0], ep_profile[:, 1])
+		
+		circle_coor = trimmedCircleCoordinates(list(shapely_circle), list(data))
 		plt.plot(circle_coordinates[:, 0], circle_coordinates[:, 1])
+
+def trimmedCircleCoordinates(circle_coords, profile_coords):
+	err = "%s is not list object"
+	if not isinstance(list, circle_coords):
+		raise TypeError(err % type(circle_coords))
+	if not isinstance(list, profile_coords):
+		raise TypeError(err % type(profile_coords))
 	
+	print circle_coords, profile_coords
+	
+	
+	
+	exit()
 	
 #### /Calculation Utils ####
 
