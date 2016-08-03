@@ -517,7 +517,8 @@ def FOS_Method(method,
 	return factor_of_safety
 
 
-def perform_critical_slope_sim(verbose, config, data, fos):
+def perform_critical_slope_sim(verbose, config, data, method):
+	fos = method
 	# find boundaries
 	x = config.c_x
 	y = config.c_y
@@ -545,7 +546,7 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 			x += mult
 		else:
 			x -= mult
-	
+	"""
 	### Along Y-Axis ###
 	try_y = True
 	add_y = True
@@ -612,6 +613,7 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 		else:
 			y -= mult
 			x += mult
+			"""
 	plt.show()
 	exit()
 
