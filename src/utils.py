@@ -554,8 +554,8 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 		
 		except:
 			print 'Failed on ', y
-			x = config.c_x + 1
-			y = config.c_y
+			x = config.c_x
+			y = config.c_y + 1
 			a, b = config.c_a, config.c_b
 			r = config.c_r
 			if add_y is False:
