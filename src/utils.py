@@ -604,7 +604,7 @@ def sim_calc(verbose, x, y, a, b, r, data, config, fos):
 	if factor_of_safety < 1:
 		ep_profile = arraylinspace2d(elevation_profile, config.num_of_slices)
 		plt.plot(ep_profile[:, 0], ep_profile[:, 1])
-		plt.plot(circle_coordinates[:, 0], circle_coordinates[:, 1])
+		plt.plot(sliced_ep_profile[:, 0], sliced_ep_profile[:, 1])
 	
 	
 #### /Calculation Utils ####
