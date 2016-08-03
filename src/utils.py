@@ -524,7 +524,7 @@ def perform_critical_slope_sim(verbose, config, data, method):
 	y = config.c_y
 	a, b = config.c_a, config.c_b
 	r = config.c_r
-	mult = 1
+	mult = 0.5
 	### Along X-Axis ###
 	try_x = True
 	add_x = True
