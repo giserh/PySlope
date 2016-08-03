@@ -533,7 +533,7 @@ def perform_critical_slope_sim(verbose, config, data, method):
 
 	expand_ab = True
 	add_ab = True
-	"""
+	""""""
 	while expand_ab:
 		try:
 			sim_calc(False, x, y, a, b, r, data, config, fos)
@@ -556,7 +556,7 @@ def perform_critical_slope_sim(verbose, config, data, method):
 		sim_calc(False, x, y, a, b, r, data, config, fos)
 		a += 1
 		b += 1
-		
+		"""
 	plt.show()
 	exit()
 
@@ -594,7 +594,7 @@ def sim_calc(verbose, x, y, a, b, r, data, config, fos):
 	if factor_of_safety < 1:
 		ep_profile = arraylinspace2d(elevation_profile, config.num_of_slices)
 		plt.plot(ep_profile[:, 0], ep_profile[:, 1])
-		trimmed = trimmedCircleCoordinates(list(circle_coordinates), list(data), [x, y, a, b])
+		trimmed = trimmedCircleCoordinates(list(circle_coordinates), list(data), [x, y, a, b, r])
 		plt.plot(trimmed[:, 0], trimmed[:, 1])
 
 
