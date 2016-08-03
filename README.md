@@ -46,13 +46,9 @@ This program is intended for anyone who is interested in doing slope stability a
            
         -bash: pip: command not found
    
-   Then you can happily go and install the modules by:
+   Then you can happily go and install the modules provided by the 'requirements.txt' in main directory:
    
-        sudo pip install scipy
-        sudo pip install numpy
-        sudo pip install shapely
-        sudo pip install matplotlib
-        sudo pip install click
+        sudo pip install -r requirements.txt
         
    For windows users - you are out of luck for any of my help. I am not a windows guy. There are a
     few tutorials online that allow you to install python and the modules itself. If you realized your major mistake 
@@ -235,3 +231,14 @@ bugs you find email me @ duan_uys@icloud.com
     save_figure = yes/no
             This option toggles whether or not you would like the workspace to be saved as an image in your directory
             Default - .tiff
+
+
+
+## Performance Heavy Options ##
+
+    perform_critical_slope = yes/no
+            This option toggles whether to perform a critical slope analysis on the given data set and parameters.
+            Instead of performing a single Factor of Safety method calculation on the given data set, it performs 
+            multiple calculations each time changing the radius of the ellipse/circle, within aspect ratio, and plots
+            all curves that achieved below 1. FOS < 1, indicated Driving Force exceeds that of the Resisting Forces.
+            
