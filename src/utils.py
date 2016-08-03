@@ -69,9 +69,9 @@ def degree2rad(degree):
 	return degree * np.pi / 180.
 
 
-def printslice(slice, vslice, percentage_status, sliced_ep_profile):
+def printslice(verbose, slice, vslice, percentage_status, sliced_ep_profile):
 	try:
-		if slice % vslice == 0:
+		if slice % vslice == 0 and verbose:
 			print 'Calculating Slice: %s %s' % (str(slice), display_percentage_status(percentage_status,
 			                                                                          sliced_ep_profile.size,
 			                                                                          slice))
@@ -495,7 +495,7 @@ def FOS_Method(method,
 			denominator_list.append(denominator)
 
 			# Print slices as they are calculated - turned off and on in config file.
-			printslice(slice, vslice, percentage_status, sliced_ep_profile)
+			printslice(verbose, slice, vslice, percentage_status, sliced_ep_profile)
 			slice += 1
 
 			# Add results to lists that will be used to calculate the FOS in bulk
