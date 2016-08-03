@@ -3,7 +3,7 @@
 from utils import *
 
 
-def fos(fos, config_file, data_file):
+def main(fos, config_file, data_file):
     if fos is None:
         raiseGeneralError("No method chosen: fos --help")
     config = ReadConfig(config_file)
