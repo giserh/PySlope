@@ -128,7 +128,7 @@ def printResults(verbose, error_result, method, soil_cohesion, effective_frictio
 
 
 #### Geometry Utils ####
-def isCircle(x, y, a, b, r):
+def isCircle(x, y, a, b, r  ):
 	if a == b:
 		return True
 	else:
@@ -532,24 +532,25 @@ def perform_critical_slope_sim(verbose, config, data, method):
 	mult = 1
 	
 	if isCircle(x, y, a, b, r):
-		# only as x, y, r
-		expand_r = True
-		add_r = True
-		while expand_r:
+
+		expand_ab = True
+		add_ab = True
+		while expand_ab:
 			try:
 				sim_calc(False, x, y, a, b, r, data, config, fos)
-			
 			except:
 				print 'Failed on ', r
-				r = config.c_r + 1
-				if add_r is False:
+				a = config.c_a + 1
+				b = config.c_b + 1
+				if add_ab is False:
 					break
-				add_r = False
+				add_ab = False
 			
-			if add_r:
+			if add_ab:
 				r += mult
 			else:
 				r -= mult
+			
 	else:
 		# is ellipsoid x, y, a, b
 		print 'hit else statement'
