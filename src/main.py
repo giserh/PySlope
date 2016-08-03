@@ -49,7 +49,6 @@ def fos(fos, config_file, data_file):
         ### Perform actual calculation of forces slice-by-slice
         verb(verbose, 'Performing actual FOS calculation by Method: %s' % fos)
 
-        results = ''
         if fos == 'general':
             FOS_Method( fos,
                                          sliced_ep_profile,

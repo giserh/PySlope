@@ -97,20 +97,22 @@ def createNumpyArray(verbose, listObj, obj_name=''):
 	verb(verbose, 'Converting %s coordinates into Numpy Array.' % str(obj_name))
 	return np.array(list(listObj))
 
-def printResults(error_result, method, soil_cohesion, effective_friction_angle, bulk_density, slice,
+def printResults(verbose, error_result, method, soil_cohesion, effective_friction_angle, bulk_density, slice,
                  water_pore_pressure, factor_of_safety):
-
-	results =  error_result + '\n\nMethod: %s\nCohesion: %d kPa\nEffective Friction Angle: %d\nBulk Density: %d ' \
-	                         'Kg/m^3\nNumber of ' \
-	                         'slices ' \
-	                         'calculated: %d\nWater Pore Pressure: %d kPa\n\nFactor of Safety: %s\n' % (method.title(),
-	                                                                                                    soil_cohesion,
-	                                                                                                    effective_friction_angle,
-	                                                                                                    bulk_density,
-	                                                                                                    slice,
-	                                                                                                    water_pore_pressure,
-	                                                                                                    str(
-		                                                                                                    factor_of_safety))
+	if verbose:
+		results =  error_result + '\n\nMethod: %s\nCohesion: %d kPa\nEffective Friction Angle: %d\nBulk Density: %d ' \
+		                         'Kg/m^3\nNumber of ' \
+		                         'slices ' \
+		                         'calculated: %d\nWater Pore Pressure: %d kPa\n\nFactor of Safety: %s\n' % (method.title(),
+		                                                                                                    soil_cohesion,
+		                                                                                                    effective_friction_angle,
+		                                                                                                    bulk_density,
+		                                                                                                    slice,
+		                                                                                                    water_pore_pressure,
+		                                                                                                    str(
+			                                                                                                    factor_of_safety))
+	else:
+		results = "Factor of Safety: ", factor_of_safety
 	f = open('results.txt', 'w')
 	f.write(results)
 	f.close()
@@ -511,7 +513,7 @@ def FOS_Method(method,
 	factor_of_safety = numerator_list.sum() / denominator_list.sum()
 
 	# Finish up with so
-	printResults(error_result, method, soil_cohesion, effective_friction_angle, bulk_density, slice, water_pore_pressure,
+	printResults(verbose, error_result, method, soil_cohesion, effective_friction_angle, bulk_density, slice, water_pore_pressure,
 	             factor_of_safety)
 
 
@@ -569,9 +571,8 @@ def doRestStuff(verbose, config, data, intersection_coordinates, shapely_circle,
 	### Perform actual calculation of forces slice-by-slice
 	verb(verbose, 'Performing actual FOS calculation by Method: %s' % fos)
 	
-	results = ''
 	if fos == 'general':
-		results = FOS_Method(fos,
+		FOS_Method(fos,
 		                     sliced_ep_profile,
 		                     shapely_circle,
 		                     config.bulk_density,
@@ -583,7 +584,7 @@ def doRestStuff(verbose, config, data, intersection_coordinates, shapely_circle,
 		                     verbose)
 	
 	elif fos == 'bishop':
-		results = FOS_Method(fos,
+		FOS_Method(fos,
 		                     sliced_ep_profile,
 		                     shapely_circle,
 		                     config.bulk_density,
@@ -602,7 +603,6 @@ def doRestStuff(verbose, config, data, intersection_coordinates, shapely_circle,
 	plt.scatter(circle_coordinates[:, 0], circle_coordinates[:, 1], color='red')
 	
 	
-	print results
 #### /Calculation Utils ####
 
 #### GUI FUNCS ####
