@@ -589,6 +589,29 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 		else:
 			y -= mult
 			x -= mult
+		
+		### Along NW-SE-Axis ###
+		try_nw = True
+		add_nw = True
+		while try_nw:
+			try:
+				sim_calc(False, x, y, a, b, r, data, config, fos)
+			except:
+				print 'Failed on ', y
+				x = config.c_x - mult
+				y = config.c_y + mult
+				a, b = config.c_a, config.c_b
+				r = config.c_r
+				if add_nw is False:
+					break
+				add_nw = False
+			
+			if add_nw:
+				y += mult
+				x -= mult
+			else:
+				y -= mult
+				x += mult
 	plt.show()
 	exit()
 
