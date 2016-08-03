@@ -533,7 +533,7 @@ def perform_critical_slope_sim(verbose, config, data, method):
 
 	expand_ab = True
 	add_ab = True
-	
+	"""
 	while expand_ab:
 		try:
 			sim_calc(False, x, y, a, b, r, data, config, fos)
@@ -556,7 +556,7 @@ def perform_critical_slope_sim(verbose, config, data, method):
 		sim_calc(False, x, y, a, b, r, data, config, fos)
 		a += 1
 		b += 1
-		"""
+		
 	plt.show()
 	exit()
 
