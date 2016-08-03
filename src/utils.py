@@ -721,8 +721,7 @@ class ReadConfig(object):
 
                     elif variable == self.options_from_config[12]:
                         # perform critical slope analysis
-                        self.perform_critical_slope == isString(value, variable)
-                        print 'hello', self.perform_critical_slope
+                        self.perform_critical_slope = isString(value, variable)
                     else:
                         raiseGeneralError("Variable not found in options from config file: %s" % variable)
 
