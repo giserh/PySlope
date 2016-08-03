@@ -530,7 +530,7 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 		except:
 			print 'got here'
 			try_x_pos = False
-			
+	print 'before try_x_min'
 	try_x_min = True
 	while try_x_min:
 		try:
