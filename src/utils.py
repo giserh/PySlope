@@ -546,6 +546,7 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 		else:
 			x -=1
 	
+	plt.show()
 	exit()
 
 	

@@ -49,32 +49,16 @@ def fos(fos, config_file, data_file):
         ### Perform actual calculation of forces slice-by-slice
         verb(verbose, 'Performing actual FOS calculation by Method: %s' % fos)
 
-        if fos == 'general':
-            FOS_Method( fos,
-                                         sliced_ep_profile,
-                                         shapely_circle,
-                                         config.bulk_density,
-                                         config.soil_cohesion,
-                                         config.effective_friction_angle_soil,
-                                         config.vslice,
-                                         config.percentage_status,
-                                         config.water_pore_pressure,
-                                         verbose)
-
-        elif fos == 'bishop':
-            FOS_Method(fos,
-                                 sliced_ep_profile,
-                                 shapely_circle,
-                                 config.bulk_density,
-                                 config.soil_cohesion,
-                                 config.effective_friction_angle_soil,
-                                 config.vslice,
-                                 config.percentage_status,
-                                 config.water_pore_pressure,
-                                 verbose)
-
-        else:
-            raiseGeneralError("Method: %s didn't execute" % fos)
+        FOS_Method( fos,
+                                     sliced_ep_profile,
+                                     shapely_circle,
+                                     config.bulk_density,
+                                     config.soil_cohesion,
+                                     config.effective_friction_angle_soil,
+                                     config.vslice,
+                                     config.percentage_status,
+                                     config.water_pore_pressure,
+                                     verbose)
 
 
         plt.scatter(circle_coordinates[:,0], circle_coordinates[:,1], color='red')
