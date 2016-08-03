@@ -50,6 +50,11 @@ def isString(value, variable):
 	else:
 		raiseGeneralError("Cannot contain numeric digits: %s = %s" % (variable, value))
 
+def isEllipse(value):
+	for char in value:
+		if char == "(" or char == ")":
+			return True
+	return False
 
 def hasComma(value):
 	content_list = []
@@ -123,7 +128,12 @@ def printResults(verbose, error_result, method, soil_cohesion, effective_frictio
 
 
 #### Geometry Utils ####
-
+def isCircle(x, y, a, b, r):
+	if x is not None or y is not None or b is not None or a is not None:
+		return False
+	elif x is not None  or y is not None or r is not None:
+		return True
+	
 def createShapelyCircle(verbose, c_x, c_y, c_a, c_b, c_r):
 	verb(verbose, 'Creating Shapely circle with circle data.')
 	try:
@@ -168,11 +178,6 @@ def intersec_circle_and_profile(verbose, shapely_circle, profile_data):
 	return intersection_coordinates
 
 
-def isEllipse(value):
-	for char in value:
-		if char == "(" or char == ")":
-			return True
-	return False
 
 
 def generateEllipse(c_x, c_y, c_a, c_b):
@@ -524,7 +529,31 @@ def perform_critical_slope_sim(verbose, config, data, method):
 	y = config.c_y
 	a, b = config.c_a, config.c_b
 	r = config.c_r
-	mult = 0.5
+	mult = 1
+	
+	if isCircle(x, y, a, b, r):
+		# only as x, y, r
+		expand_r = True
+		add_r = True
+		while expand_r:
+			try:
+				sim_calc(False, x, y, a, b, r, data, config, fos)
+			
+			except:
+				print 'Failed on ', r
+				r = config.c_r + 1
+				if add_r is False:
+					break
+				add_r = False
+			
+			if add_r:
+				r += mult
+			else:
+				r -= mult
+	else:
+		# is ellipsoid x, y, a, b
+		pass
+	"""
 	### Along X-Axis ###
 	try_x = True
 	add_x = True
@@ -546,7 +575,7 @@ def perform_critical_slope_sim(verbose, config, data, method):
 			x += mult
 		else:
 			x -= mult
-	"""
+	
 	### Along Y-Axis ###
 	try_y = True
 	add_y = True
