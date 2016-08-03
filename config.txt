@@ -58,4 +58,4 @@ show_figure = yes
 ##### PERFORMANCE HEAVY ######
 
 # perform_critical_slope = yes/no
-perform_critical_slope = no
+perform_critical_slope = yes
