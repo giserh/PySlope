@@ -134,18 +134,21 @@ def isCircle(x, y, a, b):
 	else:
 		return False
 	
-def createShapelyCircle(verbose, c_x, c_y, c_a, c_b):
+def createShapelyCircle(verbose, c_x, c_y, c_a, c_b, c_r):
 	verb(verbose, 'Creating Shapely circle with circle data.')
 	try:
-		verb(verbose, 'Generating Ellipsoid.')
+		verb(verbose, 'Trying to generate ellipsoid')
 		if c_x is not None or c_y is not None or c_b is not None or c_a is not None:
 			ellipse = generateEllipse(c_x, c_y, c_a, c_b)
 			return LineString(ellipse)
 		else:
 			sys.exit("Error: c_x, c_y, c_a, c_b not set.. Report bug")
 	except:
-		raiseGeneralError("Shapely Circle Not Set.")
-		
+		verb(verbose, 'Ellipse failed: Reverting to perfect circle.')
+		if c_x is not None or c_y is not None or c_r is not None:
+			return Point(c_x, c_y).buffer(c_r).boundary
+		else:
+			sys.exit("Error: c_x, c_y, c_r not set.. Report bug")
 
 
 def createShapelyLine(verbose, profile_data):
@@ -528,7 +531,7 @@ def perform_critical_slope_sim(verbose, config, data, method):
 	r = config.c_r
 	mult = 1
 	
-	if isCircle(x, y, a, b):
+	if isCircle(x, y, a, b, r):
 		# only as x, y, r
 		expand_r = True
 		add_r = True

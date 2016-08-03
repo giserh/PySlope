@@ -21,7 +21,7 @@ def fos(fos, config_file, data_file):
                                              config.c_y,
                                              config.c_a,
                                              config.c_b,
-                                             )
+                                             config.c_r)
 
         ## find intersection coordinates of shapely_circle and profile data
         intersection_coordinates = intersec_circle_and_profile(verbose, shapely_circle, data)
@@ -59,6 +59,7 @@ def fos(fos, config_file, data_file):
                                      config.percentage_status,
                                      config.water_pore_pressure,
                                      verbose)
+
 
 
         plt.scatter(circle_coordinates[:,0], circle_coordinates[:,1], color='red')
