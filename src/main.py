@@ -11,6 +11,7 @@ def fos(fos, config_file, data_file):
 
     data = loadProfileData(verbose, data_file, config.num_of_slices, config.delimit)
 
+    print config.perform_critical_slope
     if config.perform_critical_slope == 'yes':
         ### recreate all steps via function ##
         perform_critical_slope_sim(verbose, config, data, fos)
