@@ -272,9 +272,8 @@ def slice_array(array2d, intersection_coord_1, intersection_coord_2, num_of_elem
 
 	# Check to see if boundary_list is greater or less than 2: if so something went wrong
 	if len(boundary_list) != 2:
-		print "Error: Too many/not enough elements in boundary_list - please report this to " \
-		      "duan_uys@icloud.com\nNumber of Elements: %d" % len(boundary_list)
-		sys.exit()
+		raiseGeneralError("Error: Too many/not enough elements in boundary_list - please report this to " \
+		      "duan_uys@icloud.com\nNumber of Elements: %d" % len(boundary_list))
 	left_boundary, right_boundary = boundary_list[0], boundary_list[1]
 
 	# Slice the data to contain the coordinates of the values from array2d
