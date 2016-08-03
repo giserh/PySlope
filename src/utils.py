@@ -87,8 +87,8 @@ def fetchIntersecCoords(verbose, intersection_coordinates):
 	# the profile once.. not allowed
 	verb(verbose, 'Cross-checking intersection coordinates.')
 	if int1 == int2:
-		print "Error: Circle only intersects the profile in one place - please readjust circle coordinates in config file"
-		sys.exit()
+		raiseGeneralError("Error: Circle only intersects the profile in one place - please readjust circle coordinates "
+		                  "in config file")
 
 	return int1, int2
 
