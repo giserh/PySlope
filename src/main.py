@@ -13,7 +13,6 @@ def fos(fos, config_file, data_file):
     if config.perform_critical_slope == 'yes':
         ### recreate all steps via function ##
         perform_critical_slope_sim(verbose, config, data, fos)
-        perform_critical_slope_sim(verbose, config, data, 'bishop')
     else:
         ## create shapely circle with circle data
         shapely_circle = createShapelyCircle(verbose,
