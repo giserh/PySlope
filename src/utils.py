@@ -128,7 +128,7 @@ def printResults(verbose, error_result, method, soil_cohesion, effective_frictio
 
 
 #### Geometry Utils ####
-def isCircle(x, y, a, b):
+def isCircle(x, y, a, b, r):
 	if a == b:
 		return True
 	else:
