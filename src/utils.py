@@ -607,7 +607,7 @@ def trimmedCircleCoordinates(circle_coords, profile_coords):
 		raise TypeError(err % type(profile_coords))
 	
 	circle_shapley = createShapelyCircle(False, 10, 11, 3, 3, 0)
-	bound_list = intersec_circle_and_profile(False, circle_shapley, profile_coords)
+	bound_list = intersec_circle_and_profile(True,createShapelyLine(circle_coords),profile_coords)
 	
 	bx1, by1 = bound_list[0], bound_list[1]
 	bx2, by2 = bound_list[2], bound_list[3]
