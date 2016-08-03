@@ -526,7 +526,7 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 			shapely_circle = createShapelyCircle(False, x, y, a, b, r)
 			intersection_coordinates = intersec_circle_and_profile(False, shapely_circle, data)
 			print x
-			doRestStuff(False, config, data, intersection_coordinates, fos)
+			doRestStuff(True, config, data, intersection_coordinates, fos)
 			x += 1
 			
 		except:
