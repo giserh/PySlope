@@ -499,7 +499,7 @@ def perform_critical_slope_sim(verbose, config, data, fos):
     ## find intersection coordinates of shapely_circle and profile data
     intersection_coordinates = intersec_circle_and_profile(verbose, shapely_circle, data)
 
-    print intersection_coordinates
+    print intersection_coordinates, x, y, a, b, r
     exit()
 
     # created normal shapley object from raw profile data
