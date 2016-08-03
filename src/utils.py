@@ -524,8 +524,8 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 	y = config.c_y
 	a, b = config.c_a, config.c_b
 	r = config.c_r
-
-	
+	mult = 1
+	### Along X-Axis ###
 	try_x = True
 	add_x = True
 	while try_x:
@@ -534,7 +534,7 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 		
 		except:
 			print 'Failed on ', x
-			x = config.c_x + 1
+			x = config.c_x + mult
 			y = config.c_y
 			a, b = config.c_a, config.c_b
 			r = config.c_r
@@ -543,10 +543,11 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 			add_x = False
 
 		if add_x:
-			x += 1
+			x += mult
 		else:
-			x -=1
+			x -= mult
 	
+	### Along Y-Axis ###
 	try_y = True
 	add_y = True
 	while try_y:
@@ -555,7 +556,7 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 		except:
 			print 'Failed on ', y
 			x = config.c_x
-			y = config.c_y + 1
+			y = config.c_y + mult
 			a, b = config.c_a, config.c_b
 			r = config.c_r
 			if add_y is False:
@@ -563,10 +564,32 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 			add_y = False
 		
 		if add_y:
-			y += 1
+			y += mult
 		else:
-			y -= 1
+			y -= mult
 	
+	### Along NE-SW-Axis ###
+	try_ne = True
+	add_ne = True
+	while try_ne:
+		try:
+			sim_calc(False, x, y, a, b, r, data, config, fos)
+		except:
+			print 'Failed on ', y
+			x = config.c_x + mult
+			y = config.c_y + mult
+			a, b = config.c_a, config.c_b
+			r = config.c_r
+			if add_ne is False:
+				break
+			add_ne = False
+		
+		if add_ne:
+			y += mult
+			x += mult
+		else:
+			y -= mult
+			x -= mult
 	plt.show()
 	exit()
 
@@ -604,7 +627,7 @@ def sim_calc(verbose, x, y, a, b, r, data, config, fos):
 	if factor_of_safety < 1:
 		ep_profile = arraylinspace2d(elevation_profile, config.num_of_slices)
 		plt.plot(ep_profile[:, 0], ep_profile[:, 1])
-		plt.plot(sliced_ep_profile[:, 0], sliced_ep_profile[:, 1])
+		plt.plot(circle_coordinates[:, 0], circle_coordinates[:, 1])
 	
 	
 #### /Calculation Utils ####
