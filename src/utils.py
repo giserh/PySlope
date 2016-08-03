@@ -527,8 +527,9 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 			intersection_coordinates = intersec_circle_and_profile(False, shapely_circle, data)
 			print x
 			x += 1
+			
 		except:
-			x = config.c_x
+			x = config.c_x - 1
 			y = config.c_y
 			a, b = config.c_a, config.c_b
 			r = config.c_r
