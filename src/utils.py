@@ -112,10 +112,10 @@ def printResults(verbose, error_result, method, soil_cohesion, effective_frictio
 		                                                                                                    str(
 			                                                                                                    factor_of_safety))
 	else:
-		results = "Factor of Safety: ", factor_of_safety
-	f = open('results.txt', 'w')
-	f.write(results)
-	f.close()
+		results = "Factor of Safety: %s", str(factor_of_safety)
+	
+	with open('results.txt', 'w') as f:
+		f.write(results)
 	print results
 
 	
