@@ -629,7 +629,7 @@ class ReadConfig(object):
             'vslice',                           # 9
             'percentage_status',                # 10
             'verbose',                          # 11
-            'perform_critical_slope',   # 12
+            'perform_critical_slope',           # 12
         ]
 
     def __init__(self, file_name):
@@ -721,8 +721,8 @@ class ReadConfig(object):
 
                     elif variable == self.options_from_config[12]:
                         # perform critical slope analysis
-                        print 'hello'
                         self.perform_critical_slope == isString(value, variable)
+                        print 'hello', self.perform_critical_slope
                     else:
                         raiseGeneralError("Variable not found in options from config file: %s" % variable)
 
