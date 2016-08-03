@@ -431,7 +431,7 @@ def FOS_Method(method,
 		returns a single float number of the calculated factor of safety from the given parameters
 	"""
 	effective_angle = effective_friction_angle
-
+	verb(verbose, 'Performing actual FOS calculation by Method: %s' % method)
 	### Some checks to see if parameters passed are the right objects and set correctly ###
 	if sliced_ep_profile.ndim != 2:
 		raiseGeneralError("Numpy array is wrong size, %d, needs to be 2" % sliced_ep_profile.ndim)
@@ -517,9 +517,6 @@ def FOS_Method(method,
 	             factor_of_safety)
 
 
-
-#### /Bishop Method ####
-
 def perform_critical_slope_sim(verbose, config, data, fos):
 	# find boundaries
 	x = config.c_x
@@ -531,13 +528,12 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 	try_x_pos = True
 	while try_x_pos:
 		try:
-			shapely_circle = createShapelyCircle(False, x, y, a, b, r)
-			intersection_coordinates = intersec_circle_and_profile(False, shapely_circle, data)
+			sim_calc(verbose, x, y, a, b ,r, data, config, fos)
+		
 		except:
 			print 'Failed on ', x
 			break
 		
-		doRestStuff(False, config, data, intersection_coordinates, shapely_circle, fos)
 		x += 1
 	
 	exit()
@@ -549,56 +545,33 @@ def perform_critical_slope_sim(verbose, config, data, fos):
 		plt.savefig('slope_profile.tif')
 
 
-def doRestStuff(verbose, config, data, intersection_coordinates, shapely_circle, fos):
-	# created normal shapley object from raw profile data
+def sim_calc(verbose, x, y, a, b, r, data, config, fos):
+	shapely_circle = createShapelyCircle(False, x, y, a, b, r)
+	intersection_coordinates = intersec_circle_and_profile(False, shapely_circle, data)
 	shapely_elevation_profile = createShapelyLine(verbose, data)
-	
-	## Using intersection coordinates isolate the section of profile that is within the circle.
-	### Check to see if intersection_coordinates length is 4 elements.. if it isn't so that means for some reason
-	# there are more or less than two intersection points in the profile - shouldn't really happen at all...
 	int1, int2 = fetchIntersecCoords(verbose, intersection_coordinates)
 	circle_coordinates = createNumpyArray(verbose, list(shapely_circle.coords), "Circle/Ellipse")
 	elevation_profile = createNumpyArray(verbose, list(shapely_elevation_profile.coords), 'Profile Coordinates')
-	
-	# Create sliced array with boundaries from elevation_profile
 	sliced_ep_profile = createSlicedElevProfile(verbose,
 	                                            elevation_profile,
 	                                            config.num_of_slices,
 	                                            int1,
 	                                            int2)
+	FOS_Method(fos,
+	           sliced_ep_profile,
+	           shapely_circle,
+	           config.bulk_density,
+	           config.soil_cohesion,
+	           config.effective_friction_angle_soil,
+	           config.vslice,
+	           config.percentage_status,
+	           config.water_pore_pressure,
+	           verbose)
 	
-	### Perform actual calculation of forces slice-by-slice
-	verb(verbose, 'Performing actual FOS calculation by Method: %s' % fos)
 	
-	if fos == 'general':
-		FOS_Method(fos,
-		                     sliced_ep_profile,
-		                     shapely_circle,
-		                     config.bulk_density,
-		                     config.soil_cohesion,
-		                     config.effective_friction_angle_soil,
-		                     config.vslice,
-		                     config.percentage_status,
-		                     config.water_pore_pressure,
-		                     verbose)
-	
-	elif fos == 'bishop':
-		FOS_Method(fos,
-		                     sliced_ep_profile,
-		                     shapely_circle,
-		                     config.bulk_density,
-		                     config.soil_cohesion,
-		                     config.effective_friction_angle_soil,
-		                     config.vslice,
-		                     config.percentage_status,
-		                     config.water_pore_pressure,
-		                     verbose)
-	
-	else:
-		raiseGeneralError("Method: %s didn't execute" % fos)
 	
 	ep_profile = arraylinspace2d(elevation_profile, config.num_of_slices)
-	plt.plot(ep_profile[:,0], ep_profile[:,1])
+	plt.plot(ep_profile[:, 0], ep_profile[:, 1])
 	plt.scatter(circle_coordinates[:, 0], circle_coordinates[:, 1], color='red')
 	
 	
