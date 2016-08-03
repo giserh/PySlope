@@ -547,9 +547,11 @@ def perform_critical_slope_sim(verbose, config, data, method):
 				add_ab = False
 			
 			if add_ab:
-				r += mult
+				a += mult
+				b += mult
 			else:
-				r -= mult
+				a -= mult
+				b -= mult
 			
 	else:
 		# is ellipsoid x, y, a, b
