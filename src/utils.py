@@ -529,16 +529,16 @@ def perform_critical_slope_sim(verbose, config, data, method):
 	y = config.c_y
 	a, b = config.c_a, config.c_b
 	r = config.c_r
-	mult = .5
+	mult = .25
 
 	expand_ab = True
 	add_ab = True
-	""""""
+	
 	while expand_ab:
 		try:
 			sim_calc(False, x, y, a, b, r, data, config, fos)
 		except:
-			print 'Failed on ', a, b
+			print 'Failed on ', (a, b)
 			a = config.c_a + 1
 			b = config.c_b + 1
 			if add_ab is False:
