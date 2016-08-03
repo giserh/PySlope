@@ -10,11 +10,6 @@ def verb(v, string):
 	if v:
 		print '-> %s' % string
 
-
-def hi(string):
-	print string
-
-
 def contains(character, string):
 	equals = 0
 	for char in string:
@@ -48,7 +43,7 @@ def isString(value, variable):
 	if not value.isdigit():
 		return str(value)
 	else:
-		raiseGeneralError("Cannot contain numeric digits: %s = %s" % (variable, value))
+		raise ValueError("Cannot contain numeric digits: %s = %s" % (variable, value))
 
 def isEllipse(value):
 	for char in value:
