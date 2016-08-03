@@ -594,14 +594,14 @@ def sim_calc(verbose, x, y, a, b, r, data, config, fos):
 	if factor_of_safety < 1:
 		ep_profile = arraylinspace2d(elevation_profile, config.num_of_slices)
 		plt.plot(ep_profile[:, 0], ep_profile[:, 1])
-		trimmed = trimmedCircleCoordinates(shapely_circle, list(data))
+		trimmed = trimCircleCoordinates(shapely_circle, list(data))
 		plt.plot(trimmed[:, 0], trimmed[:, 1])
 
 
-def trimmedCircleCoordinates(shapely_circle, profile_coords):
+def trimCircleCoordinates(shapely_circle, profile_coords):
 	err = "%s is not list object"
 	circle_coords = list(createNumpyArray(False, list(shapely_circle.coords)))
-	if not isinstance(circle_coords, list):
+	if not isinstance(shapely_circle, LineString):
 		raise TypeError(err % type(circle_coords))
 	if not isinstance(profile_coords, list):
 		raise TypeError(err % type(profile_coords))
@@ -633,8 +633,8 @@ class Index(object):
 		plt.close('all')
 
 
-def previewGeometery(show_figure, shapely_circle, profile_data):
-	if show_figure == 'yes':
+def previewGeometery(config_show_figure, shapely_circle, profile_data):
+	if config_show_figure == 'yes':
 		circle_preview = np.array(list(shapely_circle.coords))
 		plt.plot(profile_data[:, 0], profile_data[:, 1], color='red')
 		plt.scatter(circle_preview[:, 0], circle_preview[:, 1])
