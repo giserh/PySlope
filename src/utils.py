@@ -595,18 +595,25 @@ def sim_calc(verbose, x, y, a, b, r, data, config, fos):
 		ep_profile = arraylinspace2d(elevation_profile, config.num_of_slices)
 		plt.plot(ep_profile[:, 0], ep_profile[:, 1])
 		print 'trimming'
-		trimmed = trimmedCircleCoordinates(list(circle_coordinates), list(data), config)
+		trimmed = trimmedCircleCoordinates(list(circle_coordinates), list(data), [x, y, a, b])
 		plt.plot(trimmed[:, 0], trimmed[:, 1])
 
 
-def trimmedCircleCoordinates(circle_coords, profile_coords, config):
+def trimmedCircleCoordinates(circle_coords, profile_coords, circle_data):
 	err = "%s is not list object"
 	if not isinstance(circle_coords, list):
 		raise TypeError(err % type(circle_coords))
 	if not isinstance(profile_coords, list):
 		raise TypeError(err % type(profile_coords))
+	if not isinstance(circle_data, list):
+		raise TypeError(err + ' : [x,y,a,b,r]' % type(circle_data))
 	
-	circle_shapley = createShapelyCircle(False,config.c_x, config.c_y, config.c_a, config.c_b, config.c_r)
+	x = circle_data[0]
+	y = circle_data[1]
+	a = circle_data[2]
+	b = circle_data[3]
+	r = circle_data[4]
+	circle_shapley = createShapelyCircle(False, x, y, a, b, r)
 	bound_list = intersec_circle_and_profile(True, circle_shapley, profile_coords)
 	
 	bx1, by1 = bound_list[0], bound_list[1]
