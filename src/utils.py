@@ -531,6 +531,7 @@ def perform_critical_slope_sim(verbose, config, data, method):
 	r = config.c_r
 	mult = 1
 	
+	
 	if isCircle(x, y, a, b, r):
 
 		expand_ab = True
@@ -539,7 +540,7 @@ def perform_critical_slope_sim(verbose, config, data, method):
 			try:
 				sim_calc(False, x, y, a, b, r, data, config, fos)
 			except:
-				print 'Failed on ', r
+				print 'Failed on ', a, b
 				a = config.c_a + 1
 				b = config.c_b + 1
 				if add_ab is False:
