@@ -128,31 +128,24 @@ def printResults(verbose, error_result, method, soil_cohesion, effective_frictio
 
 
 #### Geometry Utils ####
-def isCircle(x, y, a, b, r):
-	print x, y, a, b, r
-	if x is not None or y is not None or b is not None or a is not None:
-		return False
-	elif x is not None or y is not None or r is not None:
-		print 'returning True'
+def isCircle(x, y, a, b):
+	if a == b:
 		return True
 	else:
-		print 'didnt return anything'
+		return False
 	
-def createShapelyCircle(verbose, c_x, c_y, c_a, c_b, c_r):
+def createShapelyCircle(verbose, c_x, c_y, c_a, c_b):
 	verb(verbose, 'Creating Shapely circle with circle data.')
 	try:
-		verb(verbose, 'Trying to generate ellipsoid')
+		verb(verbose, 'Generating Ellipsoid.')
 		if c_x is not None or c_y is not None or c_b is not None or c_a is not None:
 			ellipse = generateEllipse(c_x, c_y, c_a, c_b)
 			return LineString(ellipse)
 		else:
 			sys.exit("Error: c_x, c_y, c_a, c_b not set.. Report bug")
 	except:
-		verb(verbose, 'Ellipse failed: Reverting to perfect circle.')
-		if c_x is not None or c_y is not None or c_r is not None:
-			return Point(c_x, c_y).buffer(c_r).boundary
-		else:
-			sys.exit("Error: c_x, c_y, c_r not set.. Report bug")
+		raiseGeneralError("Shapely Circle Not Set.")
+		
 
 
 def createShapelyLine(verbose, profile_data):
@@ -535,7 +528,7 @@ def perform_critical_slope_sim(verbose, config, data, method):
 	r = config.c_r
 	mult = 1
 	
-	if isCircle(x, y, a, b, r):
+	if isCircle(x, y, a, b):
 		# only as x, y, r
 		expand_r = True
 		add_r = True
