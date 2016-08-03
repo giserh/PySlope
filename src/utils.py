@@ -104,6 +104,7 @@ def createNumpyArray(verbose, listObj, obj_name=''):
 
 def printResults(verbose, error_result, method, soil_cohesion, effective_friction_angle, bulk_density, slice,
                  water_pore_pressure, factor_of_safety):
+	print verbose
 	if verbose:
 		results =  error_result + '\n\nMethod: %s\nCohesion: %d kPa\nEffective Friction Angle: %d\nBulk Density: %d ' \
 		                         'Kg/m^3\nNumber of ' \
@@ -572,7 +573,6 @@ def sim_calc(verbose, x, y, a, b, r, data, config, fos):
 	intersection_coordinates = intersec_circle_and_profile(False, shapely_circle, data)
 	shapely_elevation_profile = createShapelyLine(verbose, data)
 	int1, int2 = fetchIntersecCoords(verbose, intersection_coordinates)
-	circle_coordinates = createNumpyArray(verbose, list(shapely_circle.coords), "Circle/Ellipse")
 	elevation_profile = createNumpyArray(verbose, list(shapely_elevation_profile.coords), 'Profile Coordinates')
 	sliced_ep_profile = createSlicedElevProfile(verbose,
 	                                            elevation_profile,
