@@ -7,8 +7,9 @@ def fos(fos, config_file, data_file):
     if fos is None:
         raiseGeneralError("No method chosen: fos --help")
     config = ReadConfig(config_file)
+    print config.verbose
     verbose = True if config.verbose == 'yes' else False
-
+    print verbose
     data = loadProfileData(verbose, data_file, config.num_of_slices, config.delimit)
 
     if config.perform_critical_slope == 'yes':
