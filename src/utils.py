@@ -175,7 +175,7 @@ def isCircle(a, b):
 	else:
 		return False
 	
-def createShapelyCircle(verbose, c_x, c_y, c_a, c_b, c_r=0):
+def createShapelyCircle(verbose, c_x, c_y, c_a, c_b, c_r):
 	"""Create Shapely Circle Object
 	
 	Arguments:
@@ -395,12 +395,12 @@ def FOS_calc(method, water_pore_pressure, mg, degree, effective_angle, cohesion,
 		if water_pore_pressure == 0:
 			numerator = (cohesion * length + (mg * np.cos(degree)) *
 			             np.tan(effective_angle))
-			numerator = (numerator / cos(degree) + (sin(degree) * tan(effective_angle) / 0.5))
+			numerator = (numerator / np.cos(degree) + (np.sin(degree) * np.tan(effective_angle) / 1.2))
 
 		elif water_pore_pressure > 0:
-			numerator = (cohesion * length + (mg * cos(degree) - water_pore_pressure * length * cos(degree)) *
-			             tan(effective_angle))
-			numerator = (numerator / np.cos(degree) + (np.sin(degree) * np.tan(effective_angle) / 0.5))
+			numerator = (cohesion * length + (mg * np.cos(degree) - water_pore_pressure * length * np.cos(degree)) *
+			             np.tan(effective_angle))
+			numerator = (numerator / np.cos(degree) + (np.sin(degree) * np.tan(effective_angle) / 1.2))
 		else:
 			raiseGeneralError("water_pore_pressure is a negative number!!!: %s" % water_pore_pressure)
 
@@ -408,11 +408,11 @@ def FOS_calc(method, water_pore_pressure, mg, degree, effective_angle, cohesion,
 
 
 	elif method == 'general':
-		denominator = mg * sin(degree)
+		denominator = mg * np.sin(degree)
 		if water_pore_pressure == 0:
-			numerator = (mg * cos(degree)) * tan(effective_angle) + (cohesion * length)
+			numerator = (mg * np.cos(degree)) * np.tan(effective_angle) + (cohesion * length)
 		elif water_pore_pressure > 0:
-			numerator = cohesion * length + (mg * cos(degree) - water_pore_pressure * length) * tan(
+			numerator = cohesion * length + (mg * np.cos(degree) - water_pore_pressure * length) * np.tan(
 				effective_angle)
 		else:
 			raiseGeneralError("water_pore_pressure is a negative number!!!: %s" % water_pore_pressure)
