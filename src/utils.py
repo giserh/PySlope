@@ -578,7 +578,6 @@ def FOS_Method(method,
 			                                  effective_angle,
 			                                  soil_cohesion,
 			                                  length)
-			print numerator, denominator
 
 			numerator_list.append(numerator)
 			denominator_list.append(denominator)
