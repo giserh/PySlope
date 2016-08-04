@@ -2,6 +2,7 @@ import sys
 import numpy as np
 from matplotlib.widgets import Button
 from shapely.geometry import LineString, Point, Polygon
+from sympy import *
 import matplotlib.pyplot as plt
 
 
@@ -394,12 +395,12 @@ def FOS_calc(method, water_pore_pressure, mg, degree, effective_angle, cohesion,
 		if water_pore_pressure == 0:
 			numerator = (cohesion * length + (mg * np.cos(degree)) *
 			             np.tan(effective_angle))
-			numerator = (numerator / np.cos(degree) + (np.sin(degree) * np.tan(effective_angle) / 1.2))
+			numerator = (numerator / cos(degree) + (sin(degree) * tan(effective_angle) / 0.5))
 
 		elif water_pore_pressure > 0:
-			numerator = (cohesion * length + (mg * np.cos(degree) - water_pore_pressure * length * np.cos(degree)) *
-			             np.tan(effective_angle))
-			numerator = (numerator / np.cos(degree) + (np.sin(degree) * np.tan(effective_angle) / 1.2))
+			numerator = (cohesion * length + (mg * cos(degree) - water_pore_pressure * length * cos(degree)) *
+			             tan(effective_angle))
+			numerator = (numerator / np.cos(degree) + (np.sin(degree) * np.tan(effective_angle) / 0.5))
 		else:
 			raiseGeneralError("water_pore_pressure is a negative number!!!: %s" % water_pore_pressure)
 
@@ -407,11 +408,11 @@ def FOS_calc(method, water_pore_pressure, mg, degree, effective_angle, cohesion,
 
 
 	elif method == 'general':
-		denominator = mg * np.sin(degree)
+		denominator = mg * sin(degree)
 		if water_pore_pressure == 0:
-			numerator = (mg * np.cos(degree)) * np.tan(effective_angle) + (cohesion * length)
+			numerator = (mg * cos(degree)) * tan(effective_angle) + (cohesion * length)
 		elif water_pore_pressure > 0:
-			numerator = cohesion * length + (mg * np.cos(degree) - water_pore_pressure * length) * np.tan(
+			numerator = cohesion * length + (mg * cos(degree) - water_pore_pressure * length) * tan(
 				effective_angle)
 		else:
 			raiseGeneralError("water_pore_pressure is a negative number!!!: %s" % water_pore_pressure)
