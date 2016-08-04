@@ -7,10 +7,12 @@ import matplotlib.pyplot as plt
 
 #### Basic Utils ####
 def verb(v, string):
+	'''Prints verbose string to terminal'''
 	if v:
 		print '-> %s' % string
 
 def contains(character, string):
+	'''Tests if specific character is found in string'''
 	equals = 0
 	for char in string:
 		if char == character:
@@ -20,38 +22,43 @@ def contains(character, string):
 	else:
 		return True
 
-
 def raiseGeneralError(arg):
+	'''Raises standard error'''
 	raise StandardError(arg)
 
-
 def isInt(value):
+	'''Tests if value is int type'''
 	try:
 		return int(value)
 	except:
 		return False
 
-
 def isFloat(value):
+	'''Tests if value is float type'''
 	try:
 		return float(value)
 	except:
 		return False
 
-
 def isString(value, variable):
+	'Tests if value contains non-digit characters'
 	if not value.isdigit():
 		return str(value)
 	else:
 		raise ValueError("Cannot contain numeric digits: %s = %s" % (variable, value))
 
 def isEllipse(value):
+	'''
+	Depreciated:
+		Tests if value is in Ellipse Format
+	'''
 	for char in value:
 		if char == "(" or char == ")":
 			return True
 	return False
 
 def hasComma(value):
+	'''Tests if value contains a comma ,'''
 	content_list = []
 	for char in value:
 		content_list.append(char)
@@ -62,14 +69,25 @@ def hasComma(value):
 
 
 def rad2degree(rad):
+	'''Converts radian to degree'''
 	return rad * 180. / np.pi
 
 
 def degree2rad(degree):
+	'''Converts degree to radian'''
 	return degree * np.pi / 180.
 
 
 def printslice(verbose, slice, vslice, percentage_status, sliced_ep_profile):
+	"""Print Computed Slices in Batches
+	
+	Arguments:
+		verbose             -- Bool
+		slice               -- Int, Current Slice Value
+		vslice              -- Int, Slice Value To Print - configured in config file
+		percentage_status   -- Bool
+		sliced_ep_profile   -- Numpy Array - Elevation Profile"""
+	
 	try:
 		if slice % vslice == 0 and verbose:
 			print 'Calculating Slice: %s %s' % (str(slice), display_percentage_status(percentage_status,
@@ -80,6 +98,12 @@ def printslice(verbose, slice, vslice, percentage_status, sliced_ep_profile):
 
 
 def fetchIntersecCoords(verbose, intersection_coordinates):
+	"""Return Tuple of Coordinates of Intersection
+	
+	Arguments:
+		verbose                     -- Bool
+		intersection_coordinates    -- Tuple (x1, y1, x2, y2)"""
+	
 	verb(verbose, 'Isolating section of profile: Length of element is correct.')
 	int1, int2 = (intersection_coordinates[0], intersection_coordinates[1]), (intersection_coordinates[2],
 	                                                                          intersection_coordinates[3])
@@ -94,11 +118,31 @@ def fetchIntersecCoords(verbose, intersection_coordinates):
 
 
 def createNumpyArray(verbose, listObj, obj_name=''):
+	"""Create Numpy Array from Object Type List
+	
+	Arguments:
+		verbose  -- Bool
+		listObj  -- List
+		obj_name -- String"""
+	
 	verb(verbose, 'Converting %s coordinates into Numpy Array.' % str(obj_name))
 	return np.array(list(listObj))
 
 def printResults(verbose, error_result, method, soil_cohesion, effective_friction_angle, bulk_density, slice,
                  water_pore_pressure, factor_of_safety):
+	"""Print Computed Results
+	
+	Arguments:
+		verbose                  -- Bool
+		error_result             -- Float
+		method                   -- String
+		soil_cohesion            -- Int, Float
+		effective_friction_angle -- Int
+		bulk_density             -- Int
+		slice                    -- Int
+		water_pore_pressure      -- Int
+		factor_of_safety         -- string"""
+	
 	if verbose:
 		results =  error_result + '\n\nMethod: %s\nCohesion: %d kPa\nEffective Friction Angle: %d\nBulk Density: %d ' \
 		                         'Kg/m^3\nNumber of ' \
@@ -123,13 +167,24 @@ def printResults(verbose, error_result, method, soil_cohesion, effective_frictio
 
 
 #### Geometry Utils ####
-def isCircle(x, y, a, b, r  ):
+def isCircle(a, b):
+	'''Tests wetheer coordinates are circle or ellipse'''
 	if a == b:
 		return True
 	else:
 		return False
 	
-def createShapelyCircle(verbose, c_x, c_y, c_a, c_b, c_r):
+def createShapelyCircle(verbose, c_x, c_y, c_a, c_b, c_r=0):
+	"""Create Shapely Circle Object
+	
+	Arguments:
+		verbose -- Bool
+		c_x     -- Int/Float
+		c_y     -- Int/Float
+		c_a     -- Int/Float
+		c_b     -- Int/Float
+		c_r     -- Int/Float (Deprecciated)"""
+	
 	verb(verbose, 'Creating Shapely circle with circle data.')
 	try:
 		verb(verbose, 'Trying to generate ellipsoid')
@@ -147,11 +202,27 @@ def createShapelyCircle(verbose, c_x, c_y, c_a, c_b, c_r):
 
 
 def createShapelyLine(verbose, profile_data):
+	"""Return Shapely MultLine Object of profile data
+	
+	Arguments:
+		verbose -- Bool
+		profile_data -- Numpy Array 2D / Nested Tuple ((x,y),(x,y))"""
+	
 	verb(verbose, "Creating Shapely Line with Elevation Profile")
 	return LineString(profile_data)
 
 
 def createSlicedElevProfile(verbose, elevation_profile, num_of_slices, intersec_coord1, intersec_coord2):
+	"""Return Numpy Array of reformed elevation data with num_of_slices data points. Essentially creating
+	   sudo profile with many points
+	   
+	   Arguments:
+	   	verbose           -- Bool
+	   	elevation_profile -- Numpy Array2D
+	   	num_of_slices     -- Int
+	   	intersec_coord1   -- Tuple (x,y)
+	   	intersec_coord2   -- Tuple (x,y)"""
+	
 	verb(verbose, 'Creating Numpy array of sliced profile bounded within circle.')
 	ep_profile = arraylinspace2d(elevation_profile, num_of_slices)
 	sliced_ep_profile = slice_array(ep_profile, intersec_coord1, intersec_coord2, num_of_slices)
@@ -159,6 +230,13 @@ def createSlicedElevProfile(verbose, elevation_profile, num_of_slices, intersec_
 
 
 def intersec_circle_and_profile(verbose, shapely_circle, profile_data):
+	"""Returns List Contain Intersection Coordinates Between Circle and Elevation Profile
+	
+	Arguments:
+		verbose        -- Bool
+		shapely_circle -- Circle Shapely Object
+		profile_data   -- Numpy Array 2D"""
+	
 	verb(verbose, 'Finding Intersection between Circle and Profile')
 	shapely_elevation_profile = LineString(profile_data)
 	intersection_coordinates = list(shapely_circle.intersection(shapely_elevation_profile).bounds)
@@ -176,6 +254,7 @@ def intersec_circle_and_profile(verbose, shapely_circle, profile_data):
 
 
 def generateEllipse(c_x, c_y, c_a, c_b):
+	"""Return Numpy Array of Generated Coordinates of an Ellipsoid from Circle Data"""
 	x_coords, y_coords = [], []
 	degree = 0
 	while degree <= 360:
@@ -195,8 +274,9 @@ def generateEllipse(c_x, c_y, c_a, c_b):
 
 #### Data Formatting Utils ####
 def formatCircleData(coordinates):
+	"""Formated Circle data from Config File"""
+	
 	results = []
-
 	coordinates = coordinates.replace(',', ' ')
 	coordinates = coordinates.replace('(', '')
 	coordinates = coordinates.replace(')', '')
@@ -212,6 +292,8 @@ def formatCircleData(coordinates):
 
 
 def arraylinspace1d(array_1d, num_elements):
+	"""Returns 1D Numpy Array of given 1D Numpy Array with Expanded by num_elements"""
+	
 	array = array_1d
 	num_elements -= 1
 	n = num_elements / float(array.size - 1)
@@ -223,6 +305,8 @@ def arraylinspace1d(array_1d, num_elements):
 
 
 def arraylinspace2d(array_2d, num_elements):
+	"""Returns 2D Numpy Array of given 2D Numpy Array with Expanded by num_elements"""
+	
 	array_x = array_2d[:, 0]
 	array_y = array_2d[:, 1]
 	num_elements -= 1
@@ -286,6 +370,7 @@ def slice_array(array2d, intersection_coord_1, intersection_coord_2, num_of_elem
 
 
 def display_percentage_status(percentage_status, size, slice):
+	"""Returns String of Percentage Status"""
 	if percentage_status:
 		num_elements = float(size / 2)
 		perc = (slice / num_elements) * 100
