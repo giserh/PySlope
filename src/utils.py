@@ -673,7 +673,7 @@ class Perform(object):
 				effective_angle = Calc.degree2rad(effective_angle)
 				
 				# Calculate numerator and denominator of individual slice based on method
-				numerator, denominator = Perform.FOS_calc(method,
+				numerator, denominator = Calc.FOS_calc(method,
 				                                          water_pore_pressure,
 				                                          mg,
 				                                          degree,
