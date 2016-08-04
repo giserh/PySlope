@@ -518,7 +518,6 @@ def FOS_Method(method,
 	:return:
 		returns a single float number of the calculated factor of safety from the given parameters
 	"""
-	print 'in the FOS_METHOD'
 	effective_angle = effective_friction_angle
 	verb(verbose, 'Performing actual FOS calculation by Method: %s' % method)
 	### Some checks to see if parameters passed are the right objects and set correctly ###
@@ -572,7 +571,6 @@ def FOS_Method(method,
 			effective_angle = degree2rad(effective_angle)
 
 			# Calculate numerator and denominator of individual slice based on method
-			print 'calc num and denom'
 			numerator, denominator = FOS_calc(method,
 			                                  water_pore_pressure,
 			                                  mg,
@@ -610,7 +608,7 @@ def FOS_Method(method,
 
 
 def perform_critical_slope_sim(verbose, config, data, method):
-	
+	verb(verbose, "Starting Critical Slope Analysis")
 	fos = method
 	# find boundaries
 	x = config.c_x
@@ -654,11 +652,8 @@ def perform_critical_slope_sim(verbose, config, data, method):
 
 def sim_calc(verbose, x, y, a, b, r, data, config, fos):
 	shapely_circle = createShapelyCircle(False, x, y, a, b, r)
-	print 'made shapely circle'
 	intersection_coordinates = intersec_circle_and_profile(False, shapely_circle, data)
-	print 'makde intersection coordinates'
 	shapely_elevation_profile = createShapelyLine(verbose, data)
-	print 'created shapely_elev_profile'
 	int1, int2 = fetchIntersecCoords(verbose, intersection_coordinates)
 	elevation_profile = createNumpyArray(verbose, list(shapely_elevation_profile.coords), 'Profile Coordinates')
 	sliced_ep_profile = createSlicedElevProfile(verbose,
@@ -666,7 +661,6 @@ def sim_calc(verbose, x, y, a, b, r, data, config, fos):
 	                                            config.num_of_slices,
 	                                            int1,
 	                                            int2)
-	print 'calculating fos'
 	factor_of_safety = FOS_Method(fos,
 						           sliced_ep_profile,
 						           shapely_circle,
