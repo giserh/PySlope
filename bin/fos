@@ -12,9 +12,20 @@ curdir = os.getcwd() + '/'
 
 @click.command()
 @click.option('-m', type=click.Choice(['general', 'bishop']), help="Specifies Slope Stability Method.")
+@click.option('-s', type=float, default=-1.1, help="Soil Cohesion in KPa.")
+@click.option('-d', type=float, default=-1.1, help="Angle of Internal Friction - in degrees -")
+@click.option('-n', type=int, default=-1, help="Number of Slices to Calculate on Slope.")
+@click.option('-w', type=float, default=-1.1, help="Water Pore Pressure in KPa.")
+@click.option('-c', type=int, default=-1.1, help="Number of Slice Bulk to Output to Screen - only works if Verbose is"
+                                                 "turned on, -v")
+@click.option('-p', type=click.Choice(['yes', 'no']), help="Display percentage complete.")
+@click.option('-v', type=click.Choice(['yes','no']), help="Verbose Mode.")
+@click.option('-e', type=click.Choice(['yes', 'no']), help="Save Final Figure.")
+@click.option('-o', type=click.Choice(['yes', 'no']), help="Show Final Figure.")
+@click.option('-x', type=click.Choice(['yes', 'no']), help="Perform Critical Slope Analysis on Data Set.")
 @click.argument('config_file')
 @click.argument('data_file')
-def fos(m, config_file, data_file):
+def fos(m, s, d, n , w, c, p, v, e, o, x, config_file, data_file):
     """
     Usage:
 
