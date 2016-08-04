@@ -33,7 +33,9 @@ def fos(m, s, d, n , w, c, p, v, e, o, x, config_file, data_file):
     """
     config = curdir + config_file
     data = curdir + data_file
+    print s, d, n, w, c, p, v, e, o, x
     src.main.main(m, config_file, data_file)
+    
 
 if __name__ == '__main__':
     fos()
