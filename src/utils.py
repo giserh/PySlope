@@ -2,7 +2,6 @@ import sys
 import numpy as np
 from matplotlib.widgets import Button
 from shapely.geometry import LineString, Point, Polygon
-from sympy import *
 import matplotlib.pyplot as plt
 
 
@@ -519,6 +518,7 @@ def FOS_Method(method,
 	:return:
 		returns a single float number of the calculated factor of safety from the given parameters
 	"""
+	print 'in the FOS_METHOD'
 	effective_angle = effective_friction_angle
 	verb(verbose, 'Performing actual FOS calculation by Method: %s' % method)
 	### Some checks to see if parameters passed are the right objects and set correctly ###
