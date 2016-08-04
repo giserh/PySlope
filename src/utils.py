@@ -389,6 +389,8 @@ def display_percentage_status(percentage_status, size, slice):
 
 
 def FOS_calc(method, water_pore_pressure, mg, degree, effective_angle, cohesion, length):
+	numerator = None
+	
 	if method == 'bishop':
 		denominator = mg * np.sin(degree)
 		if water_pore_pressure == 0:
@@ -415,7 +417,9 @@ def FOS_calc(method, water_pore_pressure, mg, degree, effective_angle, cohesion,
 				effective_angle)
 		else:
 			raiseGeneralError("water_pore_pressure is a negative number!!!: %s" % water_pore_pressure)
-
+		
+		print numerator, denominator
+		
 		return numerator, denominator
 
 	else:
