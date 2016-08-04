@@ -416,9 +416,7 @@ def FOS_calc(method, water_pore_pressure, mg, degree, effective_angle, cohesion,
 				effective_angle)
 		else:
 			raiseGeneralError("water_pore_pressure is a negative number!!!: %s" % water_pore_pressure)
-		
-		print numerator, denominator
-		
+				
 		return numerator, denominator
 
 	else:
