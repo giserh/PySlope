@@ -652,8 +652,11 @@ def perform_critical_slope_sim(verbose, config, data, method):
 
 def sim_calc(verbose, x, y, a, b, r, data, config, fos):
 	shapely_circle = createShapelyCircle(False, x, y, a, b, r)
+	print 'made shapely circle'
 	intersection_coordinates = intersec_circle_and_profile(False, shapely_circle, data)
+	print 'makde intersection coordinates'
 	shapely_elevation_profile = createShapelyLine(verbose, data)
+	print 'created shapely_elev_profile'
 	int1, int2 = fetchIntersecCoords(verbose, intersection_coordinates)
 	elevation_profile = createNumpyArray(verbose, list(shapely_elevation_profile.coords), 'Profile Coordinates')
 	sliced_ep_profile = createSlicedElevProfile(verbose,
@@ -661,6 +664,7 @@ def sim_calc(verbose, x, y, a, b, r, data, config, fos):
 	                                            config.num_of_slices,
 	                                            int1,
 	                                            int2)
+	print 'calculating fos'
 	factor_of_safety = FOS_Method(fos,
 						           sliced_ep_profile,
 						           shapely_circle,
