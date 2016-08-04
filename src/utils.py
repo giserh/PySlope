@@ -621,7 +621,7 @@ def perform_critical_slope_sim(verbose, config, data, method):
 		try:
 			sim_calc(False, x, y, a, b, r, data, config, fos)
 		except:
-			print 'Failed on ', (a, b)
+			verb(verbose, ("Failed on ", (a,b)))
 			a = config.c_a + 1
 			b = config.c_b + 1
 			if add_ab is False:
