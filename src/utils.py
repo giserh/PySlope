@@ -190,6 +190,7 @@ def createShapelyCircle(verbose, c_x, c_y, c_a, c_b, c_r):
 	try:
 		verb(verbose, 'Trying to generate ellipsoid')
 		if c_x is not None or c_y is not None or c_b is not None or c_a is not None:
+			print 'in here'
 			ellipse = generateEllipse(c_x, c_y, c_a, c_b)
 			return LineString(ellipse)
 		else:
