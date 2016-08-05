@@ -2,67 +2,79 @@
 
 ###Who is the program intended for and what is it about?###
 
-The is a CLI slope stability analysis program. Given a set of 2-D x,y values indicating the
-profile of a slope the program works out the Factor of Safety of the slope depending on where the circle 
+The is a CLI static slope stability analysis program. Given a set of 2-D x,y values indicating the
+profile of a slope the program works out the Factor of Safety of the slope depending on where the ellipsoid 
 intersects with the elevational profile. 
 
-This program is intended for anyone who is interested in doing slope stability analysis.
+###Installation###
 
-
-###What do I need for this program to work?###
-
-   You will need the following Python Modules for this to work:
-
-   * Numpy
-   * Scipy
-   * Shapely
-   * Matplotlib
-   * Click
-   
-   
-   Super Easy Way:
-   
-   Download the complete python package called: [Anaconda](https://www.continuum.io/downloads)
-   This is a brilliant option for scientists who use programming because it comes with pretty much every module you 
-   will ever need including the ones required by this program. Highly recommended and great tutorials on how to set 
-   that up on your machine - windows/OSX/Linux
-
-    -> Vanilla Conda does not include Click - you must manually download it <-
-
-    	conda install click
-   
-   
-   Medium Way:
-        
-   If you have a Mac OSX I highly recommend you install [brew] (http://brew.sh/)
-   Then it is as simple as:
-        
-        brew install numpy scipy matplotlib shapely
-
-        -> Click is not availble on brew <-
-   
-   If you have [pip](https://pip.pypa.io/en/stable/installing/) (which you can test by 
-   typing 'pip' in your terminal
-    and if you get something else besides):
-           
-        -bash: pip: command not found
-   
-   Then you can happily go and install the modules provided by the 'requirements.txt' in main directory:
-   
-        sudo pip install -r requirements.txt
-        
-   For windows users - you are out of luck - I am not a windows guy. There are a
-    few tutorials online that allow you to install python and the modules itself. If you realized your major mistake 
-    by not going with a Unix type OS then have no fear, windows has made some sort of a comeback by using [cygwin]
-    (https://www.cygwin.com/)
+Using git in the command line you can
     
-    
-   Hard Way:
-   
-   You can physically go to the homepages of each of the modules and install and compile them yourself. However this 
-   is not recommended because you would have to make sure that the modules reside in your PYTHONPATH - NOT
-   recommend.
+    git clone
 
+to make a local copy of this project or download as Zip file.
+
+You will need to have Python 2.7+ and the following Python Modules for this to work:
+
+* Numpy
+* Scipy
+* Shapely
+* Matplotlib
+* Click
+    
+Super Easy Way:
+
+Download the complete python package called: [Anaconda](https://www.continuum.io/downloads)
+This is a brilliant option for scientists who use programming because it comes with pretty much every module you 
+will ever need including the ones required by this program. Highly recommended and great tutorials on how to set 
+that up on your machine - windows/OSX/Linux.
+
+-> Vanilla Conda does not include Click - you must manually download it <-
+
+    conda install click
+
+
+Medium Way:
+    
+If you have a Mac OSX I highly recommend you install [brew] (http://brew.sh/)
+Then it is as simple as:
+    
+    brew install numpy scipy matplotlib shapely
+
+    -> Click is not availble on brew <-
+
+If you have [pip](https://pip.pypa.io/en/stable/installing/) (which you can test by 
+typing 'pip' in your terminal
+and if you get something else besides):
+       
+    -bash: pip: command not found
+
+Then you can install the modules provided by the 'requirements.txt' in main directory:
+
+    sudo pip install -r requirements.txt
+    
+For windows users - you are out of luck - I am not a windows guy. There are a
+few tutorials online that allow you to install python and the modules itself. If you realized your major mistake 
+by not going with a Unix type OS then have no fear, windows has made some sort of a comeback by using [cygwin]
+(https://www.cygwin.com/)
+
+
+There will be a file called **setup** once downloaded. It is a unix executable file that will install the program to /usr/local
+and create all relevant links to be able for use it immediately via commands described below. The setup file also includes other options
+including an uninstall feature. 
+
+    Usage: ./setup [-h] [-u] --Setup Options for PySlope v2
+    
+        where:
+            -h    Shows this help message
+            -u    Uninstalls all relevant data 
+    
+            *no argument     
+                  Installs relevant data to appropriate folders
+    
+                
+I constantly work on this program and push out major to minor updates. Once you **git clone** the project **git pull** in the same directory.
+Once you have the newest version run **setup** again to update the program.
 
         
 ### How to use it ###
@@ -77,22 +89,6 @@ installation of the program you can access a more detailed help section in the t
 
     man fos
 
-There will be a file called **setup** once downloaded. It is a unix executable file that will install the program to /usr/local
-and create all relevant links to be able for use it immediately via commands described below. The setup file also includes other options
-including an uninstall feature. More info below. 
-
-    Usage: ./setup [-h] [-u] --Setup Options for Slope Stability Program
-    
-        where:
-            -h    Shows this help message
-            -u    Uninstalls all relevant data 
-    
-            *no argument     
-                  Installs relevant data to appropriate folders
-    
-                
-I constantly work on this program and push out major to minor updates. Once you **git clone** the project **git pull** in the same directory.
-Once you have the newest version run **setup** again to update the program.
 
 Supported Commands that work out of the box
 
@@ -252,13 +248,13 @@ bugs you find email me @ duan_uys@icloud.com
 
 
 
-#### Performance Heavy Options ####
-
-    perform_critical_slope = yes/no
-            This option toggles whether to perform a critical slope analysis on the given data set and parameters.
-            Instead of performing a single Factor of Safety method calculation on the given data set, it performs 
-            multiple calculations each time changing the radius of the ellipse/circle, within aspect ratio, and plots
-            all curves that achieved below 1. FOS < 1, indicated Driving Force exceeds that of the Resisting Forces.
+    #### Performance Heavy Options ####
+    
+        perform_critical_slope = yes/no
+                This option toggles whether to perform a critical slope analysis on the given data set and parameters.
+                Instead of performing a single Factor of Safety method calculation on the given data set, it performs 
+                multiple calculations each time changing the radius of the ellipse/circle, within aspect ratio, and plots
+                all curves that achieved below 1. FOS < 1, indicated Driving Force exceeds that of the Resisting Forces.
 
 
 
