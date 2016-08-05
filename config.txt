@@ -28,7 +28,7 @@ effective_friction_angle_soil = 45
 bulk_density = 1760
 
 # num_of_slices = 100
-num_of_slices = 500
+num_of_slices = 100
 
 
 
@@ -53,9 +53,9 @@ verbose = yes
 save_figure = no
 
 # show_figure = yes/no
-show_figure = yes
+show_figure = no
 
 ##### PERFORMANCE HEAVY ######
 
 # perform_critical_slope = yes/no
-perform_critical_slope = yes
+perform_critical_slope = no
