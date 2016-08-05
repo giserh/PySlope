@@ -22,7 +22,7 @@ def main(fos,
 		General.raiseGeneralError("No method chosen: man fos")
 	
 	config = ReadConfig(config_file)
-	print type(percentage)
+	
 	if soil_cohesion != -1.1:
 		config.soil_cohesion = soil_cohesion
 	
