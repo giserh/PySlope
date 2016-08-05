@@ -5,11 +5,12 @@ curdir="../slope-stability/"
 wdir="/usr/local/slope-stability"
 bin="${wdir}/bin"
 cmd="export PATH=\"/usr/local/slope-stability/bin:\$PATH\""
+version=2.0
 
 
 if [[ "$1" == "-h" ]]; then
 	echo "
-Usage: ./setup [-h] [-u] --Setup Options for Slope Stability Program
+Usage: ./setup [-h] [-u] --Setup Options for PySlope v${version}
 
 	where:
 		-h    Shows this help message
