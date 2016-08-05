@@ -34,10 +34,10 @@ elif [[ $# -eq 0 ]]; then
     ./setup -u
     if [ "$(uname)" == "Darwin" ]; then
     # Do something under Mac OS X platform
-        install fos.1 /usr/local/share/man/man1/
+        install man/fos.1 /usr/local/share/man/man1/
         gzip /usr/local/share/man/man1/fos.1
     elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
-        install fos.1 /usr/local/man/man1/
+        install man/fos.1 /usr/local/man/man1/
         gzip /usr/local/man/man1/fos.1
     fi
     rm -rf $wdir
