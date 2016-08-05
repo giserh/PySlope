@@ -29,7 +29,7 @@ def fos(m, s, d, n , w, c, p, v, e, o, x, config_file, data_file):
     """
     Usage:
 
-    fos -m[general|bishop] [config_file] [data_file]
+    fos [-cdnsw] [-e YES/NO] [-m GENERAL/BISHOP] [-o YES/NO] [-p YES/NO] [-v YES/NO] [-x YES/NO] [CONFIG_FILE] [DATA_FILE]
     """
     config = curdir + config_file
     data = curdir + data_file
