@@ -252,11 +252,83 @@ bugs you find email me @ duan_uys@icloud.com
 
 
 
-## Performance Heavy Options ##
+#### Performance Heavy Options ####
 
     perform_critical_slope = yes/no
             This option toggles whether to perform a critical slope analysis on the given data set and parameters.
             Instead of performing a single Factor of Safety method calculation on the given data set, it performs 
             multiple calculations each time changing the radius of the ellipse/circle, within aspect ratio, and plots
             all curves that achieved below 1. FOS < 1, indicated Driving Force exceeds that of the Resisting Forces.
-            
+
+
+
+###Command Line###
+
+        NAME
+             fos -- Calculate Factor of Safety
+        
+        SYNOPSIS
+             fos [-a x,y,h,v] [-cdnsw] [-e YES/NO] [-m GENERAL/BISHOP] [-o YES/NO] [-p YES/NO] [-v YES/NO] [-x YES/NO] [CONFIG_FILE]
+                 [DATA_FILE]
+        
+        DESCRIPTION
+             The fos is a python script that calculates the factor of safety from a given 2-D data set. The script supports critical slope
+             analysis by performing multiple calculations on data set and displaying all curvatures where FOS < 1. All options (except -m )
+             that are not supplied via command line is read from the CONFIG_FILE. Supports single FOS calculation of data set by given parame-
+             ters from CONFIG_FILE or Command Line. All values supplied via command line takes higher priority than values defined in CON-
+             FIG_FILE. The idea behind this is to experiment with values on the fly without having to constantly change config files.
+        
+        OPTIONS
+             The following options are available:
+        
+             -a                Ellipsoid Coordinates as x,y,v,h where v is vertical radius and h is horizontal radius
+        
+             -c                Number of Slice Bulk to Output to Screen - Integer
+        
+             -d                Angle of Internal Friction, in degrees - Float
+        
+             -n                Number of Slices to Calculate on Slope - Integer
+        
+             -s                Soil Cohesion in KPa - Float
+        
+             -w                Water Pore Pressure in KPa - Float
+        
+             -e                Save Final Figure
+        
+             -m                Specifies Slope Stability Calculation Method
+        
+             -o                Show Figures
+        
+             -p                Display Percentage Complete
+        
+             -v                Verbose Mode
+        
+             -x                Perform Critical Slope Analysis on Data Set
+        
+        EXAMPLES
+             To perform a critical slope analysis with verbose mode On and saving and show figures as well as defining all options so that no
+             values are read from the CONFIG_FILE.
+        
+             fos -mgeneral -s1000 -d47 -n1000 -w1200 -c50 -pyes -vyes -eyes -oyes -xyes config.txt sample.data
+
+             To perform a single calculation of the bishop method on given data set with some parameters read from config file and some sup-
+             plied via command line with verbose mode Off.
+        
+             fos -mbishop -s1000 -xno -vno config.txt sample.data
+        
+             To execute script with ALL parameters read from CONFIG_FILE using general method.
+        
+             fos -mgeneral config.txt sample.data
+        
+             To execute script with an ellipsoid coordinates (3,3,4,7) where 4 is the vertical radius and 7 is horizontal radius.
+        
+             fos -mgeneral -a3,3,4,7 config.txt sample.data
+        
+        HISTORY
+             The fos program was originally written by Duan Uys, licensed under the GNU Public Licence.
+        
+        COMPATIBILITY
+             Only works on Python 2.7+
+        
+        BUGS
+             No bugs known at this time.
