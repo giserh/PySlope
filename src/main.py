@@ -15,6 +15,7 @@ def main(fos,
          save,
          show,
          do_crit_slope,
+         ellipsoid_coordinates,
          config_file,
          data_file):
 	
@@ -44,6 +45,12 @@ def main(fos,
 		config.show_figure = show.lower()
 	if do_crit_slope is not None:
 		config.perform_critical_slope = do_crit_slope.lower()
+	if ellipsoid_coordinates != '':
+		if Analysis.isEllipseFormat(ellipsoid_coordinates):
+			formattedCoords = Format.formatCircleData(ellipsoid_coordinates)
+			config.circle_coordinates = formattedCoords
+		else:
+			General.raiseGeneralError("Wrong Input Format '%s'. More Info: man fos" % ellipsoid_coordinates)
 
 	verbose = True if config.verbose == 'yes' else False
 	data = Format.loadProfileData(verbose, data_file, config.num_of_slices, config.delimit)

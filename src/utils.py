@@ -135,7 +135,7 @@ class Analysis(object):
 			raise ValueError("Cannot contain numeric digits: %s = %s" % (variable, value))
 	
 	@staticmethod
-	def isEllipse(value):
+	def isEllipseFormat(value):
 		'''
 		Depreciated:
 			Tests if value is in Ellipse Format
@@ -826,7 +826,7 @@ class ReadConfig(object):
 						if not Analysis.hasComma(value):
 							General.raiseGeneralError("Wrong Circle Coordinates - Check Config File")
 						else:
-							if Analysis.isEllipse(value):
+							if Analysis.isEllipseFormat(value):
 								value = Format.formatCircleData(value)
 								self.c_x = float(value[0])
 								self.c_y = float(value[1])
