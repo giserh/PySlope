@@ -34,15 +34,15 @@ def main(fos,
 	if vslice != -1:
 		config.vslice = vslice
 	if percentage is not None:
-		config.percentage_status = percentage.tolower()
+		config.percentage_status = percentage.lower()
 	if verbose is not None:
-		config.verbose = verbose.tolower()
+		config.verbose = verbose.lower()
 	if save is not None:
-		config.save_figure = save.tolower()
+		config.save_figure = save.lower()
 	if show is not None:
-		config.show_figure = show.tolower()
+		config.show_figure = show.lower()
 	if do_crit_slope is not None:
-		config.perform_critical_slope = do_crit_slope.tolower()
+		config.perform_critical_slope = do_crit_slope.lower()
 	
 	
 	print config.soil_cohesion, config.effective_friction_angle_soil
