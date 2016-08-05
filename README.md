@@ -60,8 +60,7 @@ by not going with a Unix type OS then have no fear, windows has made some sort o
 
 
 There will be a file called **setup** once downloaded. It is a unix executable file that will install the program to /usr/local
-and create all relevant links to be able for use it immediately via commands described below. The setup file also includes other options
-including an uninstall feature. 
+and create all relevant links to be able for use it immediately via commands described below. The setup file also includes an uninstall feature. 
 
     Usage: ./setup [-h] [-u] --Setup Options for PySlope v2
     
