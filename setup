@@ -33,6 +33,7 @@ elif [[ "$1" == "-u" ]]; then
 	source ~/.bash_profile
 
 elif [[ $# -eq 0 ]]; then
+    ./setup -u
     if [ "$(uname)" == "Darwin" ]; then
     # Do something under Mac OS X platform
         install fos.1 /usr/local/share/man/man1/
