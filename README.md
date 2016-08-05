@@ -1,4 +1,4 @@
-#Slope Stability, alpha 1.0#
+#PySlope v2#
 
 ###Who is the program intended for and what is it about?###
 
@@ -8,6 +8,7 @@ intersects with the elevational profile.
 
 This program is intended for anyone who is interested in doing slope stability analysis.
 
+
 ###What do I need for this program to work?###
 
    You will need the following Python Modules for this to work:
@@ -15,8 +16,8 @@ This program is intended for anyone who is interested in doing slope stability a
    * Numpy
    * Scipy
    * Shapely
-   * matplotlib
-   * click
+   * Matplotlib
+   * Click
    
    
    Super Easy Way:
@@ -26,7 +27,7 @@ This program is intended for anyone who is interested in doing slope stability a
    will ever need including the ones required by this program. Highly recommended and great tutorials on how to set 
    that up on your machine - windows/OSX/Linux
 
-    -> Vanilla Conda does not include Click - you must manually download it<-
+    -> Vanilla Conda does not include Click - you must manually download it <-
 
     	conda install click
    
@@ -40,7 +41,7 @@ This program is intended for anyone who is interested in doing slope stability a
 
         -> Click is not availble on brew <-
    
-   If you have anything else [pip](https://pip.pypa.io/en/stable/installing/) (which you can test by 
+   If you have [pip](https://pip.pypa.io/en/stable/installing/) (which you can test by 
    typing 'pip' in your terminal
     and if you get something else besides):
            
@@ -50,7 +51,7 @@ This program is intended for anyone who is interested in doing slope stability a
    
         sudo pip install -r requirements.txt
         
-   For windows users - you are out of luck for any of my help. I am not a windows guy. There are a
+   For windows users - you are out of luck - I am not a windows guy. There are a
     few tutorials online that allow you to install python and the modules itself. If you realized your major mistake 
     by not going with a Unix type OS then have no fear, windows has made some sort of a comeback by using [cygwin]
     (https://www.cygwin.com/)
@@ -66,11 +67,16 @@ This program is intended for anyone who is interested in doing slope stability a
         
 ### How to use it ###
 
-The program works in two ways - configuring the config.txt (or similiar) and using the command line to execute the
+The program works in two ways - configuring the config.txt (or similiar) and/or using the command line to execute the
 different commands. Editing the config.txt file with the parameters you choose. For a step-by-step guide to what each
 config option does read on down below under the section 'Configuration File Explained' Once you have everything you need
 make sure your **datafile** and **config.txt** are in the same directory. 
-        
+
+A system has been developed where you can now use either the config.txt **AND/OR** command line. Upon successful
+installation of the program you can access a more detailed help section in the terminal by:
+
+    man fos
+
 There will be a file called **setup** once downloaded. It is a unix executable file that will install the program to /usr/local
 and create all relevant links to be able for use it immediately via commands described below. The setup file also includes other options
 including an uninstall feature. More info below. 
@@ -94,64 +100,76 @@ Supported Commands that work out of the box
 
         Usage: fos [OPTIONS] CONFIG_FILE DATA_FILE
 
-        Usage:
-
-            fos -m[general|bishop] [config_file] [data_file]
-
+          Usage:
+        
+          fos [-cdnsw] [-e YES/NO] [-m GENERAL/BISHOP] [-o YES/NO] [-p YES/NO] [-v
+          YES/NO] [-x YES/NO] [CONFIG_FILE] [DATA_FILE]
+        
+          Detailed Help: man fos
+        
         Options:
-            -m [general|bishop]  Specifies Slope Stability Method.
-            --help               Show this message and exit.
+          -m [general|bishop]  Specifies Slope Stability Method.
+          -s FLOAT             Soil Cohesion in KPa.
+          -d FLOAT             Angle of Internal Friction - in degrees -
+          -n INTEGER           Number of Slices to Calculate on Slope.
+          -w FLOAT             Water Pore Pressure in KPa.
+          -c INTEGER           Number of Slice Bulk to Output to Screen - only works
+                               if Verbose isturned on, -v
+          -p [yes|no]          Display percentage complete.
+          -v [yes|no]          Verbose Mode.
+          -e [yes|no]          Save Final Figure.
+          -o [yes|no]          Show Final Figure.
+          -x [yes|no]          Perform Critical Slope Analysis on Data Set.
+          -a TEXT              Ellipsoid Coordinates - x,y,h,v
+          --help               Show this message and exit.
 
 		
 
 
-This program only runs on Python 2.7x
+    This program only runs on Python 2.7x
 
 
 ###How does it work?###
 
 Given some basic configuration options the program reads in the configuration file and data from an ambiguous
-file of your choosing. Right now the program only supports very basic - Basic Method of Slicing. It reads the
-elevation data (x,y) coordinates and loads them up into a numpy array. It then generates coordinates of a perfect
-circle or ellipse based on the configuration file where you define your circle.
+file of your choosing. It supports: 
+
+* Basic Method of Slicing (General)
+* Simplified Bishops Method. 
+
+It reads in elevation data (x,y) coordinates and loads them up into a numpy array. It then generates coordinates of an 
+ellipsoid based on the configuration file or terminal input.
 
 It takes both coordinate sets and isolates the points where the circle intersects the profile. For some number
 crunching it takes the elevation profile itself and generates a user-defined amount of data points that fits the
 profile of the elevation.
 
-This allows for a scientist to gather as few points as possible and letting the computer generate n number
-of points that simulates a lot of points...
+This allows for a scientist to gather as few points as possible and letting the computer generate **n** number
+of points that simulates a lot of points... After it isolates the 'workspace', then the actual calculation for Factor 
+of Safety begins.
 
-After it isolates the 'workspace', then the actual calculation for Factor of Safety begins.
-
-I am not going to go into the logistics if you are interested; follow the source code
-
-After everything is done it will spit out:
+After everything is done it will spit out - depending on the verbose setting:
 
 * number of errors caught
 * the Factor of Safety of your slope from your given config settings.
-* Results can be found in your terminal and results.log
+* Results can be found in your terminal and results.txt
 
 ###Few Pointers###
 
-* It has a built in error catching system. It is common as a computer generated values sometimes things don't
- go as planned and its impossible to account for each and every problem.. therefore.. when calculating the
- factor of saftey and forces for each 'slice' if anything doesn't work out right it completely skips that
- slice and move on to the next. It will spit out how many errors it did catch for your information. It only
- will give you results on slices that work.
+It has a built in error catching system. It is common as a computer generated values sometimes things don't
+go as planned and its impossible to account for each and every problem.. therefore.. when calculating the
+factor of saftey and forces for each 'slice' if anything doesn't work out right it completely skips that
+slice and move on to the next. It will spit out how many errors it did catch for your information. It only
+will give you results on slices that work.
 
-* Play around with the circle coordinates, it will only catch the coordinates of the elevation profile that
-is 'trapped' in the circle and perform calculation on those
+The whole project is documented heavly. If you can contribute to the code I would greatly appreciate it.
 
-* The whole project is documented.. quite heavly... if you can contribute to the code I would greatly appreciate it.
-* It does support a preview of your data with the plotted circle before any calculations are made. This ensures visual confirmation
-that the ellipsiod encloses the profile. If the ellipsiod doesn't intersect the profile an error will pop up once you 'continue'
-
+It does support a preview of your data with the plotted circle before any calculations are made. This ensures visual confirmation
+that the ellipsiod encloses the profile. If the ellipsiod doesn't intersect the profile an error will pop up once you 'continue'.
 
 ###What does it not do?###
 
-It is a very basic program thus far. I have tried a few circle coordinates, but not every possibility. Most
-likely a bug will pop up eventually. It doesn't support multilayered strata or 3D... yet.
+It does not support multistrata or 3D calculations.
 
 
 ###Configuration File Explained###
