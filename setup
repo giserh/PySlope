@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Variable Declarations
 curdir="../slope-stability/"
@@ -21,26 +21,35 @@ Usage: ./setup [-h] [-u] --Setup Options for Slope Stability Program
 			"
 
 elif [[ "$1" == "-u" ]]; then
-	echo "Removing all content from working directory"
+	echo "Removing all related contents"
 	rm -rf $wdir
+	if [ "$(uname)" == "Darwin" ]; then
+    # Do something under Mac OS X platform
+        rm -rf /usr/local/share/man/man1/fos.1.gz
+    elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+        rm -rf /usr/local/man/man1/fos.1.gz
+
+    fi
 	source ~/.bash_profile
 
-# deal with arguments first
 elif [[ $# -eq 0 ]]; then
-	#statements
+    if [ "$(uname)" == "Darwin" ]; then
+    # Do something under Mac OS X platform
+        install fos.1 /usr/local/share/man/man1/
+        gzip /usr/local/share/man/man1/fos.1
+    elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+        install fos.1 /usr/local/man/man1/
+        gzip /usr/local/man/man1/fos.1
+    fi
     rm -rf $wdir
-
 	# Copy entire directory to seperate directory in /usr/local
 	echo "Making Directory: /slope-stability/"
 	mkdir $wdir
-
 	echo "Copying Content to: /usr/local/slope-stability"
 	cp -R $curdir $wdir
-
 	# Make /usr/local/slope-stability/bin executable
 	echo "Writing executable"
 	chmod +x "$bin/fos"
-
 	# Add /usr/local/slope-stability/bin to user PATH
 	if grep /usr/local/slope-stability ~/.bash_profile; then
 		:
@@ -50,6 +59,9 @@ elif [[ $# -eq 0 ]]; then
 	fi
 
 	source ~/.bash_profile
+
+	echo "PySlope Installed Successfully"
+	echo "man fos - for more details"
 else
 	echo 'Unrecognised argument; try ./setup -h'
 fi
