@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from .utils import *
+from sys import exit
 
 
 def main(fos,
