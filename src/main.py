@@ -17,8 +17,9 @@ def main(fos,
          do_crit_slope,
          config_file,
          data_file):
+	
 	if fos is None:
-		General.raiseGeneralError("No method chosen: fos --help")
+		General.raiseGeneralError("No method chosen: man fos")
 	
 	config = ReadConfig(config_file)
 	print type(percentage)
@@ -43,18 +44,7 @@ def main(fos,
 		config.show_figure = show.lower()
 	if do_crit_slope is not None:
 		config.perform_critical_slope = do_crit_slope.lower()
-	
-	
-	print config.soil_cohesion, config.effective_friction_angle_soil
-	print config.num_of_slices,
-	print config.water_pore_pressure,
-	print config.vslice
-	print config.percentage_status
-	print config.verbose
-	print config.save_figure
-	print config.show_figure
-	print config.perform_critical_slope
-	exit()
+
 	verbose = True if config.verbose == 'yes' else False
 	data = Format.loadProfileData(verbose, data_file, config.num_of_slices, config.delimit)
 	
