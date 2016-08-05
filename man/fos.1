@@ -73,11 +73,11 @@ Perform Critical Slope Analysis on Data Set
 
 
 .Sh EXAMPLES
-To perform a critical slope analysis with verbose mode
-.Nm On
-and saving and show figures as well as defining all options so that no values are read from the CONFIG_FILE.
+To perform a critical slope analysis with verbose
+.Nm On,
+saving figures, and showing figures with an ellipsoid of 10,11,3,3 so that no values are read from the CONFIG_FILE.
 
-.Nm fos -mgeneral -s1000 -d47 -n1000 -w1200 -c50 -pyes -vyes -eyes -oyes -xyes config.txt sample.data
+.Nm fos -mgeneral -a10,11,3,3 -s1000 -d47 -n1000 -w1200 -c50 -pyes -vyes -eyes -oyes -xyes config.txt sample.data
 
 To perform a single calculation of the bishop method on given data set with some parameters read from config file and some supplied via command line with verbose mode
 .Nm Off.
