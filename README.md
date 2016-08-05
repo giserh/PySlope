@@ -22,7 +22,7 @@ You will need to have Python 2.7+ and the following Python Modules for this to w
 * Matplotlib
 * Click
     
-Super Easy Way:
+Easy Way:
 
 Download the complete python package called: [Anaconda](https://www.continuum.io/downloads)
 This is a brilliant option for scientists who use programming because it comes with pretty much every module you 
@@ -301,23 +301,23 @@ bugs you find email me @ duan_uys@icloud.com
              -x                Perform Critical Slope Analysis on Data Set
         
         EXAMPLES
-             To perform a critical slope analysis with verbose mode On and saving and show figures as well as defining all options so that no
-             values are read from the CONFIG_FILE.
+             To perform a critical slope analysis with verbose On, saving figures, and showing figures with an ellipsoid of 10,11,3,3 so that
+             no values are read from the CONFIG_FILE.
         
-             fos -mgeneral -s1000 -d47 -n1000 -w1200 -c50 -pyes -vyes -eyes -oyes -xyes config.txt sample.data
-
+                fos -mgeneral -a10,11,3,3 -s1000 -d47 -n1000 -w1200 -c50 -pyes -vyes -eyes -oyes -xyes config.txt sample.data
+             
              To perform a single calculation of the bishop method on given data set with some parameters read from config file and some sup-
              plied via command line with verbose mode Off.
         
-             fos -mbishop -s1000 -xno -vno config.txt sample.data
+                fos -mbishop -s1000 -xno -vno config.txt sample.data
         
              To execute script with ALL parameters read from CONFIG_FILE using general method.
         
-             fos -mgeneral config.txt sample.data
+                fos -mgeneral config.txt sample.data
         
              To execute script with an ellipsoid coordinates (3,3,4,7) where 4 is the vertical radius and 7 is horizontal radius.
         
-             fos -mgeneral -a3,3,4,7 config.txt sample.data
+                fos -mgeneral -a3,3,4,7 config.txt sample.data
         
         HISTORY
              The fos program was originally written by Duan Uys, licensed under the GNU Public Licence.
