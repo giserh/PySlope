@@ -1,0 +1,90 @@
+
+.Dd August 5, 2016
+.Dt FOS 1
+.Os
+.Sh NAME
+.Nm fos
+.Nd Calculate Factor of Safety
+.Sh SYNOPSIS
+.Nm
+.Op Fl cdnsw
+.Op Fl e Ar YES/NO 
+.Op Fl m Ar GENERAL/BISHOP 
+.Op Fl o Ar YES/NO 
+.Op Fl p Ar YES/NO 
+.Op Fl v Ar YES/NO
+.Op Fl x Ar YES/NO
+[CONFIG_FILE] [DATA_FILE]
+.Sh DESCRIPTION
+The
+.Nm
+is a python script that calculates the factor of safety from a given 2-D data set. The script supports critical slope analysis by performing multiple calculations on data set and displaying all curvatures where FOS < 1. All options (except 
+.Nm -m
+) that are not supplied via command line is read from the CONFIG_FILE.
+.Sh OPTIONS
+The following options are available:
+.Bl -tag -width XXrXXXrecursiveX
+
+.It Fl c
+Number of Slice Bulk to Output to Screen - 
+.Nm Integer
+
+.It Fl d
+Angle of Internal Friction, in 
+.Nm degrees
+-
+.Nm Float
+
+.It Fl n
+Number of Slices to Calculate on Slope -
+.Nm Integer
+
+.It Fl s
+Soil Cohesion in KPa -
+.Nm Float
+
+.It Fl w
+Water Pore Pressure in KPa -
+.Nm Float
+
+.It Fl e
+Save Final Figure
+.It Fl m
+Specifies Slope Stability Calculation Method
+
+.It Fl p
+Display Percentage Complete
+
+.It Fl v
+Verbose Mode
+
+.It Fl x
+Perform Critical Slope Analysis on Data Set
+
+
+.Sh EXAMPLES
+To perform a critical slope analysis with verbose mode
+.Nm On
+and saving and show figures as well as defining all options so that no values are read from the CONFIG_FILE.
+
+.Nm fos -mgeneral -s1000 -d47 -n1000 -w1200 -c50 -pyes -vyes -eyes -oyes -xyes config.txt sample.data
+
+To perform a single calculation of the bishop method on given data set with some parameters read from config file and some supplied via command line with verbose mode
+.Nm Off.
+
+.Nm fos -mbishop -s1000 -xno -vno config.txt sample.data
+
+To execute script with 
+.Nm ALL
+parameters read from CONFIG_FILE using general method.
+
+.Nm fos -mgeneral config.txt sample.data
+
+.Sh HISTORY
+The
+.Nm
+program was originally written by Duan Uys, licensed under
+the GNU Public Licence.
+.Sh BUGS
+No bugs known at this time.
+
