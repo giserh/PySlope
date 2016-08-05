@@ -25,7 +25,7 @@ curdir = os.getcwd() + '/'
 @click.option('-e', type=click.Choice(['yes', 'no']), help="Save Final Figure.")
 @click.option('-o', type=click.Choice(['yes', 'no']), help="Show Final Figure.")
 @click.option('-x', type=click.Choice(['yes', 'no']), help="Perform Critical Slope Analysis on Data Set.")
-@click.option('-a', type=str, default='', help="Ellipsoid Coordinates - (x,y,(h,v))")
+@click.option('-a', type=str, default='', help="Ellipsoid Coordinates - x,y,h,v")
 @click.argument('config_file')
 @click.argument('data_file')
 def fos(m, s, d, n, w, c, p, v, e, o, x, a, config_file, data_file):

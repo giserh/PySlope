@@ -46,8 +46,8 @@ def main(fos,
 	if do_crit_slope is not None:
 		config.perform_critical_slope = do_crit_slope.lower()
 	if ellipsoid_coordinates != '':
-		if Analysis.isEllipseFormat(ellipsoid_coordinates):
-			formattedCoords = Format.formatCircleData(ellipsoid_coordinates)
+		formattedCoords = ellipsoid_coordinates.replace(',', ' ')
+		if len(formattedCoords) == 4:
 			config.circle_coordinates = formattedCoords
 		else:
 			General.raiseGeneralError("Wrong Input Format '%s'. More Info: man fos" % ellipsoid_coordinates)
