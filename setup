@@ -30,8 +30,6 @@ elif [[ "$1" == "-u" ]]; then
         rm -rf /usr/local/man/man1/fos.1.gz
 
     fi
-	source ~/.bash_profile
-
 elif [[ $# -eq 0 ]]; then
     ./setup -u
     if [ "$(uname)" == "Darwin" ]; then
