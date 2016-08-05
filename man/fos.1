@@ -7,6 +7,7 @@
 .Nd Calculate Factor of Safety
 .Sh SYNOPSIS
 .Nm
+.Op Fl a Ar x,y,h,v
 .Op Fl cdnsw
 .Op Fl e Ar YES/NO 
 .Op Fl m Ar GENERAL/BISHOP 
@@ -24,6 +25,14 @@ is a python script that calculates the factor of safety from a given 2-D data se
 .Sh OPTIONS
 The following options are available:
 .Bl -tag -width XXrXXXrecursiveX
+.It Fl a
+Ellipsoid Coordinates as
+.Nm x,y,v,h
+where
+.Nm v
+is vertical radius and
+.Nm h
+is horizontal radius
 
 .It Fl c
 Number of Slice Bulk to Output to Screen - 
