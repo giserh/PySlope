@@ -65,7 +65,7 @@ def main(fos,
 	if config.perform_critical_slope == 'yes':
 		### recreate all steps via function ##
 		General.previewGeometery(verbose, config, data)
-		Perform.perform_critical_slope_sim(verbose, config, data, fos)
+		Perform.perform_critical_slope_sim(False, config, data, fos)
 	else:
 		
 		General.previewGeometery(verbose, config, data)
