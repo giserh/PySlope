@@ -73,7 +73,7 @@ def main(fos,
 		Perform.perform_critical_slope_sim(verbose, config, data, fos)
 	else:
 		
-		General.previewGeometery(config.show_figure, Create.createShapelyCircle(verbose,
+		General.previewGeometery(config, Create.createShapelyCircle(verbose,
 		                                                                        config.c_x,
 		                                                                        config.c_y,
 		                                                                        config.c_a,
