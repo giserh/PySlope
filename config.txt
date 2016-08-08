@@ -16,7 +16,7 @@ delimiter = ,
 
 
 #circle_coordinates = 0,0,(a,b) (x,y, (horizontal_radius, vertical_radius) - meters
-circle_coordinates = 10,11,(3,3)
+circle_coordinates = 0,0,(5,5)
 
 # soil_cohesion = 22 (in kPa)
 soil_cohesion = 1000
@@ -25,7 +25,7 @@ soil_cohesion = 1000
 effective_friction_angle_soil = 45
 
 # bulk_density = 1760 (Kg/m^3)
-bulk_density = 1760
+bulk_density = 1000
 
 # num_of_slices = 100
 num_of_slices = 100
@@ -37,7 +37,7 @@ num_of_slices = 100
 
 # water_pore_pressure = 20 (kPa)
 # Leave at 0 to disable use
-water_pore_pressure = 1000
+water_pore_pressure = 0
 
 # Slice Stack Output
 vslice = 50
@@ -47,7 +47,7 @@ percentage_status = on
 
 
 # verbose = yes/no
-verbose = yes
+verbose = no
 
 # save_figure = yes/no
 save_figure = no
