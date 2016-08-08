@@ -463,7 +463,7 @@ class Format(object):
 	
 	@staticmethod
 	def loadProfileData(verbose, data_file, config):
-		delimit = config.delimiter
+		delimit = config.delimit
 		num_of_slices = config.num_of_slices
 		#### load data from file as numpy array
 		General.verb(verbose, 'Load data from file as numpy array.')
