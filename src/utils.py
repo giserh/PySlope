@@ -580,7 +580,7 @@ class Calc(object):
 		shapely_elevation_profile = Create.createShapelyLine(verbose, data)
 		int1, int2 = Format.fetchIntersecCoords(verbose, intersection_coordinates)
 		elevation_profile = Create.createNumpyArray(verbose, list(shapely_elevation_profile.coords), 'Profile Coordinates')
-		sliced_ep_profile = Create.createSlicedElevProfile(verbose, elevation_profile, config.num_of_slices, int1, int2)
+		sliced_ep_profile = Create.createSlicedElevProfile(verbose, elevation_profile, config, int1, int2)
 		factor_of_safety = Perform.FOS_Method(verbose, fos, config, sliced_ep_profile, shapely_circle,fos_trial)
 		
 		if factor_of_safety < 1:
