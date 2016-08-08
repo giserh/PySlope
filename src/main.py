@@ -92,10 +92,7 @@ def main(fos,
 		
 		# created normal shapley object from raw profile data
 		shapely_elevation_profile = Create.createShapelyLine(verbose, data)
-		
-		#### Preview geometery ####
-		General.previewGeometery(config.show_figure, shapely_circle, data)
-		
+				
 		## Using intersection coordinates isolate the section of profile that is within the circle.
 		### Check to see if intersection_coordinates length is 4 elements.. if it isn't so that means for some reason
 		# there are more or less than two intersection points in the profile - shouldn't really happen at all...
