@@ -475,9 +475,8 @@ class Format(object):
 		#### Check to see if num_of_elements is lower than actual length of data:
 		General.verb(verbose, 'Check to see if number of slices is lower than actual length of data.')
 		if num_of_slices < len(data):
-			print "Error: You can't have num_of_elements set lower to your total amount of data points" \
-			      "\n\nTotal Data Points: %s" \
-			      "\nNum_of_slices: %s" % (str(len(data)), str(int(num_of_slices)))
+			General.verb(verbose, "You can not have num_of_elements set lower than your total amount of data points"
+			                      "changing value to: %d" % len(data))
 			config.num_of_slices = len(data)
 		return data
 	
