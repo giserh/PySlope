@@ -48,6 +48,7 @@ def main(fos,
 		config.perform_critical_slope = do_crit_slope.lower()
 	if ellipsoid_coordinates != '':
 		formattedCoords = str(ellipsoid_coordinates.replace(',', ' ')).split()
+		print formattedCoords, len(formattedCoords)
 		if len(formattedCoords) == 4:
 			config.circle_coordinates = formattedCoords
 		else:
