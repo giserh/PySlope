@@ -608,7 +608,7 @@ class Perform(object):
 		:return:
 			returns a single float number of the calculated factor of safety from the given parameters
 		"""
-		effective_friction_angle = config.effective_friction_angle_soil; bulk_density = config.bulk_denisty
+		effective_friction_angle = config.effective_friction_angle_soil; bulk_density = config.bulk_density
 		soil_cohesion = config.soil_cohesion; vslice = config.vslice; water_pore_pressure = config.water_pore_pressure
 		percentage_status = config.percentage_status
 		effective_angle = effective_friction_angle
