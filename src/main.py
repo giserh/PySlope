@@ -94,10 +94,7 @@ def main(fos,
 		                                                   int2)
 		
 		### Perform actual calculation of forces slice-by-slice
-		Perform.FOS_Method(fos,
-		                   sliced_ep_profile,
-		                   shapely_circle,
-		                   config, shapely_circle, fos_trial)
+		Perform.FOS_Method(verbose, fos, config, sliced_ep_profile, shapely_circle, fos_trial)
 		
 		plt.scatter(circle_coordinates[:, 0], circle_coordinates[:, 1], color='red')
 		ep_profile = Format.arraylinspace2d(elevation_profile, config.num_of_slices)
