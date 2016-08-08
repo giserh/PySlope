@@ -66,6 +66,13 @@ def main(fos,
 		                                                                        config.c_r), data)
 		Perform.perform_critical_slope_sim(verbose, config, data, fos)
 	else:
+		
+		General.previewGeometery(config.show_figure, Create.createShapelyCircle(verbose,
+		                                                                        config.c_x,
+		                                                                        config.c_y,
+		                                                                        config.c_a,
+		                                                                        config.c_b,
+		                                                                        config.c_r), data)
 		## create shapely circle with circle data
 		shapely_circle = Create.createShapelyCircle(verbose,
 		                                            config.c_x,
