@@ -51,7 +51,7 @@ elif [[ $# -eq 0 ]]; then
 	echo "Writing executable"
 	chmod +x "$bin/fos"
 	# Add /usr/local/slope-stability/bin to user PATH
-	if grep /usr/local/slope-stability ~/.bash_profile; then
+	if grep /usr/local/PySlope ~/.bash_profile; then
 		:
 	else
 		echo "Adding link to \$PATH"
