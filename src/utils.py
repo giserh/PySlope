@@ -478,7 +478,7 @@ class Format(object):
 			print "Error: You can't have num_of_elements set lower to your total amount of data points" \
 			      "\n\nTotal Data Points: %s" \
 			      "\nNum_of_slices: %s" % (str(len(data)), str(int(num_of_slices)))
-			sys.exit()
+			config.num_of_slices = len(data)
 		return data
 	
 	@staticmethod

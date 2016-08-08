@@ -53,8 +53,8 @@ def main(fos,
 			config.circle_coordinates = formattedCoords
 			config.c_x = int(formattedCoords[0])
 			config.c_y = int(formattedCoords[1])
-			config.c_a = int(formattedCoords[2])
-			config.c_b = int(formattedCoords[3])
+			config.c_b = int(formattedCoords[2])
+			config.c_a = int(formattedCoords[3])
 			config.c_r = 0
 		else:
 			General.raiseGeneralError("Wrong Input Format '%s'. More Info: man fos" % ellipsoid_coordinates)
