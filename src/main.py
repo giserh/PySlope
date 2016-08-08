@@ -19,7 +19,7 @@ def main(fos,
          ellipsoid_coordinates,
          config_file,
          data_file):
-	
+
 	if fos is None:
 		General.raiseGeneralError("No method chosen: man fos")
 	
@@ -64,11 +64,11 @@ def main(fos,
 	
 	if config.perform_critical_slope == 'yes':
 		### recreate all steps via function ##
-		General.previewGeometery(config, Create.createShapelyCircle(verbose, config), data)
+		General.previewGeometery(verbose, config, data)
 		Perform.perform_critical_slope_sim(verbose, config, data, fos)
 	else:
 		
-		General.previewGeometery(config, Create.createShapelyCircle(verbose, config), data)
+		General.previewGeometery(verbose, config, data)
 		## create shapely circle with circle data
 		shapely_circle = Create.createShapelyCircle(verbose,config)
 		

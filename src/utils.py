@@ -82,9 +82,9 @@ class General(object):
 		print results
 	
 	@staticmethod
-	def previewGeometery(config, shapely_circle, profile_data):
+	def previewGeometery(verbose, config, profile_data):
 		if config.show_figure == 'yes':
-			circle_preview = np.array(list(shapely_circle.coords))
+			circle_preview = Create.generateEllipse(verbose, config)
 			plt.plot(profile_data[:, 0], profile_data[:, 1], color='red')
 			plt.grid(True)
 			plt.axes().set_aspect('equal', 'datalim')
@@ -574,27 +574,13 @@ class Calc(object):
 	
 	@staticmethod
 	def sim_calc(verbose, x, y, a, b, r, data, config, fos, FOS=1.2):
-		shapely_circle = Create.createShapelyCircle(False, x, y, a, b, r)
+		shapely_circle = Create.createShapelyCircle(False, config)
 		intersection_coordinates = Format.intersec_circle_and_profile(False, shapely_circle, data)
 		shapely_elevation_profile = Create.createShapelyLine(verbose, data)
 		int1, int2 = Format.fetchIntersecCoords(verbose, intersection_coordinates)
-		elevation_profile = Create.createNumpyArray(verbose, list(shapely_elevation_profile.coords),
-		                                            'Profile Coordinates')
-		sliced_ep_profile = Create.createSlicedElevProfile(verbose,
-		                                                   elevation_profile,
-		                                                   config.num_of_slices,
-		                                                   int1,
-		                                                   int2)
-		factor_of_safety = Perform.FOS_Method(fos,
-		                                      sliced_ep_profile,
-		                                      shapely_circle,
-		                                      config.bulk_density,
-		                                      config.soil_cohesion,
-		                                      config.effective_friction_angle_soil,
-		                                      config.vslice,
-		                                      config.percentage_status,
-		                                      config.water_pore_pressure,
-		                                      verbose, FOS)
+		elevation_profile = Create.createNumpyArray(verbose, list(shapely_elevation_profile.coords), 'Profile Coordinates')
+		sliced_ep_profile = Create.createSlicedElevProfile(verbose, elevation_profile, config.num_of_slices, int1, int2)
+		factor_of_safety = Perform.FOS_Method(fos, sliced_ep_profile, shapely_circle, config, FOS)
 		
 		if factor_of_safety < 1:
 			# ep_profile = arraylinspace2d(elevation_profile, config.num_of_slices)
@@ -606,8 +592,7 @@ class Calc(object):
 
 class Perform(object):
 	@staticmethod
-	def FOS_Method(verbose, method, config, sliced_ep_profile, shapely_circle,
-	               FOS=1.2):
+	def FOS_Method(verbose, method, config, sliced_ep_profile, shapely_circle, fos_trial=1.2):
 		"""
 		:param method: a string stating the method of FOS calculation to be used
 		:param sliced_ep_profile: a numpy array of the profile that is in the circle of interest
@@ -629,7 +614,7 @@ class Perform(object):
 		effective_angle = effective_friction_angle
 	
 		General.verb(verbose, 'Performing actual FOS calculation by Method: %s' % method)
-		### Some checks to see if parameters passed are the right objects and set correctly ###
+		# Some checks to see if parameters passed are the right objects and set correctly
 		if sliced_ep_profile.ndim != 2:
 			General.raiseGeneralError("Numpy array is wrong size, %d, needs to be 2" % sliced_ep_profile.ndim)
 		
@@ -688,7 +673,7 @@ class Perform(object):
 				                                          effective_angle,
 				                                          soil_cohesion,
 				                                          length,
-				                                          FOS)
+				                                          fos_trial)
 				
 				numerator_list.append(numerator)
 				denominator_list.append(denominator)
