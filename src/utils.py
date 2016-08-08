@@ -211,7 +211,7 @@ class Create(object):
 		try:
 			General.verb(verbose, 'Trying to generate ellipsoid')
 			if c_x is not None or c_y is not None or c_b is not None or c_a is not None:
-				ellipse = Create.generateEllipse(config)
+				ellipse = Create.generateEllipse(verbose, config)
 				return LineString(ellipse)
 			else:
 				sys.exit("Error: c_x, c_y, c_a, c_b not set.. Report bug")

@@ -70,7 +70,7 @@ def main(fos,
 		
 		General.previewGeometery(verbose, config, data)
 		## create shapely circle with circle data
-		shapely_circle = Create.createShapelyCircle(verbose,config)
+		shapely_circle = Create.createShapelyCircle(verbose, config)
 		
 		## find intersection coordinates of shapely_circle and profile data
 		intersection_coordinates = Format.intersec_circle_and_profile(verbose, shapely_circle, data)
