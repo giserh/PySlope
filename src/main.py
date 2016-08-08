@@ -51,11 +51,11 @@ def main(fos,
 		print formattedCoords, len(formattedCoords)
 		if len(formattedCoords) == 4:
 			config.circle_coordinates = formattedCoords
-			config.c_x = formattedCoords[0]
-			config.c_y = formattedCoords[1]
-			config.c_a = formattedCoords[2]
-			config.c_b = formattedCoords[3]
-			config.c_r = 0
+			#config.c_x = formattedCoords[0]
+			#config.c_y = formattedCoords[1]
+			#config.c_a = formattedCoords[2]
+			#config.c_b = formattedCoords[3]
+			#config.c_r = 0
 		else:
 			General.raiseGeneralError("Wrong Input Format '%s'. More Info: man fos" % ellipsoid_coordinates)
 
