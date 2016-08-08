@@ -5,7 +5,7 @@ from sys import exit
 
 
 def main(fos,
-         trial_fos,
+         fos_trial,
          soil_cohesion,
          internal_fric,
          num_of_slices,
@@ -97,13 +97,7 @@ def main(fos,
 		Perform.FOS_Method(fos,
 		                   sliced_ep_profile,
 		                   shapely_circle,
-		                   config.bulk_density,
-		                   config.soil_cohesion,
-		                   config.effective_friction_angle_soil,
-		                   config.vslice,
-		                   config.percentage_status,
-		                   config.water_pore_pressure,
-		                   verbose, trial_fos)
+		                   config, shapely_circle, fos_trial)
 		
 		plt.scatter(circle_coordinates[:, 0], circle_coordinates[:, 1], color='red')
 		ep_profile = Format.arraylinspace2d(elevation_profile, config.num_of_slices)
