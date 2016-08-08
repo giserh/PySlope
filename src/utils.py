@@ -525,7 +525,7 @@ class Calc(object):
 		return degree * np.pi / 180.
 	
 	@staticmethod
-	def FOS_calc(method, water_pore_pressure, mg, degree, effective_angle, cohesion, length):
+	def FOS_calc(method, water_pore_pressure, mg, degree, effective_angle, cohesion, length, FOS=1.2):
 		numerator = None
 		
 		if method == 'bishop':
@@ -533,12 +533,12 @@ class Calc(object):
 			if water_pore_pressure == 0:
 				numerator = (cohesion * length + (mg * np.cos(degree)) *
 				             np.tan(effective_angle))
-				numerator = (numerator / np.cos(degree) + (np.sin(degree) * np.tan(effective_angle) / 1.2))
+				numerator = (numerator / np.cos(degree) + (np.sin(degree) * np.tan(effective_angle) / FOS))
 			
 			elif water_pore_pressure > 0:
 				numerator = (cohesion * length + (mg * np.cos(degree) - water_pore_pressure * length * np.cos(degree)) *
 				             np.tan(effective_angle))
-				numerator = (numerator / np.cos(degree) + (np.sin(degree) * np.tan(effective_angle) / 1.2))
+				numerator = (numerator / np.cos(degree) + (np.sin(degree) * np.tan(effective_angle) / FOS))
 			else:
 				General.raiseGeneralError("water_pore_pressure is a negative number!!!: %s" % water_pore_pressure)
 			
@@ -561,7 +561,7 @@ class Calc(object):
 			General.raiseGeneralError("No method was used.. aborting program")
 	
 	@staticmethod
-	def sim_calc(verbose, x, y, a, b, r, data, config, fos):
+	def sim_calc(verbose, x, y, a, b, r, data, config, fos, FOS=1.2):
 		shapely_circle = Create.createShapelyCircle(False, x, y, a, b, r)
 		intersection_coordinates = Format.intersec_circle_and_profile(False, shapely_circle, data)
 		shapely_elevation_profile = Create.createShapelyLine(verbose, data)
@@ -582,7 +582,7 @@ class Calc(object):
 		                                      config.vslice,
 		                                      config.percentage_status,
 		                                      config.water_pore_pressure,
-		                                      verbose)
+		                                      verbose, FOS)
 		
 		if factor_of_safety < 1:
 			# ep_profile = arraylinspace2d(elevation_profile, config.num_of_slices)
@@ -603,7 +603,8 @@ class Perform(object):
 	               vslice,
 	               percentage_status,
 	               water_pore_pressure,
-	               verbose):
+	               verbose,
+	               FOS=1.2):
 		"""
 		:param method: a string stating the method of FOS calculation to be used
 		:param sliced_ep_profile: a numpy array of the profile that is in the circle of interest
@@ -679,7 +680,8 @@ class Perform(object):
 				                                          degree,
 				                                          effective_angle,
 				                                          soil_cohesion,
-				                                          length)
+				                                          length,
+				                                          FOS)
 				
 				numerator_list.append(numerator)
 				denominator_list.append(denominator)
@@ -710,7 +712,7 @@ class Perform(object):
 		return factor_of_safety
 	
 	@staticmethod
-	def perform_critical_slope_sim(verbose, config, data, method):
+	def perform_critical_slope_sim(verbose, config, data, method, FOS=1.2):
 		General.verb(verbose, "Starting Critical Slope Analysis")
 		fos = method
 		# find boundaries
@@ -725,7 +727,7 @@ class Perform(object):
 		
 		while expand_ab:
 			try:
-				Calc.sim_calc(False, x, y, a, b, r, data, config, fos)
+				Calc.sim_calc(False, x, y, a, b, r, data, config, fos, FOS)
 			except:
 				General.verb(verbose, ("Failed on (%s,%s)" % (str(a), str(b))))
 				a = config.c_a + 1
