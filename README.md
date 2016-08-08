@@ -10,7 +10,7 @@ intersects with the elevational profile.
 
 Using git in the command line you can
     
-    git clone
+    git clone https://github.com/duanuys/PySlope.git
 
 to make a local copy of this project or download as Zip file.
 
