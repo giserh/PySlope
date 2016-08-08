@@ -574,7 +574,7 @@ class Calc(object):
 			General.raiseGeneralError("No method was used.. aborting program")
 	
 	@staticmethod
-	def sim_calc(verbose, x, y, a, b, r, data, config, fos, fos_trial=1.2):
+	def sim_calc(verbose, data, config, fos, fos_trial=1.2):
 		shapely_circle = Create.createShapelyCircle(False, config)
 		intersection_coordinates = Format.intersec_circle_and_profile(False, shapely_circle, data)
 		shapely_elevation_profile = Create.createShapelyLine(verbose, data)
@@ -705,7 +705,7 @@ class Perform(object):
 		return factor_of_safety
 	
 	@staticmethod
-	def perform_critical_slope_sim(verbose, config, data, method, FOS=1.2):
+	def perform_critical_slope_sim(verbose, config, data, method, fos_trial=1.2):
 		General.verb(verbose, "Starting Critical Slope Analysis")
 		fos = method
 		# find boundaries
@@ -719,8 +719,10 @@ class Perform(object):
 		add_ab = True
 		
 		while expand_ab:
+			Calc.sim_calc(verbose, data, config, method, fos_trial)
+			
 			try:
-				Calc.sim_calc(False, x, y, a, b, r, data, config, fos, FOS)
+				Calc.sim_calc(verbose, data, config, method, fos_trial)
 			except:
 				General.verb(verbose, ("Failed on (%s,%s)" % (str(a), str(b))))
 				a = config.c_a + 1
