@@ -64,7 +64,7 @@ def main(fos,
 	
 	if config.perform_critical_slope == 'yes':
 		### recreate all steps via function ##
-		General.previewGeometery(config.show_figure, Create.createShapelyCircle(verbose,
+		General.previewGeometery(config, Create.createShapelyCircle(verbose,
 		                                                                        config.c_x,
 		                                                                        config.c_y,
 		                                                                        config.c_a,
