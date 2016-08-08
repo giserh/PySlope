@@ -475,8 +475,8 @@ class Format(object):
 		#### Check to see if num_of_elements is lower than actual length of data:
 		General.verb(verbose, 'Check to see if number of slices is lower than actual length of data.')
 		if num_of_slices < len(data):
-			General.verb(verbose, "You can not have num_of_elements set lower than your total amount of data points"
-			                      "changing value to: %d" % len(data))
+			General.verb(verbose, "You can not have num_of_elements set lower than your total amount of data points "
+			                      "changing value to: num_of_slices = %d" % len(data))
 			config.num_of_slices = len(data)
 		return data
 	
@@ -574,14 +574,14 @@ class Calc(object):
 			General.raiseGeneralError("No method was used.. aborting program")
 	
 	@staticmethod
-	def sim_calc(verbose, x, y, a, b, r, data, config, fos, FOS=1.2):
+	def sim_calc(verbose, x, y, a, b, r, data, config, fos, fos_trial=1.2):
 		shapely_circle = Create.createShapelyCircle(False, config)
 		intersection_coordinates = Format.intersec_circle_and_profile(False, shapely_circle, data)
 		shapely_elevation_profile = Create.createShapelyLine(verbose, data)
 		int1, int2 = Format.fetchIntersecCoords(verbose, intersection_coordinates)
 		elevation_profile = Create.createNumpyArray(verbose, list(shapely_elevation_profile.coords), 'Profile Coordinates')
 		sliced_ep_profile = Create.createSlicedElevProfile(verbose, elevation_profile, config.num_of_slices, int1, int2)
-		factor_of_safety = Perform.FOS_Method(fos, sliced_ep_profile, shapely_circle, config, FOS)
+		factor_of_safety = Perform.FOS_Method(verbose, fos, config, sliced_ep_profile, shapely_circle,fos_trial)
 		
 		if factor_of_safety < 1:
 			# ep_profile = arraylinspace2d(elevation_profile, config.num_of_slices)
