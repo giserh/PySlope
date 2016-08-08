@@ -82,11 +82,14 @@ class General(object):
 		print results
 	
 	@staticmethod
-	def previewGeometery(config_show_figure, shapely_circle, profile_data):
-		if config_show_figure == 'yes':
+	def previewGeometery(config, shapely_circle, profile_data):
+		if config.show_figure == 'yes':
 			circle_preview = np.array(list(shapely_circle.coords))
 			plt.plot(profile_data[:, 0], profile_data[:, 1], color='red')
+			plt.grid(True)
+			plt.axes().set_aspect('equal', 'datalim')
 			plt.scatter(circle_preview[:, 0], circle_preview[:, 1])
+			
 			
 			buttonopt = Index()
 			quitax = plt.axes([0.7, 0.05, 0.1, 0.075])
