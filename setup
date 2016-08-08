@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 # Variable Declarations
-curdir="../slope-stability/"
-wdir="/usr/local/slope-stability"
+curdir="../PySlope/"
+wdir="/usr/local/PySlope"
 bin="${wdir}/bin"
-cmd="export PATH=\"/usr/local/slope-stability/bin:\$PATH\""
+cmd="export PATH=\"/usr/local/PySlope/bin:\$PATH\""
 version=2.0
 
 
@@ -43,9 +43,9 @@ elif [[ $# -eq 0 ]]; then
     fi
     rm -rf $wdir
 	# Copy entire directory to seperate directory in /usr/local
-	echo "Making Directory: /slope-stability/"
+	echo "Making Directory: /PySlope/"
 	mkdir $wdir
-	echo "Copying Content to: /usr/local/slope-stability"
+	echo "Copying Content to: /usr/local/PySlope"
 	cp -R $curdir $wdir
 	# Make /usr/local/slope-stability/bin executable
 	echo "Writing executable"
