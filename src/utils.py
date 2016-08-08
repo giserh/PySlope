@@ -194,7 +194,7 @@ class Create(object):
 		return np.array(list(listObj))
 	
 	@staticmethod
-	def createShapelyCircle(verbose, c_x, c_y, c_a, c_b, c_r):
+	def createShapelyCircle(verbose, config):
 		"""Create Shapely Circle Object
 
 		Arguments:
@@ -204,12 +204,14 @@ class Create(object):
 			c_a     -- Int/Float
 			c_b     -- Int/Float
 			c_r     -- Int/Float (Deprecciated)"""
+		c_x = config.c_x; c_y = config.c_y; c_a = config.c_a; c_b = config.c_b; c_r = config.c_r
 		
-		General.verb(verbose, 'Creating Shapely circle with circle data.')
+		General.verb(verbose, 'Creating Shapely circle with ellipsoid data: (%s,%s,(%s,%s).' % (str(c_x), str(c_y),
+		                                                                                        str(c_a), str(c_b)))
 		try:
 			General.verb(verbose, 'Trying to generate ellipsoid')
 			if c_x is not None or c_y is not None or c_b is not None or c_a is not None:
-				ellipse = Create.generateEllipse(c_x, c_y, c_a, c_b)
+				ellipse = Create.generateEllipse(config)
 				return LineString(ellipse)
 			else:
 				sys.exit("Error: c_x, c_y, c_a, c_b not set.. Report bug")
@@ -232,7 +234,7 @@ class Create(object):
 		return LineString(profile_data)
 	
 	@staticmethod
-	def createSlicedElevProfile(verbose, elevation_profile, num_of_slices, intersec_coord1, intersec_coord2):
+	def createSlicedElevProfile(verbose, elevation_profile, config, intersec_coord1, intersec_coord2):
 		"""Return Numpy Array of reformed elevation data with num_of_slices data points. Essentially creating
 		   sudo profile with many points
 
@@ -243,14 +245,19 @@ class Create(object):
 			   intersec_coord1   -- Tuple (x,y)
 			   intersec_coord2   -- Tuple (x,y)"""
 		
+		num_of_slices = config.num_of_slices
 		General.verb(verbose, 'Creating Numpy array of sliced profile bounded within circle.')
 		ep_profile = Format.arraylinspace2d(elevation_profile, num_of_slices)
 		sliced_ep_profile = Format.slice_array(ep_profile, intersec_coord1, intersec_coord2, num_of_slices)
 		return sliced_ep_profile
 	
 	@staticmethod
-	def generateEllipse(c_x, c_y, c_a, c_b):
+	def generateEllipse(verbose, config):
 		"""Return Numpy Array of Generated Coordinates of an Ellipsoid from Circle Data"""
+		c_x = config.c_x; c_y = config.c_y; c_a = config.c_a; c_b = config.c_b
+		
+		General.verb(verbose, 'Creating Shapely circle with ellipsoid data: (%s,%s,(%s,%s).' % (str(c_x), str(c_y),
+		                                                                                        str(c_a), str(c_b)))
 		x_coords, y_coords = [], []
 		degree = 0
 		while degree <= 360:
@@ -455,7 +462,9 @@ class Format(object):
 		return trimmedList
 	
 	@staticmethod
-	def loadProfileData(verbose, data_file, num_of_slices, delimit):
+	def loadProfileData(verbose, data_file, config):
+		delimit = config.delimiter
+		num_of_slices = config.num_of_slices
 		#### load data from file as numpy array
 		General.verb(verbose, 'Load data from file as numpy array.')
 		data = np.loadtxt(data_file, delimiter=delimit)
@@ -597,16 +606,7 @@ class Calc(object):
 
 class Perform(object):
 	@staticmethod
-	def FOS_Method(method,
-	               sliced_ep_profile,
-	               shapely_circle,
-	               bulk_density,
-	               soil_cohesion,
-	               effective_friction_angle,
-	               vslice,
-	               percentage_status,
-	               water_pore_pressure,
-	               verbose,
+	def FOS_Method(verbose, method, config, sliced_ep_profile, shapely_circle,
 	               FOS=1.2):
 		"""
 		:param method: a string stating the method of FOS calculation to be used
@@ -623,7 +623,11 @@ class Perform(object):
 		:return:
 			returns a single float number of the calculated factor of safety from the given parameters
 		"""
+		effective_friction_angle = config.effective_friction_angle_soil; bulk_density = config.bulk_denisty
+		soil_cohesion = config.soil_cohesion; vslice = config.vslice; water_pore_pressure = config.water_pore_pressure
+		percentage_status = config.percentage_status
 		effective_angle = effective_friction_angle
+	
 		General.verb(verbose, 'Performing actual FOS calculation by Method: %s' % method)
 		### Some checks to see if parameters passed are the right objects and set correctly ###
 		if sliced_ep_profile.ndim != 2:

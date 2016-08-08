@@ -60,32 +60,17 @@ def main(fos,
 			General.raiseGeneralError("Wrong Input Format '%s'. More Info: man fos" % ellipsoid_coordinates)
 
 	verbose = True if config.verbose == 'yes' else False
-	data = Format.loadProfileData(verbose, data_file, config.num_of_slices, config.delimit)
+	data = Format.loadProfileData(verbose, data_file, config)
 	
 	if config.perform_critical_slope == 'yes':
 		### recreate all steps via function ##
-		General.previewGeometery(config, Create.createShapelyCircle(verbose,
-		                                                                        config.c_x,
-		                                                                        config.c_y,
-		                                                                        config.c_a,
-		                                                                        config.c_b,
-		                                                                        config.c_r), data)
+		General.previewGeometery(config, Create.createShapelyCircle(verbose, config), data)
 		Perform.perform_critical_slope_sim(verbose, config, data, fos)
 	else:
 		
-		General.previewGeometery(config, Create.createShapelyCircle(verbose,
-		                                                                        config.c_x,
-		                                                                        config.c_y,
-		                                                                        config.c_a,
-		                                                                        config.c_b,
-		                                                                        config.c_r), data)
+		General.previewGeometery(config, Create.createShapelyCircle(verbose, config), data)
 		## create shapely circle with circle data
-		shapely_circle = Create.createShapelyCircle(verbose,
-		                                            config.c_x,
-		                                            config.c_y,
-		                                            config.c_a,
-		                                            config.c_b,
-		                                            config.c_r)
+		shapely_circle = Create.createShapelyCircle(verbose,config)
 		
 		## find intersection coordinates of shapely_circle and profile data
 		intersection_coordinates = Format.intersec_circle_and_profile(verbose, shapely_circle, data)
@@ -104,7 +89,7 @@ def main(fos,
 		# Create sliced array with boundaries from elevation_profile
 		sliced_ep_profile = Create.createSlicedElevProfile(verbose,
 		                                                   elevation_profile,
-		                                                   config.num_of_slices,
+		                                                   config,
 		                                                   int1,
 		                                                   int2)
 		
