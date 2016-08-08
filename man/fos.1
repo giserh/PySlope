@@ -8,7 +8,7 @@
 .Sh SYNOPSIS
 .Nm
 .Op Fl a Ar x,y,h,v
-.Op Fl cdnsw
+.Op Fl cdnstw
 .Op Fl e Ar YES/NO 
 .Op Fl m Ar GENERAL/BISHOP 
 .Op Fl o Ar YES/NO 
@@ -52,6 +52,10 @@ Number of Slices to Calculate on Slope -
 Soil Cohesion in KPa -
 .Nm Float
 
+.It Fl t
+Trial Factor of Safety to be used in bishops method -
+.Nm Float
+
 .It Fl w
 Water Pore Pressure in KPa -
 .Nm Float
@@ -79,10 +83,10 @@ saving figures, and showing figures with an ellipsoid of 10,11,3,3 so that no va
 
 .Nm fos -mgeneral -a10,11,3,3 -s1000 -d47 -n1000 -w1200 -c50 -pyes -vyes -eyes -oyes -xyes config.txt sample.data
 
-To perform a single calculation of the bishop method on given data set with some parameters read from config file and some supplied via command line with verbose mode
+To perform a single calculation of the bishop method on given data set with a trial FOS of 2.1 with some parameters read from config file and some supplied via command line with verbose mode
 .Nm Off.
 
-.Nm fos -mbishop -s1000 -xno -vno config.txt sample.data
+.Nm fos -mbishop -s1000 -xno -vno -t2.1 config.txt sample.data
 
 To execute script with 
 .Nm ALL
