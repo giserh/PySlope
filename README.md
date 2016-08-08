@@ -1,5 +1,8 @@
 #PySlope v2#
 
+Releases
+[![DOI](https://zenodo.org/badge/23772/duanuys/PySlope.svg)](https://zenodo.org/badge/latestdoi/23772/duanuys/PySlope)
+
 ###Who is the program intended for and what is it about?###
 
 The is a CLI static slope stability analysis program. Given a set of 2-D x,y values indicating the
