@@ -708,7 +708,6 @@ class Perform(object):
 	def perform_critical_slope_sim(verbose, config, data, method, fos_trial=1.2):
 		General.verb(verbose, "Starting Critical Slope Analysis")
 		# find boundaries
-
 		a, b = config.c_a, config.c_b
 		mult = .25
 		
@@ -716,24 +715,22 @@ class Perform(object):
 		add_ab = True
 		
 		while expand_ab:
-			Calc.sim_calc(verbose, data, config, method, fos_trial)
-			
 			try:
 				Calc.sim_calc(verbose, data, config, method, fos_trial)
 			except:
 				General.verb(verbose, ("Failed on (%s,%s)" % (str(a), str(b))))
-				a = config.c_a + 1
-				b = config.c_b + 1
+				config.c_a = a + 1
+				config.c_b = b + 1
 				if add_ab is False:
 					break
 				add_ab = False
 			
 			if add_ab:
-				a += mult
-				b += mult
+				config.c_a += mult
+				config.c_b += mult
 			else:
-				a -= mult
-				b -= mult
+				config.c_a -= mult
+				config.c_b -= mult
 		"""
 		while expand_ab:
 			sim_calc(False, x, y, a, b, r, data, config, fos)
