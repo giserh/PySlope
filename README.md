@@ -1,9 +1,7 @@
 #PySlope v2#
 
-Academic Uses
-
 If you intend to use this program for your academic purposes. I ask that you please use the citation given by the
-cliking on the DOI badge below.
+clicking on the DOI badge below.
 
 [![DOI](https://zenodo.org/badge/23772/duanuys/PySlope.svg)](https://zenodo.org/badge/latestdoi/23772/duanuys/PySlope)
 
