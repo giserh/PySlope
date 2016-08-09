@@ -8,7 +8,7 @@
 .Sh SYNOPSIS
 .Nm
 .Op Fl a Ar x,y,h,v
-.Op Fl cdnstw
+.Op Fl cdlnstw
 .Op Fl e Ar ON/OFF
 .Op Fl m Ar GENERAL/BISHOP 
 .Op Fl o Ar ON/OFF
@@ -43,6 +43,9 @@ Angle of Internal Friction, in
 .Nm degrees
 -
 .Nm Float
+
+.It Fl l
+Delimiter used when reading DATA_FILE. Default = ,
 
 .It Fl n
 Number of Slices to Calculate on Slope -
@@ -96,9 +99,9 @@ parameters read from CONFIG_FILE using general method.
 
 To execute script with an ellipsoid coordinates
 .Nm (3,3,4,7)
-where 4 is the vertical radius and 7 is horizontal radius.
+where 4 is the vertical radius and 7 is horizontal radius with a ',' seperated DATA_FILE.
 
-.Nm fos -mgeneral -a3,3,4,7 config.txt sample.data
+.Nm fos -mgeneral -a3,3,4,7 -l, config.txt sample.data
 
 .Sh HISTORY
 The

@@ -17,6 +17,7 @@ def main(fos,
          show,
          do_crit_slope,
          ellipsoid_coordinates,
+         delimiter,
          config_file,
          data_file):
 
@@ -27,7 +28,8 @@ def main(fos,
 	
 	if soil_cohesion != -1.1:
 		config.soil_cohesion = soil_cohesion
-	
+	if delimiter == ',':
+		config.delimit = delimiter
 	if internal_fric != -1.1:
 		config.effective_friction_angle_soil = internal_fric
 	if num_of_slices != -1:
