@@ -83,7 +83,7 @@ class General(object):
 	
 	@staticmethod
 	def previewGeometery(verbose, config, profile_data):
-		if config.show_figure == 'yes':
+		if config.show_figure == 'on':
 			circle_preview = Create.generateEllipse(verbose, config)
 			plt.plot(profile_data[:, 0], profile_data[:, 1], color='red')
 			plt.grid(True)
@@ -739,7 +739,7 @@ class Perform(object):
 			"""
 		plt.show()
 		
-		if config.save_figure == 'yes':
+		if config.save_figure == 'on':
 			General.verb(verbose, 'Saving result to figure.')
 			plt.savefig('slope_profile.tif')
 

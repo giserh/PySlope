@@ -51,18 +51,18 @@ def main(fos,
 		print formattedCoords, len(formattedCoords)
 		if len(formattedCoords) == 4:
 			config.circle_coordinates = formattedCoords
-			config.c_x = int(formattedCoords[0])
-			config.c_y = int(formattedCoords[1])
-			config.c_b = int(formattedCoords[2])
-			config.c_a = int(formattedCoords[3])
+			config.c_x = int(formattedCoords[0])    # x
+			config.c_y = int(formattedCoords[1])    # y
+			config.c_b = int(formattedCoords[2])    # horizontal
+			config.c_a = int(formattedCoords[3])    # vertical
 			config.c_r = 0
 		else:
 			General.raiseGeneralError("Wrong Input Format '%s'. More Info: man fos" % ellipsoid_coordinates)
 
-	verbose = True if config.verbose == 'yes' else False
+	verbose = True if config.verbose == 'on' else False
 	data = Format.loadProfileData(verbose, data_file, config)
 	
-	if config.perform_critical_slope == 'yes':
+	if config.perform_critical_slope == 'on':
 		### recreate all steps via function ##
 		General.previewGeometery(verbose, config, data)
 		Perform.perform_critical_slope_sim(False, config, data, fos)
@@ -101,6 +101,6 @@ def main(fos,
 		plt.scatter(ep_profile[:, 0], ep_profile[:, 1])
 		plt.scatter(sliced_ep_profile[:, 0], sliced_ep_profile[:, 1], color='green')
 		
-		if config.save_figure == 'yes':
+		if config.save_figure == 'on':
 			General.verb(verbose, 'Saving result to figure.')
 			plt.savefig('slope_profile.tif')

@@ -237,16 +237,16 @@ bugs you find email me @ duan_uys@icloud.com
             to the terminal. vslices = 100 will display to the terminal when 100 slices has been calculated.. This is
              a good option to show the progress. Cannot be 0 or a negative.
              
-    percentage_status = on
+    percentage_status = on/off
             This option toggles whether or not you will see a percentage of completion with each slice batch that is 
             completed. This option works jointly with vslices.
     
-    show_figure = yes/no
+    show_figure = on/off
             This option just toggles whether or not you would like the workspace plotted via matplotlib and showed to
             you
     
     
-    save_figure = yes/no
+    save_figure = on/off
             This option toggles whether or not you would like the workspace to be saved as an image in your directory
             Default - .tiff
 
@@ -254,7 +254,7 @@ bugs you find email me @ duan_uys@icloud.com
 
     #### Performance Heavy Options ####
     
-        perform_critical_slope = yes/no
+        perform_critical_slope = on/off
                 This option toggles whether to perform a critical slope analysis on the given data set and parameters.
                 Instead of performing a single Factor of Safety method calculation on the given data set, it performs 
                 multiple calculations each time changing the radius of the ellipse/circle, within aspect ratio, and plots
@@ -268,7 +268,7 @@ bugs you find email me @ duan_uys@icloud.com
              fos -- Calculate Factor of Safety
         
         SYNOPSIS
-             fos [-a x,y,h,v] [-cdnsw] [-e YES/NO] [-m GENERAL/BISHOP] [-o YES/NO] [-p YES/NO] [-v YES/NO] [-x YES/NO] [CONFIG_FILE]
+             fos [-a x,y,h,v] [-cdnsw] [-e ON/OFF] [-m GENERAL/BISHOP] [-o ON/OFF] [-p ON/OFF] [-v ON/OFF] [-x ON/OFF] [CONFIG_FILE]
                  [DATA_FILE]
         
         DESCRIPTION
@@ -309,12 +309,12 @@ bugs you find email me @ duan_uys@icloud.com
              To perform a critical slope analysis with verbose On, saving figures, and showing figures with an ellipsoid of 10,11,3,3 so that
              no values are read from the CONFIG_FILE.
         
-                fos -mgeneral -a10,11,3,3 -s1000 -d47 -n1000 -w1200 -c50 -pyes -vyes -eyes -oyes -xyes config.txt sample.data
+                fos -mgeneral -a10,11,3,3 -s1000 -d47 -n1000 -w1200 -c50 -pon -von -eon -oon -xon config.txt sample.data
              
              To perform a single calculation of the bishop method on given data set with some parameters read from config file and some sup-
              plied via command line with verbose mode Off.
         
-                fos -mbishop -s1000 -xno -vno config.txt sample.data
+                fos -mbishop -s1000 -xoff -voff config.txt sample.data
         
              To execute script with ALL parameters read from CONFIG_FILE using general method.
         
