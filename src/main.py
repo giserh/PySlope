@@ -23,33 +23,21 @@ def main(fos,
          config_file,
          data_file):
 
-	if fos is None:
-		General.raiseGeneralError("No method chosen: man fos")
+	if fos is None: General.raiseGeneralError("No method chosen: man fos")
 	
 	config = ReadConfig(config_file)
 	
-	if soil_cohesion != -1.1:
-		config.soil_cohesion = soil_cohesion
-	if delimiter == ',':
-		config.delimit = delimiter
-	if internal_fric != -1.1:
-		config.effective_friction_angle_soil = internal_fric
-	if num_of_slices != -1:
-		config.num_of_slices = num_of_slices
-	if water_pore_pres != -1.1:
-		config.water_pore_pressure = water_pore_pres
-	if vslice != -1:
-		config.vslice = vslice
-	if percentage is not None:
-		config.percentage_status = percentage.lower()
-	if verbose is not None:
-		config.verbose = verbose.lower()
-	if save is not None:
-		config.save_figure = save.lower()
-	if show is not None:
-		config.show_figure = show.lower()
-	if do_crit_slope is not None:
-		config.perform_critical_slope = do_crit_slope.lower()
+	if soil_cohesion    != -1.1 :   config.soil_cohesion = soil_cohesion
+	if delimiter        == ','  :   config.delimit = delimiter
+	if internal_fric    != -1.1 :   config.effective_friction_angle_soil = internal_fric
+	if num_of_slices    != -1   :   config.num_of_slices = num_of_slices
+	if water_pore_pres  != -1.1 :   config.water_pore_pressure = water_pore_pres
+	if vslice           != -1   :   config.vslice = vslice
+	if percentage is not None   :   config.percentage_status = percentage.lower()
+	if verbose is not None      :   config.verbose = verbose.lower()
+	if save is not None         :   config.save_figure = save.lower()
+	if show is not None         :   config.show_figure = show.lower()
+	if do_crit_slope is not None:   config.perform_critical_slope = do_crit_slope.lower()
 	if ellipsoid_coordinates != '':
 		formattedCoords = str(ellipsoid_coordinates.replace(',', ' ')).split()
 		if len(formattedCoords) == 4:
