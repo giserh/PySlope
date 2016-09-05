@@ -60,10 +60,8 @@ class ReadConfig(object):
 				variable = line.split()[0]
 				equal = line.split()[1]
 				value = line.split()[2]
-				if len(line.split()) > 3:
-					General.raiseGeneralError("Wrong Syntax on line, %s: %s" % (line_num, line))
-				if equal != '=':
-					sys.exit("This shouldn't appear.Ever.")
+				if len(line.split()) > 3: General.raiseGeneralError("Wrong Syntax on line, %s: %s" % (line_num, line))
+				if equal != '=': sys.exit("This shouldn't appear.Ever.")
 				if not variable in str(self.options_from_config):
 					General.raiseGeneralError("Couldn't find %s in options_from_config list" % variable)
 				else:

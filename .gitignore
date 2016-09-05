@@ -9,4 +9,4 @@ test.py
 results.txt
 bin/config.txt
 bin/sample.data
-bin/results.txt
+.idea
