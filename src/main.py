@@ -1,8 +1,10 @@
 #!/usr/bin/env python
-
-from .utils import *
-from sys import exit
-
+import general_utils as General
+import perform_utils as Perform
+import create_utils as Create
+import format_utils as Format
+import matplotlib.pyplot as plt
+from read_config import ReadConfig
 
 def main(fos,
          fos_trial,

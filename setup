@@ -43,9 +43,9 @@ elif [[ $# -eq 0 ]]; then
     fi
     rm -rf $wdir
 	# Copy entire directory to seperate directory in /usr/local
-	echo "Making Directory: /PySlope/"
+	echo "Making Directory: ${wdir}"
 	mkdir $wdir
-	echo "Copying Content to: /usr/local/PySlope"
+	echo "Copying Content to: ${wdir}"
 	cp -R $curdir $wdir
 	# Make /usr/local/slope-stability/bin executable
 	echo "Writing executable"

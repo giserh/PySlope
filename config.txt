@@ -35,6 +35,9 @@ num_of_slices = 100
 ## EXTRA OPTIONS ##
 ## Not required ##
 
+# trial_fos = 1.0
+#trial_fos = 1.0
+
 # water_pore_pressure = 20 (kPa)
 # Leave at 0 to disable use
 water_pore_pressure = 0

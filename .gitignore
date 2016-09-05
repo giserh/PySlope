@@ -1,0 +1,12 @@
+results.log
+todo.list
+diagrams/slope_profile.tif
+src/test.py
+lvl-st
+*.pyc
+err.log
+test.py
+results.txt
+bin/config.txt
+bin/sample.data
+bin/results.txt
