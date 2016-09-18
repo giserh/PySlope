@@ -61,23 +61,9 @@ def perform_slicebyslice(verbose, sliced_ep_profile, shapely_circle, bulk_densit
 	
 	# calculate actual FOS from lists
 	factor_of_safety = numerator_list.sum() / denominator_list.sum()
-	print factor_of_safety, fos_trial
-	return factor_of_safety
+	print (fos_trial / factor_of_safety) * 100., "%"
+	return factor_of_safety, error_result
 	
-def iterate(fos_trial, step=0.001, tol=0.001):
-	def _tol(a, b, tol):
-		return True if abs(a - b) < tol else False
-	
-	while 1:
-		result = func(fos_trial)
-		if _tol(fos_trial, result, tol):
-			print fos_trial, result
-			return (fos_trial + result) /2.
-		
-		if result < fos_trial:
-			fos_trial -= step
-		elif result > fos_trial:
-			fos_trial += step
 			
 def FOS_calc(method, water_pore_pressure, mg, degree, effective_angle, cohesion, length, FOS=1.2):
 	numerator = None
