@@ -90,6 +90,7 @@ def FOS_Method(verbose, method, config, sliced_ep_profile, shapely_circle, fos_t
 				fos_trial += step
 				
 		# Finish up with so
+		print type(factor_of_safety)
 		General.printResults(verbose, error_result, method, soil_cohesion, effective_friction_angle,
 		                     bulk_density,
 		                     slice,
