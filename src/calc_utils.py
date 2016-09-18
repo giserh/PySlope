@@ -61,6 +61,7 @@ def perform_slicebyslice(verbose, sliced_ep_profile, shapely_circle, bulk_densit
 	
 	# calculate actual FOS from lists
 	factor_of_safety = numerator_list.sum() / denominator_list.sum()
+	print factor_of_safety, fos_trial
 	return factor_of_safety
 	
 def iterate(fos_trial, step=0.001, tol=0.001):
