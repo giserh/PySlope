@@ -95,6 +95,7 @@ def FOS_Method(verbose, method, config, sliced_ep_profile, shapely_circle, fos_t
 		                     slice,
 		                     water_pore_pressure,
 		                     factor_of_safety)
+		return factor_of_safety
 
 	else:
 		factor_of_safety, error_result = Calc.perform_slicebyslice(verbose, sliced_ep_profile, shapely_circle, bulk_density,
