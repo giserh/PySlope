@@ -94,7 +94,7 @@ def FOS_Method(verbose, method, config, sliced_ep_profile, shapely_circle, fos_t
 		                     bulk_density,
 		                     slice,
 		                     water_pore_pressure,
-		                     int(factor_of_safety))
+		                     factor_of_safety)
 		return factor_of_safety
 
 	else:
@@ -107,7 +107,7 @@ def FOS_Method(verbose, method, config, sliced_ep_profile, shapely_circle, fos_t
 		General.printResults(verbose, error_result, method, soil_cohesion, effective_friction_angle, bulk_density,
 		                     slice,
 		                     water_pore_pressure,
-		                     int(factor_of_safety))
+		                     factor_of_safety)
 		return factor_of_safety
 
 

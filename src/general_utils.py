@@ -55,8 +55,7 @@ def printResults(verbose, error_result, method, soil_cohesion, effective_frictio
 			                         bulk_density,
 			                         slice,
 			                         water_pore_pressure,
-			                         str(
-				                         factor_of_safety))
+			                         str(factor_of_safety))
 	else:
 		results = "Factor of Safety: %s" % str(factor_of_safety)
 	
