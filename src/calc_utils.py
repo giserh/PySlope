@@ -15,6 +15,68 @@ def degree2rad(degree):
 	return degree * np.pi / 180.
 
 
+
+def perform_slicebyslice(verbose, sliced_ep_profile, shapely_circle, bulk_density,
+                         effective_angle, method, water_pore_pressure, soil_cohesion,
+                         fos_trial, vslice, percentage_status):
+	### Perform actual calculation of forces slice-by-slice
+	numerator_list = []
+	denominator_list = []
+	errors = 0
+	slice = 1
+	for index in range(len(sliced_ep_profile) - 1):
+		try:
+			### Isolate variables of individual slice ##
+			length, degree, mg, prof_length, prof_degree = Format.isolate_slice(index, sliced_ep_profile,
+			                                                                    shapely_circle, bulk_density)
+			effective_angle = degree2rad(effective_angle)
+			
+			# Calculate numerator and denominator of individual slice based on method
+			numerator, denominator = FOS_calc(method,
+			                                       water_pore_pressure,
+			                                       mg,
+			                                       degree,
+			                                       effective_angle,
+			                                       soil_cohesion,
+			                                       length,
+			                                       fos_trial)
+			
+			numerator_list.append(numerator)
+			denominator_list.append(denominator)
+			
+			# Print slices as they are calculated - turned off and on in config file.
+			General.printslice(verbose, slice, vslice, percentage_status, sliced_ep_profile)
+			slice += 1
+			
+			# Add results to lists that will be used to calculate the FOS in bulk
+			numerator_list.append(numerator)
+			denominator_list.append(denominator)
+		except:
+			errors += 1
+	
+	# convert calculated lists into numpy arrays
+	numerator_list, denominator_list = np.array(numerator_list), np.array(denominator_list)
+	success = 100 - (float(errors) / float(slice))
+	error_result = "\nTotal number of errors encountered: %s\nPercent Success: %f%%" % (str(errors), (success))
+	
+	# calculate actual FOS from lists
+	factor_of_safety = numerator_list.sum() / denominator_list.sum()
+	
+def iterate(fos_trial, step=0.001, tol=0.001):
+	def _tol(a, b, tol):
+		return True if abs(a - b) < tol else False
+	
+	while 1:
+		result = func(fos_trial)
+		if _tol(fos_trial, result, tol):
+			print fos_trial, result
+			return (fos_trial + result) /2.
+		
+		if result < fos_trial:
+			fos_trial -= step
+		elif result > fos_trial:
+			fos_trial += step
+			
 def FOS_calc(method, water_pore_pressure, mg, degree, effective_angle, cohesion, length, FOS=1.2):
 	numerator = None
 	
