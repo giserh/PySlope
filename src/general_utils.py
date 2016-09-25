@@ -45,10 +45,10 @@ def printResults(verbose, error_result, method, soil_cohesion, effective_frictio
 		factor_of_safety         -- string"""
 	
 	if verbose:
-		results = error_result + '\n\nMethod: %s\nCohesion: %d kPa\nEffective Friction Angle: %d\nBulk Density: %d ' \
+		results = error_result + '\n\nMethod: {}\nCohesion: {} kPa\nEffective Friction Angle: {}\nBulk Density: {} ' \
 		                         'Kg/m^3\nNumber of ' \
 		                         'slices ' \
-		                         'calculated: %d\nWater Pore Pressure: %d kPa\n\nFactor of Safety: %s\n' % (
+		                         'calculated: {}\nWater Pore Pressure: {} kPa\n\nFactor of Safety: {}\n'.format(
 			                         method.title(),
 			                         soil_cohesion,
 			                         effective_friction_angle,
@@ -57,7 +57,7 @@ def printResults(verbose, error_result, method, soil_cohesion, effective_frictio
 			                         water_pore_pressure,
 			                         str(factor_of_safety))
 	else:
-		results = "Factor of Safety: %s" % str(factor_of_safety)
+		results = "Factor of Safety: {}".format(str(factor_of_safety))
 	
 	with open('results.txt', 'w') as f:
 		f.write(results)

@@ -78,7 +78,7 @@ def FOS_Method(verbose, method, config, sliced_ep_profile, shapely_circle, fos_t
 		
 		error_result, factor_of_safety = None, None
 		while 1:
-			factor_of_safety, error_result = Calc.perform_slicebyslice(verbose, sliced_ep_profile, shapely_circle, bulk_density,
+			factor_of_safety, error_result = Calc.perform_slicebyslice(False, sliced_ep_profile, shapely_circle, bulk_density,
 		                          effective_angle, method, water_pore_pressure, soil_cohesion,
 		                          fos_trial, vslice, percentage_status)
 			if _tol(fos_trial, factor_of_safety, tol):
@@ -90,7 +90,7 @@ def FOS_Method(verbose, method, config, sliced_ep_profile, shapely_circle, fos_t
 				fos_trial += step
 				
 		# Finish up with so
-		General.printResults(verbose, error_result, method, soil_cohesion, effective_friction_angle,
+		General.printResults(False, error_result, method, soil_cohesion, effective_friction_angle,
 		                     bulk_density,
 		                     slice,
 		                     water_pore_pressure,
