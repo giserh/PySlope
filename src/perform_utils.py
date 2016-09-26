@@ -71,8 +71,8 @@ def FOS_Method(verbose, method, config, sliced_ep_profile, shapely_circle, fos_t
 			"Percentage_status is not configured correctly: percentage_status = %s" % percentage_status)
 	
 	if method == 'bishop':
-		step = 0.001
-		tol = 0.001
+		step = 0.01
+		tol = 0.01
 		def _tol(a, b, tol):
 			return True if abs(a - b) < tol else False
 		
