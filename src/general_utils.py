@@ -70,7 +70,7 @@ def previewGeometery(verbose, config, profile_data):
 		circle_preview = Create.generateEllipse(verbose, config)
 		plt.plot(profile_data[:, 0], profile_data[:, 1], color='red')
 		plt.grid(True)
-		plt.axes().set_aspect('equal', 'datalim')
+		#plt.axes().set_aspect('equal', 'datalim')
 		plt.xlabel("Spatial Distance - X")
 		plt.ylabel("Height of Profile - Y")
 		plt.scatter(circle_preview[:, 0], circle_preview[:, 1])
