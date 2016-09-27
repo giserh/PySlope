@@ -1,7 +1,8 @@
 import numpy as np
 import general as g
 import format
-from shapely.geometry import LineString, Point
+from shapely.geometry import LineString
+import matplotlib.pyplot as plt
 
 
 
@@ -57,19 +58,26 @@ def ellipse(config):
 	y = config.ellipse_coordinates[1]
 	a = config.ellipse_coordinates[2]
 	b = config.ellipse_coordinates[3]
+	if len(config.ellipse_coordinates) == 5: c = config.ellipse_coordinates[4]
+	else: c = None
 	
 	g.verb(v, "Generating ellipsoid coordinates: {},{},{},{}.".format(x,y,a,b))
 	x_coords, y_coords = [], []
 	degree = 0
 	while degree <= 360:
-		c_x = x + (a * np.cos(_deg2rad(degree)))
-		c_y = y + (b * np.sin(_deg2rad(degree)))
-
+		c_x = (a * np.cos(_deg2rad(degree)))
+		c_y = (b * np.sin(_deg2rad(degree)))
 		x_coords.append(c_x), y_coords.append(c_y)
-		
 		degree += 0.5
 		
 	x_coords, y_coords = np.array(x_coords), np.array(y_coords)
-	xy_ellipse = np.stack((x_coords, y_coords), axis=-1)
+	
+	if c is None:
+		xy_ellipse = np.stack((x_coords + x, y_coords + y), axis=-1)
+		return xy_ellipse
+	
+	x_coords = (x_coords*np.cos(_deg2rad(c))) - (y_coords * np.sin(_deg2rad(c)))
+	y_coords = (x_coords * np.sin(_deg2rad(c))) + (y_coords * np.cos(_deg2rad(c)))
+	xy_ellipse = np.stack((x_coords + x, y_coords +y), axis=-1)
 	
 	return xy_ellipse

@@ -77,6 +77,9 @@ def do_bishop(config, sprofile, circle):
 	def _tol(a, b, tol):
 		return True if abs(a - b) < tol else False
 	
+	def _step(step, trial, fos):
+		return (step * 100) if int(trial) != int(fos) else step
+	
 	step = 0.01
 	tol = 0.01
 	FOS = config.fos_trial
@@ -108,7 +111,7 @@ def do_bishop(config, sprofile, circle):
 					numerator = (
 					c * l + (mg * np.cos(deg) - config.water_pressure * l * np.cos(deg)) *
 					np.tan(eff))
-					num = (numerator / np.cos(deg) + (np.sin(deg) * np.tan(eff) / config.fos_trial))
+					num = (numerator / np.cos(deg) + (np.sin(deg) * np.tan(eff) / FOS))
 				
 				slice += 1
 				num_lst.append(num), denom_list.append(denom)
@@ -122,7 +125,7 @@ def do_bishop(config, sprofile, circle):
 		if _tol(FOS, fos, tol):
 			return fos, None
 		
-		if fos < config.fos_trial:
-			FOS -= step
-		elif fos > config.fos_trial:
-			FOS += step
+		if fos < FOS:
+			FOS -= _step(step, FOS, fos)
+		elif fos > FOS:
+			FOS += _step(step, FOS, fos)
