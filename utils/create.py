@@ -48,7 +48,7 @@ def ellipse(config):
 	def _deg2rad(degree):
 		return degree * np.pi / 180.
 	
-	if len(config.ellipse_coorindates) < 4:
+	if len(config.ellipse_coordinates) < 4:
 		exit("Ellipse Coordinates are not formatted correctly."
 		     " '{}'".format(config.ellipse_coordinates))
 	
