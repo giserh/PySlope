@@ -31,8 +31,12 @@ def shapely_line(config, profile_data):
 	return LineString(profile_data)
 	
 def shapely_circle(config):
-	if len(config.ellipse_coorindates) < 4: exit("Ellipse Coordinates are not formatted correctly."
-	                                             " '{}'".format(config.ellipse_coordinates))
+	if len(config.ellipse_coorindates) < 4:
+		exit("Ellipse Coordinates are not formatted correctly."
+		     " '{}'".format(config.ellipse_coordinates))
+	
+	print len(config.ellipse_coorindates), config.ellipse_coorindates
+	exit()
 	v = config.verbose
 	x = config.ellipse_coordinates[0]
 	y = config.ellipse_coordinates[1]
