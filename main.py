@@ -90,5 +90,7 @@ def main(*args):
 		if config.save_figure:
 			plt.savefig('slope_profile.tif')
 		plt.show()
+	
+	print fos, errstr
 	#display.results(config, results)
 		
