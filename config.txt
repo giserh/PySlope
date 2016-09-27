@@ -8,21 +8,23 @@
 # Configuration Options    #
 #==========================#
 
+# method = general/bishop
+method = bishop
+
+# fos_trial = 1.0 / only works with bishops method
+fos_trial = 1.0
+
 # delimiter = ,
 delimiter = ,
 
-# data_file = slope_profile.elev
-#data_file = slope_profile.elev
-
-
 #circle_coordinates = 0,0,(a,b) (x,y, (horizontal_radius, vertical_radius) - meters
-circle_coordinates = 9,9,(3,3)
+ellipse_coordinates = 9,9,3,3
 
 # soil_cohesion = 22 (in kPa)
 soil_cohesion = 1000
 
 # effective_friction_angle_soil = 40 (degrees)
-effective_friction_angle_soil = 45
+internal_friction_angle = 20
 
 # bulk_density = 1760 (Kg/m^3)
 bulk_density = 1000
@@ -35,12 +37,9 @@ num_of_slices = 100
 ## EXTRA OPTIONS ##
 ## Not required ##
 
-# trial_fos = 1.0
-#trial_fos = 1.3
-
 # water_pore_pressure = 20 (kPa)
 # Leave at 0 to disable use
-water_pore_pressure = 0
+water_pressure = 1000
 
 # Slice Stack Output
 vslice = 50
@@ -49,16 +48,16 @@ vslice = 50
 percentage_status = on
 
 
-# verbose = on/yes
-verbose = off
+# verbose = yes/no
+verbose = yes
 
-# save_figure = on/off
-save_figure = off
+# save_figure = yes/no
+save_figure = no
 
-# show_figure = on/off
-show_figure = off
+# show_figure = yes/no
+show_figure = yes
 
 ##### PERFORMANCE HEAVY ######
 
-# perform_critical_slope = on/off
-perform_critical_slope = off
+# perform_critical_slope = yes/no
+perform_critical_slope = yes
