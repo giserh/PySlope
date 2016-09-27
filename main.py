@@ -89,7 +89,7 @@ def main(*args):
 		plt.plot (profile[:,0], profile[:,1], color="green")
 		if config.save_figure:
 			plt.savefig('slope_profile.tif')
-		#plt.show()
+		plt.show()
 	
 	print fos, errstr
 	#display.results(config, results)

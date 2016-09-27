@@ -31,11 +31,15 @@ def shapely_line(config, profile_data):
 	return LineString(profile_data)
 	
 def shapely_circle(config):
+	if len(config.ellipse_coorindates) < 4: exit("Ellipse Coordinates are not formatted correctly."
+	                                             " '{}'".format(config.ellipse_coordinates))
 	v = config.verbose
 	x = config.ellipse_coordinates[0]
 	y = config.ellipse_coordinates[1]
 	a = config.ellipse_coordinates[2]
 	b = config.ellipse_coordinates[3]
+	
+	if len(config.ellipse_coordinates) == 5:
 	g.verb(v, "Creating Shapely circle with ellipsoid data: {},{},{},{}."
 	          "".format(x,y,a,b))
 	

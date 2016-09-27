@@ -26,6 +26,7 @@ def previewGeometry(config):
 	cont = Button(contax, 'Continue')
 	cont.on_clicked(buttonopt.cont_gui)
 	plt.show()
+	plt.close()
 
 def verb(verbose, string):
 	if not verbose: return
