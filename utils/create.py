@@ -44,6 +44,7 @@ def shapely_circle(config):
 	b = config.ellipse_coordinates[3]
 	
 	if len(config.ellipse_coordinates) == 5:
+		pass
 	g.verb(v, "Creating Shapely circle with ellipsoid data: {},{},{},{}."
 	          "".format(x,y,a,b))
 	
